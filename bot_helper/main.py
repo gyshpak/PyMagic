@@ -2,9 +2,11 @@ from pathlib import Path
 # import bot_helper.address_book as book
 import address_book as book
 import note_book as notebook
+from tabulate import tabulate
 from commands import *
 import pickle
 from termcolor import colored, cprint
+from schema import help_table
 
 
 def input_error(func):
@@ -19,6 +21,9 @@ def input_error(func):
             return_data = cprint("Wrong user, repeat please", 'red')
         except ValueError:
             return_data = cprint("Wrong number, repeat please", 'red')
+        except KeyboardInterrupt:
+            print("\nCommand input interrupted. Exiting...")
+            exit()
         except book.WrongBirthday:
             return_data = cprint("Wrong birthday, repeat please", 'red')
         except book.ExistsPhone:
@@ -86,27 +91,29 @@ def handler_next_birthday(my_book, list_):
 
 
 def handler_help(my_book = None, _ = None):
-    help_string = '''
-                Hellow, you can us next command with format:\n
-                help - for help\n
-                hello - for hello\n
-                add <user_name> <phone(10 or 13 number)> [birthday] - for add user, if user is exist will be added phone to user\n
-                change <user_name> <phone_from_chandge> <phone_to_chandge> - for chandge phone\n
-                show all - for show all records\n
-                good bye | close | exit - for exit\n
-                find <some_letters> | <some_nombers> - for find record by name or phone\n
-                delete phone <user_name> <phone> - for delete phone from user\n
-                delete user <user_name> - for delete user from address book
+    # help_string = '''
+    #             Hellow, you can us next command with format:\n
+    #             help - for help\n
+    #             hello - for hello\n
+    #             add <user_name> <phone(10 or 13 number)> [birthday] - for add user, if user is exist will be added phone to user\n
+    #             change <user_name> <phone_from_chandge> <phone_to_chandge> - for chandge phone\n
+    #             show all - for show all records\n
+    #             good bye | close | exit - for exit\n
+    #             find <some_letters> | <some_nombers> - for find record by name or phone\n
+    #             delete phone <user_name> <phone> - for delete phone from user\n
+    #             delete user <user_name> - for delete user from address book
 
-                variation format for telefon number:
-                +38(055)111-22-33
-                38(055)111-22-34
-                8(055)111-22-35
-                (055)111-22-36
-                055111-22-37
-                and all variant without "-"
-                '''
-    return help_string
+    #             variation format for telefon number:
+    #             +38(055)111-22-33
+    #             38(055)111-22-34
+    #             8(055)111-22-35
+    #             (055)111-22-36
+    #             055111-22-37
+    #             and all variant without "-"
+    #             '''
+    # return help_string
+    formatted_table = cprint(tabulate(help_table, headers="firstrow", tablefmt="presto", numalign="center"), 'blue')
+    return formatted_table
 
 
 def handler_add_note(my_book, list_):
@@ -203,7 +210,7 @@ def parser_command(my_book, command):
 def main():
     print(handler_help())
 
-    file_name_phones_p = "book_pickle.bin"
+    file_name_phones_p = "bot_helper\\book_pickle.bin"
     
     # file_name_j = "bot_helper\\book_json.json"
     # file_name_j = Path("E:\pyton_proj\Go-IT\\bot_helper\\bot_helper\\book_json.json")
@@ -213,7 +220,7 @@ def main():
     # my_book_j = book.AddressBook()
     my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
 
-    file_name_notes_p = "notes_book_pickle.bin"
+    file_name_notes_p = "bot_helper\\notes_book_pickle.bin"
     my_book_notes_p = notebook.NoteBook()
     try:
         my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
@@ -222,8 +229,12 @@ def main():
         my_book_notes = notebook.NoteBook() 
 
     while True:
-        #Вибір режиму (телефонна книга або нотатки)
-        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()        
+        try:
+            #Вибір режиму (телефонна книга або нотатки)
+            mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
+        except KeyboardInterrupt:
+            print("\nCommand input interrupted. Exiting...")
+            exit()
         if (mode == "1"):
             # command = input("please enter command ").lower()
             user_input = get_command_suggestions("")
