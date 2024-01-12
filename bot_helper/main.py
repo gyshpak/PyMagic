@@ -233,7 +233,11 @@ def main():
                     # my_book.save_to_file_json(file_name_j)
                     exit()
         elif (mode == "2"):
-            command = input("please enter command ").lower()
+            try:
+                #Вибір режиму (телефонна книга або нотатки)
+                mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
+            except KeyboardInterrupt:
+                exit()
             ret_rezault = parser_command(my_book_notes, command)
             if ret_rezault:
                 print(ret_rezault)
