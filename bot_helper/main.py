@@ -239,7 +239,7 @@ def main():
         mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()        
         if (mode == "1"):
             command = input("please enter command ").lower()
-            ret_rezault = parser_command_ab(my_book_phones, command)
+            ret_rezault = parser_command(my_book_phones, command)
             if ret_rezault:
                 print(ret_rezault)
                 if ret_rezault == "Good bye!":
