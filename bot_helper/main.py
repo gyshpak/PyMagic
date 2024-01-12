@@ -180,37 +180,22 @@ NAME_COMMANDS = {
 
 def defs_commands(comm):
     return NAME_COMMANDS[comm]
-
-
-@input_error
-def parser_command_ab(my_book, command):
-    list_command = command.split(" ")
-    if list_command[0] in NAME_COMMANDS:
-        any_command = defs_commands(list_command[0])
-        ret_rezault = any_command(my_book, list_command[1:])
-        return ret_rezault
-    elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
-        any_command = defs_commands(list_command[0]+list_command[1])
-        ret_rezault = any_command(my_book, list_command[2:])
-        return ret_rezault
-    else:
-        any_command = defs_commands()
-        return ret_rezault
-    
+ 
 @input_error
 def parser_command(my_book, command):
     list_command = command.split(" ")
-    if list_command[0] in NAME_COMMANDS:
-        any_command = defs_commands(list_command[0])
-        ret_rezault = any_command(my_book, list_command[1:])
-        return ret_rezault
-    elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
-        any_command = defs_commands(list_command[0]+list_command[1])
-        ret_rezault = any_command(my_book, list_command[2:])
-        return ret_rezault
+    command_name = list_command[0]
+    if command_name in NAME_COMMANDS:
+        any_command = NAME_COMMANDS[command_name]
+        ret_result = any_command(my_book, list_command[1:])
+        return ret_result
+    elif len(list_command) > 1 and command_name + list_command[1] in NAME_COMMANDS:
+        any_command = NAME_COMMANDS[command_name + list_command[1]]
+        ret_result = any_command(my_book, list_command[2:])
+        return ret_result
     else:
-        any_command = defs_commands()
-        return ret_rezault
+        any_command = NAME_COMMANDS.get(command_name)
+        return any_command(my_book, list_command[1:])
 
 
 def main():
