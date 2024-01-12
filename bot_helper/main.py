@@ -1,6 +1,9 @@
-# from pathlib import Path
+from pathlib import Path
 # import bot_helper.address_book as book
 import address_book as book
+import note_book as notebook
+import pickle
+
 
 def input_error(func):
     def inner(my_book, val):
@@ -103,6 +106,54 @@ def handler_help(my_book = None, _ = None):
                 '''
     return help_string
 
+
+def handler_add_note(my_book, list_):
+    my_book.exists_tag(list_[1])
+    try:
+        record = my_book.find(list_[0].capitalize())
+    except:
+        if len(list_) == 3:
+            record = notebook.Record(list_[0].capitalize(),list_[2])
+        else:
+            record = notebook.Record(list_[0].capitalize())
+        record.add_tag(list_[1])
+        my_book.add_record(record)
+    else:
+        record.add_tag(list_[1])
+        my_book.add_record(record)
+    return "Command successfully complete"
+
+def handler_change_note(my_book, list_):
+    my_book.exists_tag(list_[2])
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        record.edit_tag(list_[1], list_[2])
+    return f"Tag {list_[1]} from user {list_[0].capitalize()} successfully changed to tag {list_[2]}"
+    
+def handler_show_all_notes(my_book, _ = None):
+    return my_book
+
+def handler_find_note(my_book, list_):
+    list_rec = my_book.find_records(list_[0].capitalize())
+    if len(list_rec) != 0:
+        ret_book = notebook.NoteBook()
+        for rec_ in list_rec:
+            ret_book.add_record(rec_)
+        return ret_book
+    else:
+        return "Note not found"
+    
+def handler_delete_tag(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    record.remove_tag(list_[1])
+    return f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted"
+
+def handler_delete_note(my_book, list_):
+    print(list_[0].capitalize())
+    my_book.delete(list_[0].capitalize())
+    return f"Note {list_[0].capitalize()} successfully deleted"
+
+
 NAME_COMMANDS = {
 
     "help": handler_help,
@@ -116,7 +167,14 @@ NAME_COMMANDS = {
     "find": handler_find,
     "deletephone": handler_delete_phone,
     "deleteuser": handler_delete_user,
-    "nextbirthday": handler_next_birthday
+    "nextbirthday": handler_next_birthday,
+
+    "addnote": handler_add_note,
+    "changenote": handler_change_note,
+    "showallnotes": handler_show_all_notes,
+    "findnote": handler_find_note,
+    "deletenotetag": handler_delete_tag,
+    "deletenote": handler_delete_note,
 }
 
 
@@ -124,6 +182,21 @@ def defs_commands(comm):
     return NAME_COMMANDS[comm]
 
 
+@input_error
+def parser_command_ab(my_book, command):
+    list_command = command.split(" ")
+    if list_command[0] in NAME_COMMANDS:
+        any_command = defs_commands(list_command[0])
+        ret_rezault = any_command(my_book, list_command[1:])
+        return ret_rezault
+    elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
+        any_command = defs_commands(list_command[0]+list_command[1])
+        ret_rezault = any_command(my_book, list_command[2:])
+        return ret_rezault
+    else:
+        any_command = defs_commands()
+        return ret_rezault
+    
 @input_error
 def parser_command(my_book, command):
     list_command = command.split(" ")
@@ -142,22 +215,48 @@ def parser_command(my_book, command):
 
 def main():
     print(handler_help())
-    # file_name_p = "bot_helper\\book_pickle.bin"
-    file_name_j = "bot_helper\\book_json.json"
+
+    file_name_phones_p = "bot_helper\\book_pickle.bin"
+    
+    # file_name_j = "bot_helper\\book_json.json"
     # file_name_j = Path("E:\pyton_proj\Go-IT\\bot_helper\\bot_helper\\book_json.json")
-    # my_book_p = book.AddressBook()
-    my_book_j = book.AddressBook()
-    # my_book = my_book_p.load_from_file_pickle(file_name_p) 
-    my_book = my_book_j.load_from_file_json(file_name_j)
+    
+    my_book_phones_p = book.AddressBook()
+    
+    # my_book_j = book.AddressBook()
+    my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
+
+    file_name_notes_p = "bot_helper\\notes_book_pickle.bin"
+    my_book_notes_p = notebook.NoteBook()
+    try:
+        my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
+    except (EOFError, pickle.UnpicklingError):
+        print("Error loading data from pickle file. Check file format and data consistency.")
+        my_book_notes = notebook.NoteBook() 
+
     while True:
-        command = input("please enter command ").lower()
-        ret_rezault = parser_command(my_book, command)
-        if ret_rezault:
-            print(ret_rezault)
-            if ret_rezault == "Good bye!":
-                # my_book.save_to_file_pickle(file_name_p)
-                my_book.save_to_file_json(file_name_j)
-                exit()
+        #Вибір режиму (телефонна книга або нотатки)
+        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()        
+        if (mode == "1"):
+            command = input("please enter command ").lower()
+            ret_rezault = parser_command_ab(my_book_phones, command)
+            if ret_rezault:
+                print(ret_rezault)
+                if ret_rezault == "Good bye!":
+                    my_book_phones.save_to_file_pickle(file_name_phones_p)
+                    my_book_notes.save_to_file_pickle(file_name_notes_p)
+                    # my_book.save_to_file_json(file_name_j)
+                    exit()
+        elif (mode == "2"):
+            command = input("please enter command ").lower()
+            ret_rezault = parser_command(my_book_notes, command)
+            if ret_rezault:
+                print(ret_rezault)
+                if ret_rezault == "Good bye!":
+                    my_book_phones.save_to_file_pickle(file_name_phones_p)
+                    my_book_notes.save_to_file_pickle(file_name_notes_p)
+                    exit()
+        
 
         
 if __name__ == "__main__":
