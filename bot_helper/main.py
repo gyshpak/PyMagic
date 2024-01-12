@@ -1,6 +1,7 @@
 # from pathlib import Path
 # import bot_helper.address_book as book
 import address_book as book
+from clean import sorting_files
 
 def input_error(func):
     def inner(my_book, val):
@@ -116,7 +117,8 @@ NAME_COMMANDS = {
     "find": handler_find,
     "deletephone": handler_delete_phone,
     "deleteuser": handler_delete_user,
-    "nextbirthday": handler_next_birthday
+    "nextbirthday": handler_next_birthday,
+    "sortfolder" : sorting_files
 }
 
 
@@ -127,6 +129,7 @@ def defs_commands(comm):
 @input_error
 def parser_command(my_book, command):
     list_command = command.split(" ")
+    # print (list_command)
     if list_command[0] in NAME_COMMANDS:
         any_command = defs_commands(list_command[0])
         ret_rezault = any_command(my_book, list_command[1:])
