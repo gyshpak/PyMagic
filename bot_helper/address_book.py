@@ -222,7 +222,8 @@ class AddressBook(UserDict):
         return f"{'; '.join(i for i in for_return)} \n"
 
     def __iter__(self):
-        return self
+        # return self
+        return iter(self.data.values())
     
     def save_to_file_pickle(self, file_name):
         with open(file_name, 'wb') as file:
