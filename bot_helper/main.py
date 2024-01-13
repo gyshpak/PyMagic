@@ -153,8 +153,12 @@ def handler_delete_note(my_book, list_):
     my_book.delete(list_[0].capitalize())
     return f"Note {list_[0].capitalize()} successfully deleted"
 
-def mode_change():
-    mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
+def mode_change(my_book = None, _ = None):
+    try:
+        #Вибір режиму (телефонна книга або нотатки)
+        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
+    except KeyboardInterrupt:
+        exit()
     return mode
 
 NAME_COMMANDS = {
@@ -238,11 +242,7 @@ def main():
                     # my_book.save_to_file_json(file_name_j)
                     exit()
         elif (mode == "2"):
-            try:
-                #Вибір режиму (телефонна книга або нотатки)
-                mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
-            except KeyboardInterrupt:
-                exit()
+            command = input("please enter command ").lower()
             ret_rezault = parser_command(my_book_notes, command)
             if ret_rezault:
                 print(ret_rezault)
@@ -250,8 +250,9 @@ def main():
                     my_book_phones.save_to_file_pickle(file_name_phones_p)
                     my_book_notes.save_to_file_pickle(file_name_notes_p)
                     exit()
-        
-
+        else:
+            print("Wrong command!")
+            mode = mode_change()
         
 if __name__ == "__main__":
     main()
