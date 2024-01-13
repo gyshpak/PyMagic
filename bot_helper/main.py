@@ -12,8 +12,6 @@ from rich.prompt import Prompt
 from rich.console import Console
 from datetime import date
 
-
-
 def pretty_table(title=None, title_style=None, header=[], header_style='bold blue', rows=[], row_style='bright_green'): 
          
         table = Table() 
@@ -36,7 +34,6 @@ def pretty_table(title=None, title_style=None, header=[], header_style='bold blu
         table.show_lines = True 
  
         Console().print(table)
-        
 
 def input_error(func):
     def inner(my_book, val):
@@ -153,59 +150,27 @@ def handler_next_birthday(my_book, list_):
 
 
 def handler_help(my_book = None, _ = None):
-    # help_string = '''
-    #             Hellow, you can us next command with format:\n
-    #             help - for help\n
-    #             hello - for hello\n
-    #             add <user_name> <phone(10 or 13 number)> [birthday] - for add user, if user is exist will be added phone to user\n
-    #             change <user_name> <phone_from_chandge> <phone_to_chandge> - for chandge phone\n
-    #             show all - for show all records\n
-    #             good bye | close | exit - for exit\n
-    #             find <some_letters> | <some_nombers> - for find record by name or phone\n
-    #             delete phone <user_name> <phone> - for delete phone from user\n
-    #             delete user <user_name> - for delete user from address book
+    help_string = '''
+                Hellow, you can us next command with format:\n
+                help - for help\n
+                hello - for hello\n
+                add <user_name> <phone(10 or 13 number)> [birthday] - for add user, if user is exist will be added phone to user\n
+                change <user_name> <phone_from_chandge> <phone_to_chandge> - for chandge phone\n
+                show all - for show all records\n
+                good bye | close | exit - for exit\n
+                find <some_letters> | <some_nombers> - for find record by name or phone\n
+                delete phone <user_name> <phone> - for delete phone from user\n
+                delete user <user_name> - for delete user from address book
 
-    #             variation format for telefon number:
-    #             +38(055)111-22-33
-    #             38(055)111-22-34
-    #             8(055)111-22-35
-    #             (055)111-22-36
-    #             055111-22-37
-    #             and all variant without "-"
-    #             '''
-    # return help_string
-    
-    
-    
-    # formatted_table = cprint(tabulate(help_table, headers="firstrow", tablefmt="presto", numalign="center"), 'blue')
-    # return formatted_table
- 
-    # help_list = [ 
-    #         ['help', 'for help'], 
-    #         ['hello', 'for hello'], 
-    #         ['add <name> <phone> [birthday]', 
-    #             'for add user, if user is exist will be added\n' 
-    #         'variation format for telefon number:\n' 
-    #         '+38(055)111-22-33\n' 
-    #         '38(055)111-22-34\n' 
-    #         '8(055)111-22-35\n' 
-    #         '(055)111-22-36\n' 
-    #         '055111-22-37\n' 
-    #         'and all variant without "-"'], 
-    #         ['change <name> <from_phone> <to_phone>', 'for chandge phone'], 
-    #         ['show all', 'for show all records'], 
-    #         ['good bye | close | exit', 'for exit'], 
-    #         ['find <some_letters> | find <some_nombers>', 
-    #             'for find record by name or phone'], 
-    #         ['delete phone <user> <phone>', 'for delete phone from user'], 
-    #         ['delete user <user>', 'for delete user from address book'], 
-    # ] 
-    
-    pretty_table( 
-        title='List of commands with format', 
-        header=['Command', 'param first', 'param second', 'param third', 'Description'], 
-        rows=help_table
-    )
+                variation format for telefon number:
+                +38(055)111-22-33
+                38(055)111-22-34
+                8(055)111-22-35
+                (055)111-22-36
+                055111-22-37
+                and all variant without "-"
+                '''
+    return help_string
 
 
 def handler_add_note(my_book, list_):
@@ -231,20 +196,8 @@ def handler_change_note(my_book, list_):
         record.edit_tag(list_[1], list_[2])
     return cprint(f"Tag {list_[1]} from user {list_[0].capitalize()} successfully changed to tag {list_[2]}", 'green')
     
-def handler_show_all_notes(my_book, _=None):
-    rows = []
-
-    for record in my_book:
-        title = record.title() if callable(record.title) else record.title
-        text = record.text.value if hasattr(record, 'text') else ''
-        tags = ', '.join(tag.value for tag in record.tags) if hasattr(record, 'tags') else ''
-        rows.append([title, text, tags])
-
-    pretty_table(
-        title='List of commands with format',
-        header=['Title', 'Text', 'Tags'],
-        rows=rows
-    )
+def handler_show_all_notes(my_book, _ = None):
+    return my_book
 
 def handler_find_note(my_book, list_):
     list_rec = my_book.find_records(list_[0].capitalize())
@@ -264,80 +217,68 @@ def handler_delete_tag(my_book, list_):
 def handler_delete_note(my_book, list_):
     print(list_[0].capitalize())
     my_book.delete(list_[0].capitalize())
-    return cprint(f"Note {list_[0].capitalize()} successfully deleted", 'green')
+    return f"Note {list_[0].capitalize()} successfully deleted"
 
 
-# NAME_COMMANDS = {
+NAME_COMMANDS = {
 
-#     "help": handler_help,
-#     "hello": handler_hello,
-#     "add": handler_add,
-#     "change": handler_change,
-#     "showall": handler_show_all,
-#     "goodbye": handler_exit,
-#     "close": handler_exit,
-#     "exit": handler_exit,
-#     "find": handler_find,
-#     "deletephone": handler_delete_phone,
-#     "deleteuser": handler_delete_user,
-#     "nextbirthday": handler_next_birthday,
+    "help": handler_help,
+    "hello": handler_hello,
+    "add": handler_add,
+    "change": handler_change,
+    "showall": handler_show_all,
+    "goodbye": handler_exit,
+    "close": handler_exit,
+    "exit": handler_exit,
+    "find": handler_find,
+    "deletephone": handler_delete_phone,
+    "deleteuser": handler_delete_user,
+    "nextbirthday": handler_next_birthday,
 
-#     "addnote": handler_add_note,
-#     "changenote": handler_change_note,
-#     "showallnotes": handler_show_all_notes,
-#     "findnote": handler_find_note,
-#     "deletenotetag": handler_delete_tag,
-#     "deletenote": handler_delete_note,
-# }
+    "addnote": handler_add_note,
+    "changenote": handler_change_note,
+    "showallnotes": handler_show_all_notes,
+    "findnote": handler_find_note,
+    "deletenotetag": handler_delete_tag,
+    "deletenote": handler_delete_note,
+}
 
 
-# def defs_commands(comm):
-#     return NAME_COMMANDS[comm]
- 
-# @input_error
-# def parser_command(my_book, command):
-#     list_command = command.split(" ")
-#     command_name = list_command[0]
-#     if command_name in NAME_COMMANDS:
-#         any_command = NAME_COMMANDS[command_name]
-#         ret_result = any_command(my_book, list_command[1:])
-#         return ret_result
-#     elif len(list_command) > 1 and command_name + list_command[1] in NAME_COMMANDS:
-#         any_command = NAME_COMMANDS[command_name + list_command[1]]
-#         ret_result = any_command(my_book, list_command[2:])
-#         return ret_result
-#     else:
-#         any_command = NAME_COMMANDS.get(command_name)
-#         return any_command(my_book, list_command[1:])
+def defs_commands(comm):
+    return NAME_COMMANDS[comm]
 
+
+@input_error
+def parser_command_ab(my_book, command):
+    list_command = command.split(" ")
+    if list_command[0] in NAME_COMMANDS:
+        any_command = defs_commands(list_command[0])
+        ret_rezault = any_command(my_book, list_command[1:])
+        return ret_rezault
+    elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
+        any_command = defs_commands(list_command[0]+list_command[1])
+        ret_rezault = any_command(my_book, list_command[2:])
+        return ret_rezault
+    else:
+        any_command = defs_commands()
+        return ret_rezault
+    
 @input_error
 def parser_command(my_book, command):
     list_command = command.split(" ")
-    command_name = list_command[0]
-
-    if command_name in NAME_COMMANDS:
-        any_command = NAME_COMMANDS[command_name]
-        ret_result = any_command(my_book, list_command[1:])
-        return ret_result
-
-    if command_name in NAME_COMMANDS_NOTES:
-        any_command = NAME_COMMANDS_NOTES[command_name]
-        ret_result = any_command(my_book, list_command[1:])
-        return ret_result
-
-    compound_command = command_name + "-" + list_command[1] if len(list_command) > 1 else None
-    if compound_command in NAME_COMMANDS:
-        any_command = NAME_COMMANDS[compound_command]
-        ret_result = any_command(my_book, list_command[2:])
-        return ret_result
-
-    if compound_command in NAME_COMMANDS_NOTES:
-        any_command = NAME_COMMANDS_NOTES[compound_command]
-        ret_result = any_command(my_book, list_command[2:])
-        return ret_result
+    if list_command[0] in NAME_COMMANDS:
+        any_command = defs_commands(list_command[0])
+        ret_rezault = any_command(my_book, list_command[1:])
+        return ret_rezault
+    elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
+        any_command = defs_commands(list_command[0]+list_command[1])
+        ret_rezault = any_command(my_book, list_command[2:])
+        return ret_rezault
+    else:
+        any_command = defs_commands()
+        return ret_rezault
 
     return f"Unrecognized command: {command_name}"
-
 
 def main():
     print(handler_help())
@@ -359,14 +300,11 @@ def main():
     except (EOFError, pickle.UnpicklingError):
         print("Error loading data from pickle file. Check file format and data consistency.")
         my_book_notes = notebook.NoteBook() 
-
+    #Вибір режиму (телефонна книга або нотатки)
+    mode = mode_change()
     while True:
-        try:
-            #Вибір режиму (телефонна книга або нотатки)
-            mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
-        except KeyboardInterrupt:
-            print("\nCommand input interrupted. Exiting...")
-            exit()
+        #Вибір режиму (телефонна книга або нотатки)
+        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()        
         if (mode == "1"):
             # command = input("please enter command ").lower()
             user_input = get_command_suggestions("", mode)
@@ -387,8 +325,9 @@ def main():
                     my_book_phones.save_to_file_pickle(file_name_phones_p)
                     my_book_notes.save_to_file_pickle(file_name_notes_p)
                     exit()
-        
-
+        else:
+            print("Wrong command!")
+            mode = mode_change()
         
 if __name__ == "__main__":
     main()
