@@ -7,7 +7,36 @@ from commands import *
 import pickle
 from termcolor import colored, cprint
 from schema import help_table
+from rich.table import Table
+from rich.prompt import Prompt
+from rich.console import Console
+from datetime import date
 
+
+
+def pretty_table(title=None, title_style=None, header=[], header_style='bold blue', rows=[], row_style='bright_green'): 
+         
+        table = Table() 
+        if title: 
+            table.title = title 
+            table.title_style = title_style 
+            table.title_justify = 'left' 
+         
+        longest_row = max([len(row) for row in rows]) 
+        if len(header) < longest_row: 
+            for i in range(longest_row - len(header)): 
+                header.append(f'Column_{i}') 
+         
+        for column in header: 
+            table.add_column(column, header_style=header_style) 
+ 
+        for row in rows: 
+            table.add_row(*row, style=row_style) 
+         
+        table.show_lines = True 
+ 
+        Console().print(table)
+        
 
 def input_error(func):
     def inner(my_book, val):
@@ -61,6 +90,39 @@ def handler_change(my_book, list_):
 def handler_show_all(my_book, _ = None):
     return my_book
 
+# def handler_show_all(my_book, _=None):
+#     table_data = []
+
+#     headers = ["Name", "Phone", "Email", "Birthday"]
+#     table_data.append(headers)
+
+#     for record in my_book:
+#         name = record.name.value
+#         phones = ', '.join(p.value for p in record.phones)
+#         email = ''
+#         birthday = date.strftime(record.birthday.value, '%d.%m.%Y') if hasattr(record, "birthday") else ''
+#         table_data.append([name, phones, email, birthday])
+
+#     formatted_table = tabulate(table_data, headers="firstrow", tablefmt="pretty")
+
+#     return cprint(formatted_table, 'blue')
+
+# def handler_show_all(my_book, _=None):
+#     rows = []
+
+#     for record in my_book:
+#         name = record.name.value
+#         phones = ', '.join(p.value for p in record.phones)
+#         email = ''
+#         birthday = date.strftime(record.birthday.value, '%d.%m.%Y') if hasattr(record, "birthday") else ''
+#         rows.append([name, phones, email, birthday])
+
+#     pretty_table(
+#         title='List of commands with format',
+#         header=['Name', 'Telephone', 'Email', 'Birthday'],
+#         rows=rows
+#     )
+
 def handler_exit(my_book, _ = None):
     return cprint("Good bye!", 'green')
 
@@ -112,8 +174,38 @@ def handler_help(my_book = None, _ = None):
     #             and all variant without "-"
     #             '''
     # return help_string
-    formatted_table = cprint(tabulate(help_table, headers="firstrow", tablefmt="presto", numalign="center"), 'blue')
-    return formatted_table
+    
+    
+    
+    # formatted_table = cprint(tabulate(help_table, headers="firstrow", tablefmt="presto", numalign="center"), 'blue')
+    # return formatted_table
+ 
+    # help_list = [ 
+    #         ['help', 'for help'], 
+    #         ['hello', 'for hello'], 
+    #         ['add <name> <phone> [birthday]', 
+    #             'for add user, if user is exist will be added\n' 
+    #         'variation format for telefon number:\n' 
+    #         '+38(055)111-22-33\n' 
+    #         '38(055)111-22-34\n' 
+    #         '8(055)111-22-35\n' 
+    #         '(055)111-22-36\n' 
+    #         '055111-22-37\n' 
+    #         'and all variant without "-"'], 
+    #         ['change <name> <from_phone> <to_phone>', 'for chandge phone'], 
+    #         ['show all', 'for show all records'], 
+    #         ['good bye | close | exit', 'for exit'], 
+    #         ['find <some_letters> | find <some_nombers>', 
+    #             'for find record by name or phone'], 
+    #         ['delete phone <user> <phone>', 'for delete phone from user'], 
+    #         ['delete user <user>', 'for delete user from address book'], 
+    # ] 
+    
+    pretty_table( 
+        title='List of commands with format', 
+        header=['Command', 'param first', 'param second', 'param third', 'Description'], 
+        rows=help_table
+    )
 
 
 def handler_add_note(my_book, list_):
@@ -139,8 +231,20 @@ def handler_change_note(my_book, list_):
         record.edit_tag(list_[1], list_[2])
     return cprint(f"Tag {list_[1]} from user {list_[0].capitalize()} successfully changed to tag {list_[2]}", 'green')
     
-def handler_show_all_notes(my_book, _ = None):
-    return my_book
+def handler_show_all_notes(my_book, _=None):
+    rows = []
+
+    for record in my_book:
+        title = record.title() if callable(record.title) else record.title
+        text = record.text.value if hasattr(record, 'text') else ''
+        tags = ', '.join(tag.value for tag in record.tags) if hasattr(record, 'tags') else ''
+        rows.append([title, text, tags])
+
+    pretty_table(
+        title='List of commands with format',
+        header=['Title', 'Text', 'Tags'],
+        rows=rows
+    )
 
 def handler_find_note(my_book, list_):
     list_rec = my_book.find_records(list_[0].capitalize())
@@ -190,21 +294,49 @@ def handler_delete_note(my_book, list_):
 # def defs_commands(comm):
 #     return NAME_COMMANDS[comm]
  
+# @input_error
+# def parser_command(my_book, command):
+#     list_command = command.split(" ")
+#     command_name = list_command[0]
+#     if command_name in NAME_COMMANDS:
+#         any_command = NAME_COMMANDS[command_name]
+#         ret_result = any_command(my_book, list_command[1:])
+#         return ret_result
+#     elif len(list_command) > 1 and command_name + list_command[1] in NAME_COMMANDS:
+#         any_command = NAME_COMMANDS[command_name + list_command[1]]
+#         ret_result = any_command(my_book, list_command[2:])
+#         return ret_result
+#     else:
+#         any_command = NAME_COMMANDS.get(command_name)
+#         return any_command(my_book, list_command[1:])
+
 @input_error
 def parser_command(my_book, command):
     list_command = command.split(" ")
     command_name = list_command[0]
+
     if command_name in NAME_COMMANDS:
         any_command = NAME_COMMANDS[command_name]
         ret_result = any_command(my_book, list_command[1:])
         return ret_result
-    elif len(list_command) > 1 and command_name + list_command[1] in NAME_COMMANDS:
-        any_command = NAME_COMMANDS[command_name + list_command[1]]
+
+    if command_name in NAME_COMMANDS_NOTES:
+        any_command = NAME_COMMANDS_NOTES[command_name]
+        ret_result = any_command(my_book, list_command[1:])
+        return ret_result
+
+    compound_command = command_name + "-" + list_command[1] if len(list_command) > 1 else None
+    if compound_command in NAME_COMMANDS:
+        any_command = NAME_COMMANDS[compound_command]
         ret_result = any_command(my_book, list_command[2:])
         return ret_result
-    else:
-        any_command = NAME_COMMANDS.get(command_name)
-        return any_command(my_book, list_command[1:])
+
+    if compound_command in NAME_COMMANDS_NOTES:
+        any_command = NAME_COMMANDS_NOTES[compound_command]
+        ret_result = any_command(my_book, list_command[2:])
+        return ret_result
+
+    return f"Unrecognized command: {command_name}"
 
 
 def main():
@@ -237,7 +369,7 @@ def main():
             exit()
         if (mode == "1"):
             # command = input("please enter command ").lower()
-            user_input = get_command_suggestions("")
+            user_input = get_command_suggestions("", mode)
             ret_rezault = parser_command(my_book_phones, user_input)
             if ret_rezault:
                 print(ret_rezault)
@@ -247,7 +379,7 @@ def main():
                     # my_book.save_to_file_json(file_name_j)
                     exit()
         elif (mode == "2"):
-            user_input = get_command_suggestions("")
+            user_input = get_command_suggestions("", mode)
             ret_rezault = parser_command(my_book_notes, user_input)
             if ret_rezault:
                 print(ret_rezault)

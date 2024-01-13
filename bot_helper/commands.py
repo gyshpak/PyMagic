@@ -17,25 +17,34 @@ NAME_COMMANDS = {
     "delete-telephone": handler_delete_phone,
     "delete-user": handler_delete_user,
     "next-birthday": handler_next_birthday,
-    
-    "addnote": handler_add_note,
-    "changenote": handler_change_note,
-    "showallnotes": handler_show_all_notes,
-    "findnote": handler_find_note,
-    "deletenotetag": handler_delete_tag,
-    "deletenote": handler_delete_note,
+    # "back": mode_change,
 }
 
-# def get_command_suggestions(prefix):
-    # suggestions = [cmd for cmd in NAME_COMMANDS.keys() if prefix.lower() in cmd.lower()]
-    # formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
-    # user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
-    # return user_input.lower()
+NAME_COMMANDS_NOTES = {
+    "help": handler_help,
+    "hello": handler_hello,
+    "goodbye": handler_exit,
+    "close": handler_exit,
+    "exit": handler_exit,
+    # "back": mode_change,
+    "add-note": handler_add_note,
+    "change-note": handler_change_note,
+    "show-all-notes": handler_show_all_notes,
+    "find-note": handler_find_note,
+    "delete-note-tag": handler_delete_tag,
+    "delete-note": handler_delete_note,
+}
 
-
-def get_command_suggestions(prefix):
+def get_command_suggestions(prefix, mode):
     try:
-        suggestions = [cmd for cmd in NAME_COMMANDS.keys() if prefix.lower() in cmd.lower()]
+        if mode == "1":
+            command_list = NAME_COMMANDS
+        elif mode == "2": 
+            command_list = NAME_COMMANDS_NOTES
+        else:
+            print('COMMANDS.PY')
+            
+        suggestions = [cmd for cmd in command_list.keys() if prefix.lower() in cmd.lower()]
         formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
         user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
         return user_input.lower()
