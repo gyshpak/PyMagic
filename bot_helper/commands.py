@@ -44,9 +44,13 @@ def get_command_suggestions(prefix, mode):
         else:
             print('COMMANDS.PY')
             
+        # suggestions = [cmd for cmd in command_list.keys() if prefix.lower() in cmd.lower()]
+        # formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
+        # user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
+        # return user_input.lower()
         suggestions = [cmd for cmd in command_list.keys() if prefix.lower() in cmd.lower()]
         formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
-        user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
+        user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True, splitter=None))
         return user_input.lower()
     except KeyboardInterrupt:
         print("\nCommand input interrupted. Exiting...")

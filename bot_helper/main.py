@@ -149,15 +149,44 @@ def handler_show_all(my_book, _=None):
 def handler_exit(my_book, _ = None):
     return "Good bye!"
 
+# def handler_find(my_book, list_):
+#     list_rec = my_book.finde_records(list_[0].capitalize())
+#     if len(list_rec) != 0:
+#         ret_book = book.AddressBook()
+#         for rec_ in list_rec:
+#             ret_book.add_record(rec_)
+            
+#             pretty_table( 
+#                 title='List of commands with format', 
+#                 header=['Contact name', 'param first'], 
+#                 rows=ret_book
+#             )
+#         # return ret_book
+#     else:
+#         return cprint("Contact not found", 'red')
+
+
 def handler_find(my_book, list_):
+    rows = []
+    
     list_rec = my_book.finde_records(list_[0].capitalize())
     if len(list_rec) != 0:
         ret_book = book.AddressBook()
         for rec_ in list_rec:
             ret_book.add_record(rec_)
-        return ret_book
+            
+            name = rec_.name.value
+            phones = ', '.join(p.value for p in rec_.phones)
+            rows.append([name, phones])
+            
+        pretty_table( 
+            title='List of commands with format', 
+            header=['Contact name', 'Phones'], 
+            rows=rows
+        )
     else:
         return cprint("Contact not found", 'red')
+
     
 def handler_delete_phone(my_book, list_):
     record = my_book.find(list_[0].capitalize())
@@ -177,7 +206,7 @@ def handler_next_birthday(my_book, list_):
 def handler_help(my_book = None, _ = None):
     pretty_table( 
         title='List of commands with format', 
-        header=['Command', 'param first', 'param second', 'param third', 'Description'], 
+        header=['Command', 'Param first', 'Param second', 'Param third', 'Description'], 
         rows=help_table
     )
 
@@ -221,7 +250,6 @@ def handler_show_all_notes(my_book, _=None):
         title='List of commands with format',
         header=['Title', 'Text', 'Tags'],
         rows=rows
-
     )
 
 
