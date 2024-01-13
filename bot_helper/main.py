@@ -110,8 +110,8 @@ def handler_change(my_book, list_):
         record.edit_phone(list_[1], list_[2])
     return cprint(f"Phone {list_[1]} from user {list_[0].capitalize()} successfully chandget to phone {list_[2]}", 'green')
     
-def handler_show_all(my_book, _ = None):
-    return my_book
+# def handler_show_all(my_book, _ = None):
+#     return my_book
 
 # def handler_show_all(my_book, _=None):
 #     table_data = []
@@ -130,24 +130,24 @@ def handler_show_all(my_book, _ = None):
 
 #     return cprint(formatted_table, 'blue')
 
-# def handler_show_all(my_book, _=None):
-#     rows = []
+def handler_show_all(my_book, _=None):
+    rows = []
 
-#     for record in my_book:
-#         name = record.name.value
-#         phones = ', '.join(p.value for p in record.phones)
-#         email = ''
-#         birthday = date.strftime(record.birthday.value, '%d.%m.%Y') if hasattr(record, "birthday") else ''
-#         rows.append([name, phones, email, birthday])
+    for record in my_book:
+        name = record.name.value
+        phones = ', '.join(p.value for p in record.phones)
+        email = ''
+        birthday = date.strftime(record.birthday.value, '%d.%m.%Y') if hasattr(record, "birthday") else ''
+        rows.append([name, phones, email, birthday])
 
-#     pretty_table(
-#         title='List of commands with format',
-#         header=['Name', 'Telephone', 'Email', 'Birthday'],
-#         rows=rows
-#     )
+    pretty_table(
+        title='List of commands with format',
+        header=['Name', 'Telephone', 'Email', 'Birthday'],
+        rows=rows
+    )
 
 def handler_exit(my_book, _ = None):
-    return cprint("Good bye!", 'green')
+    return "Good bye!"
 
 def handler_find(my_book, list_):
     list_rec = my_book.finde_records(list_[0].capitalize())
@@ -176,75 +176,6 @@ def handler_next_birthday(my_book, list_):
 
 
 def handler_help(my_book = None, _ = None):
-    #help_string = '''
-    #            Hellow, you can us next command with format:\n
-    #            help - for help\n
-    #            hello - for hello\n
-    #            add <user_name> <phone(10 or 13 number)> [birthday] - for add user, if user is exist will be added phone to user\n
-    #            change <user_name> <phone_from_chandge> <phone_to_chandge> - for chandge phone\n
-    #            show all - for show all records\n
-    #            good bye | close | exit - for exit\n
-    #            find <some_letters> | <some_nombers> - for find record by name or phone\n
-    #            delete phone <user_name> <phone> - for delete phone from user\n
-    #            delete user <user_name> - for delete user from address book
-    #            variation format for telefon number:
-    #            +38(055)111-22-33
-    #            38(055)111-22-34
-    #            8(055)111-22-35
-    #            (055)111-22-36
-    #            055111-22-37
-    #            and all variant without "-"
-    #            '''
-    #return help_string
-
-    # help_string = '''
-    #             Hellow, you can us next command with format:\n
-    #             help - for help\n
-    #             hello - for hello\n
-    #             add <user_name> <phone(10 or 13 number)> [birthday] - for add user, if user is exist will be added phone to user\n
-    #             change <user_name> <phone_from_chandge> <phone_to_chandge> - for chandge phone\n
-    #             show all - for show all records\n
-    #             good bye | close | exit - for exit\n
-    #             find <some_letters> | <some_nombers> - for find record by name or phone\n
-    #             delete phone <user_name> <phone> - for delete phone from user\n
-    #             delete user <user_name> - for delete user from address book
-
-    #             variation format for telefon number:
-    #             +38(055)111-22-33
-    #             38(055)111-22-34
-    #             8(055)111-22-35
-    #             (055)111-22-36
-    #             055111-22-37
-    #             and all variant without "-"
-    #             '''
-    # return help_string
-    
-    
-    
-    # formatted_table = cprint(tabulate(help_table, headers="firstrow", tablefmt="presto", numalign="center"), 'blue')
-    # return formatted_table
- 
-    # help_list = [ 
-    #         ['help', 'for help'], 
-    #         ['hello', 'for hello'], 
-    #         ['add <name> <phone> [birthday]', 
-    #             'for add user, if user is exist will be added\n' 
-    #         'variation format for telefon number:\n' 
-    #         '+38(055)111-22-33\n' 
-    #         '38(055)111-22-34\n' 
-    #         '8(055)111-22-35\n' 
-    #         '(055)111-22-36\n' 
-    #         '055111-22-37\n' 
-    #         'and all variant without "-"'], 
-    #         ['change <name> <from_phone> <to_phone>', 'for chandge phone'], 
-    #         ['show all', 'for show all records'], 
-    #         ['good bye | close | exit', 'for exit'], 
-    #         ['find <some_letters> | find <some_nombers>', 
-    #             'for find record by name or phone'], 
-    #         ['delete phone <user> <phone>', 'for delete phone from user'], 
-    #         ['delete user <user>', 'for delete user from address book'], 
-    # ] 
-
     pretty_table( 
         title='List of commands with format', 
         header=['Command', 'param first', 'param second', 'param third', 'Description'], 
@@ -316,32 +247,13 @@ def handler_delete_note(my_book, list_):
     return f"Note {list_[0].capitalize()} successfully deleted"
 
 
-# NAME_COMMANDS = {
-
-#     "help": handler_help,
-#     "hello": handler_hello,
-#     "add": handler_add,
-#     "change": handler_change,
-#     "showall": handler_show_all,
-#     "goodbye": handler_exit,
-#     "close": handler_exit,
-#     "exit": handler_exit,
-#     "find": handler_find,
-#     "deletephone": handler_delete_phone,
-#     "deleteuser": handler_delete_user,
-#     "nextbirthday": handler_next_birthday,
-
-#     "addnote": handler_add_note,
-#     "changenote": handler_change_note,
-#     "showallnotes": handler_show_all_notes,
-#     "findnote": handler_find_note,
-#     "deletenotetag": handler_delete_tag,
-#     "deletenote": handler_delete_note,
-# }
-
-
-# def defs_commands(comm):
-#     return NAME_COMMANDS[comm]
+def mode_change(my_book = None, _ = None):
+    try:
+        #Вибір режиму (телефонна книга або нотатки)
+        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
+    except KeyboardInterrupt:
+        exit()
+    return mode
 
 
 @input_error
@@ -409,8 +321,7 @@ def main():
     #Вибір режиму (телефонна книга або нотатки)
     mode = mode_change()
     while True:
-        #Вибір режиму (телефонна книга або нотатки)
-        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()        
+                
         if (mode == "1"):
             # command = input("please enter command ").lower()
             user_input = get_command_suggestions("", mode)
