@@ -341,7 +341,6 @@ def parser_command(my_book, command):
 
 def main():
     print(handler_help())
-
     file_name_phones_p = "bot_helper\\book_pickle.bin"
     
     # file_name_j = "bot_helper\\book_json.json"
@@ -387,7 +386,6 @@ def main():
                     my_book_phones.save_to_file_pickle(file_name_phones_p)
                     my_book_notes.save_to_file_pickle(file_name_notes_p)
                     exit()
-        
 
         
 if __name__ == "__main__":
