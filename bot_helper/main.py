@@ -210,7 +210,7 @@ def handler_help(my_book = None, _ = None):
         rows=help_table
     )
 
-
+#Додавання нотатки
 def handler_add_note(my_book, list_):
     my_book.exists_tag(list_[1])
     try:
@@ -227,16 +227,17 @@ def handler_add_note(my_book, list_):
         my_book.add_record(record)
     return cprint("Command successfully complete", 'green')
 
+#Змінення тексту нотаток
 # Not working
 def handler_change_note(my_book, list_):
-    my_book.exists_tag(list_[2])
+    print(list_[0].capitalize())
     record = my_book.find(list_[0].capitalize())
+    print(record)
     if record is not None:
-        record.edit_tag(list_[1], list_[2])
-    return cprint(f"Tag {list_[1]} from user {list_[0].capitalize()} successfully changed to tag {list_[2]}", 'green')
+        record.edit_text(list_[1])
+    return cprint(f"Text from note {list_[0].capitalize()} successfully changed", 'green')
 
-    
-
+#Показати всі нотатки
 def handler_show_all_notes(my_book, _=None):
 
     rows = []
@@ -253,6 +254,7 @@ def handler_show_all_notes(my_book, _=None):
         rows=rows
     )
 
+#Пошук нотаток
 # Not working
 def handler_find_note(my_book, list_):
     list_rec = my_book.find_records(list_[0].capitalize())
@@ -264,21 +266,22 @@ def handler_find_note(my_book, list_):
     else:
         return cprint("Note not found", 'red')
 
+#Видалення тегу
 # Not working
 def handler_delete_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     record.remove_tag(list_[1])
     return cprint(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted", 'green')
 
+#Видалення нотатки
 def handler_delete_note(my_book, list_):
     print(list_[0].capitalize())
     my_book.delete(list_[0].capitalize())
     return f"Note {list_[0].capitalize()} successfully deleted"
 
-
+#Вибір режиму (телефонна книга або нотатки)
 def mode_change(my_book = None, _ = None):
-    try:
-        #Вибір режиму (телефонна книга або нотатки)
+    try: 
         mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ")
     except KeyboardInterrupt:
         exit()
