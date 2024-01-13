@@ -58,7 +58,8 @@ def pretty_table(title=None, title_style=None, header=[], header_style='bold blu
         table.show_lines = True 
  
         Console().print(table)
-        
+
+
 
 def input_error(func):
     def inner(my_book, val):
@@ -175,7 +176,7 @@ def handler_next_birthday(my_book, list_):
 
 
 def handler_help(my_book = None, _ = None):
-<<<<<<< HEAD
+
     #help_string = '''
     #            Hellow, you can us next command with format:\n
     #            help - for help\n
@@ -196,7 +197,7 @@ def handler_help(my_book = None, _ = None):
     #            and all variant without "-"
     #            '''
     #return help_string
-=======
+
     # help_string = '''
     #             Hellow, you can us next command with format:\n
     #             help - for help\n
@@ -244,8 +245,7 @@ def handler_help(my_book = None, _ = None):
     #         ['delete phone <user> <phone>', 'for delete phone from user'], 
     #         ['delete user <user>', 'for delete user from address book'], 
     # ] 
-    
->>>>>>> branch-Roman
+
     pretty_table( 
         title='List of commands with format', 
         header=['Command', 'param first', 'param second', 'param third', 'Description'], 
@@ -276,11 +276,11 @@ def handler_change_note(my_book, list_):
         record.edit_tag(list_[1], list_[2])
     return cprint(f"Tag {list_[1]} from user {list_[0].capitalize()} successfully changed to tag {list_[2]}", 'green')
     
-<<<<<<< HEAD
-def handler_show_all_notes(my_book, _ = None):
-=======
+
+
+
 def handler_show_all_notes(my_book, _=None):
->>>>>>> branch-Roman
+
     rows = []
 
     for record in my_book:
@@ -293,11 +293,9 @@ def handler_show_all_notes(my_book, _=None):
         title='List of commands with format',
         header=['Title', 'Text', 'Tags'],
         rows=rows
-<<<<<<< HEAD
-        )
-=======
+
     )
->>>>>>> branch-Roman
+
 
 def handler_find_note(my_book, list_):
     list_rec = my_book.find_records(list_[0].capitalize())
@@ -328,7 +326,6 @@ def mode_change(my_book = None, _ = None):
     return mode
 
 # NAME_COMMANDS = {
-<<<<<<< HEAD
 # 
 #     "help": handler_help,
 #     "hello": handler_hello,
@@ -372,57 +369,10 @@ def mode_change(my_book = None, _ = None):
 #         any_command = NAME_COMMANDS.get(command_name)
 #         return any_command(my_book, list_command[1:])
 
-=======
-
-#     "help": handler_help,
-#     "hello": handler_hello,
-#     "add": handler_add,
-#     "change": handler_change,
-#     "showall": handler_show_all,
-#     "goodbye": handler_exit,
-#     "close": handler_exit,
-#     "exit": handler_exit,
-#     "find": handler_find,
-#     "deletephone": handler_delete_phone,
-#     "deleteuser": handler_delete_user,
-#     "nextbirthday": handler_next_birthday,
-
-#     "addnote": handler_add_note,
-#     "changenote": handler_change_note,
-#     "showallnotes": handler_show_all_notes,
-#     "findnote": handler_find_note,
-#     "deletenotetag": handler_delete_tag,
-#     "deletenote": handler_delete_note,
-# }
-
-
-# def defs_commands(comm):
-#     return NAME_COMMANDS[comm]
- 
-# @input_error
-# def parser_command(my_book, command):
-#     list_command = command.split(" ")
-#     command_name = list_command[0]
-#     if command_name in NAME_COMMANDS:
-#         any_command = NAME_COMMANDS[command_name]
-#         ret_result = any_command(my_book, list_command[1:])
-#         return ret_result
-#     elif len(list_command) > 1 and command_name + list_command[1] in NAME_COMMANDS:
-#         any_command = NAME_COMMANDS[command_name + list_command[1]]
-#         ret_result = any_command(my_book, list_command[2:])
-#         return ret_result
-#     else:
-#         any_command = NAME_COMMANDS.get(command_name)
-#         return any_command(my_book, list_command[1:])
-
->>>>>>> branch-Roman
 @input_error
 def parser_command(my_book, command):
     list_command = command.split(" ")
     command_name = list_command[0]
-<<<<<<< HEAD
-=======
-
     if command_name in NAME_COMMANDS:
         any_command = NAME_COMMANDS[command_name]
         ret_result = any_command(my_book, list_command[1:])
@@ -445,7 +395,6 @@ def parser_command(my_book, command):
         return ret_result
 
     return f"Unrecognized command: {command_name}"
->>>>>>> branch-Roman
 
     if command_name in NAME_COMMANDS:
         any_command = NAME_COMMANDS[command_name]
@@ -472,6 +421,7 @@ def parser_command(my_book, command):
 
 def main():
     print(handler_help())
+
     file_name_phones_p = "bot_helper\\book_pickle.bin"
     
     # file_name_j = "bot_helper\\book_json.json"
@@ -492,16 +442,7 @@ def main():
     #Вибір режиму (телефонна книга або нотатки)
     mode = mode_change()
     while True:
-<<<<<<< HEAD
                 
-=======
-        try:
-            #Вибір режиму (телефонна книга або нотатки)
-            mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
-        except KeyboardInterrupt:
-            print("\nCommand input interrupted. Exiting...")
-            exit()
->>>>>>> branch-Roman
         if (mode == "1"):
             # command = input("please enter command ").lower()
             user_input = get_command_suggestions("", mode)
@@ -522,13 +463,9 @@ def main():
                     my_book_phones.save_to_file_pickle(file_name_phones_p)
                     my_book_notes.save_to_file_pickle(file_name_notes_p)
                     exit()
-<<<<<<< HEAD
         else:
             print("Wrong command!")
             mode = mode_change()
-=======
-
->>>>>>> branch-Roman
         
 if __name__ == "__main__":
     main()
