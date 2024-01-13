@@ -227,6 +227,7 @@ def handler_add_note(my_book, list_):
         my_book.add_record(record)
     return cprint("Command successfully complete", 'green')
 
+# Not working
 def handler_change_note(my_book, list_):
     my_book.exists_tag(list_[2])
     record = my_book.find(list_[0].capitalize())
@@ -252,7 +253,7 @@ def handler_show_all_notes(my_book, _=None):
         rows=rows
     )
 
-
+# Not working
 def handler_find_note(my_book, list_):
     list_rec = my_book.find_records(list_[0].capitalize())
     if len(list_rec) != 0:
@@ -262,7 +263,8 @@ def handler_find_note(my_book, list_):
         return ret_book
     else:
         return cprint("Note not found", 'red')
-    
+
+# Not working
 def handler_delete_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     record.remove_tag(list_[1])
@@ -277,26 +279,11 @@ def handler_delete_note(my_book, list_):
 def mode_change(my_book = None, _ = None):
     try:
         #Вибір режиму (телефонна книга або нотатки)
-        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ").lower()
+        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ")
     except KeyboardInterrupt:
         exit()
     return mode
 
-
-@input_error
-def parser_command_ab(my_book, command):
-    list_command = command.split(" ")
-    if list_command[0] in NAME_COMMANDS:
-        any_command = defs_commands(list_command[0])
-        ret_rezault = any_command(my_book, list_command[1:])
-        return ret_rezault
-    elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
-        any_command = defs_commands(list_command[0]+list_command[1])
-        ret_rezault = any_command(my_book, list_command[2:])
-        return ret_rezault
-    else:
-        any_command = defs_commands()
-        return ret_rezault
     
 @input_error
 def parser_command(my_book, command):
@@ -345,10 +332,10 @@ def main():
     except (EOFError, pickle.UnpicklingError):
         print("Error loading data from pickle file. Check file format and data consistency.")
         my_book_notes = notebook.NoteBook() 
-    #Вибір режиму (телефонна книга або нотатки)
-    mode = mode_change()
+    
     while True:
-                
+        #Вибір режиму (телефонна книга або нотатки)
+        mode = mode_change()
         if (mode == "1"):
             # command = input("please enter command ").lower()
             user_input = get_command_suggestions("", mode)
