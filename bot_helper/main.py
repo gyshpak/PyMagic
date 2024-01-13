@@ -165,7 +165,6 @@ def handler_delete_phone(my_book, list_):
     return cprint(f"Phone {list_[1]} of user {list_[0].capitalize()} successfully deleted", 'green')
 
 def handler_delete_user(my_book, list_):
-    print(list_[0].capitalize())
     my_book.delete(list_[0].capitalize())
     return cprint(f"User {list_[0].capitalize()} successfully deleted", 'green')
 
@@ -296,7 +295,7 @@ def parser_command(my_book, command):
         ret_result = any_command(my_book, list_command[2:])
         return ret_result
 
-    return f"Unrecognized command: {command_name}"
+    return cprint(f"Unrecognized command: {command_name}", 'red')
 
 
 def main():
@@ -343,7 +342,7 @@ def main():
                     my_book_notes.save_to_file_pickle(file_name_notes_p)
                     exit()
         else:
-            print("Wrong command!")
+            cprint("Wrong command!", 'red')
             mode = mode_change()
         
 if __name__ == "__main__":
