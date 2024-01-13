@@ -409,7 +409,6 @@ def parser_command(my_book, command):
 
 def main():
     print(handler_help())
-
     file_name_phones_p = "bot_helper\\book_pickle.bin"
     
     # file_name_j = "bot_helper\\book_json.json"
