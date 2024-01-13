@@ -277,8 +277,6 @@ def handler_change_note(my_book, list_):
     return cprint(f"Tag {list_[1]} from user {list_[0].capitalize()} successfully changed to tag {list_[2]}", 'green')
     
 
-
-
 def handler_show_all_notes(my_book, _=None):
 
     rows = []
@@ -396,28 +394,6 @@ def parser_command(my_book, command):
 
     return f"Unrecognized command: {command_name}"
 
-    if command_name in NAME_COMMANDS:
-        any_command = NAME_COMMANDS[command_name]
-        ret_result = any_command(my_book, list_command[1:])
-        return ret_result
-
-    if command_name in NAME_COMMANDS_NOTES:
-        any_command = NAME_COMMANDS_NOTES[command_name]
-        ret_result = any_command(my_book, list_command[1:])
-        return ret_result
-
-    compound_command = command_name + "-" + list_command[1] if len(list_command) > 1 else None
-    if compound_command in NAME_COMMANDS:
-        any_command = NAME_COMMANDS[compound_command]
-        ret_result = any_command(my_book, list_command[2:])
-        return ret_result
-
-    if compound_command in NAME_COMMANDS_NOTES:
-        any_command = NAME_COMMANDS_NOTES[compound_command]
-        ret_result = any_command(my_book, list_command[2:])
-        return ret_result
-
-    return f"Unrecognized command: {command_name}"
 
 def main():
     print(handler_help())
