@@ -9,6 +9,9 @@ class Field:
     def __init__(self, value):
         self.value = value
 
+    def __eq__(self, other):
+        return self.value == other.value
+
     def __str__(self):
         return str(self.value)
 
@@ -53,7 +56,7 @@ class Tag(Field):
     @value.setter
     def value(self, new_value):
         self.__value =  new_value
-    
+
 
 class Record:
     def __init__(self, title, text):
@@ -70,7 +73,7 @@ class Record:
     def remove_tag(self, tag):
         search_tag = Tag(tag)
         print(search_tag)
-        self.tags.pop(search_tag)
+        self.tags.remove(search_tag)
     
     def find_by_tag(self, tag):
         search_tag = Tag(tag)
