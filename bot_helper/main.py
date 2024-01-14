@@ -18,6 +18,14 @@ def input_error(func):
             return_data = "Wrong birthday, repeat please"
         except book.ExistsPhone:
             return_data = "Phone is exist"
+        except book.ExistsNote:
+            return_data = "User already has a note"
+        except book.WrongNote:
+            return_data = "Not printable characters in Note or record size excides."
+        except book.ExistsAddress:
+            return_data = "User already has an address"
+        except book.WrongAddress:
+            return_data = "Not printable characters in Address or record size excides."
         return return_data
     return inner
 
@@ -47,7 +55,88 @@ def handler_change(my_book, list_):
     if record is not None:
         record.edit_phone(list_[1], list_[2])
     return f"Phone {list_[1]} from user {list_[0].capitalize()} successfully chandget to phone {list_[2]}"
-    
+
+def handler_add_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        new_email = ' '.join(list_[1:])
+        record.add_email(new_email)
+        return f"To user {list_[0].capitalize()} successfully added e-mail:\n\t {new_email}"
+
+def handler_delete_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        record.delete_email()
+        return f"From user {list_[0].capitalize()} successfully deleted e-mail."
+
+
+def handler_replace_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        email = record.email.value
+        record.delete_email()
+        try:
+            new_email = ' '.join(list_[1:])
+            record.add_email(new_email)
+            return f"For user {list_[0].capitalize()} e-mail successfully changed to:\n\t {new_email}"
+        except:
+            record.add_email(email)
+
+
+def handler_add_note(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        new_note = ' '.join(list_[1:])
+        record.add_note(new_note)
+        return f"To user {list_[0].capitalize()} successfully added note:\n\t {new_note}"
+
+def handler_delete_note(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        record.delete_note()
+        return f"From user {list_[0].capitalize()} successfully deleted note."
+
+
+def handler_replace_note(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        note = record.notes.value
+        record.delete_note()
+        try:
+            new_note = ' '.join(list_[1:])
+            record.add_note(new_note)
+            return f"For user {list_[0].capitalize()} note successfully changed to:\n\t {new_note}"
+        except:
+            record.add_note(note)
+
+
+def handler_add_addr(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        new_addr = ' '.join(list_[1:])
+        record.add_address(new_addr)
+        return f"To user {list_[0].capitalize()} successfully added address:\n\t {new_addr}"
+
+
+def handler_delete_addr(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        record.delete_address()
+        return f"From user {list_[0].capitalize()} successfully deleted address."
+
+
+def handler_replace_addr(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        addr = record.address.value
+        record.delete_address()
+        try:
+            new_addr = ' '.join(list_[1:])
+            record.add_address(new_addr)
+            return f"For user {list_[0].capitalize()} address successfully changed to:\n\t {new_addr}"
+        except:
+            record.add_address(addr)
+
 def handler_show_all(my_book, _ = None):
     return my_book
 
@@ -91,7 +180,16 @@ def handler_help(my_book = None, _ = None):
                 good bye | close | exit - for exit\n
                 find <some_letters> | <some_nombers> - for find record by name or phone\n
                 delete phone <user_name> <phone> - for delete phone from user\n
-                delete user <user_name> - for delete user from address book
+                delete user <user_name> - for delete user from address book\n
+                email add <name> <email_text> - to add e-mail to user\n
+                email delete <name> - to delete e-mail from user\n
+                email replace <name> <new_email> - to replace existing e-mail with new text\n
+                note add <name> <note_text> - to add note to user (max.240 printable characters)\n
+                note delete <name> - to delete note from user\n
+                note replace <name> <new_note> - to replace existing note with new text\n
+                address add <name> <address_text> - to add address to user (max.100 printable characters)\n
+                address delete <name> - to delete address from user\n
+                address replace <name> <new_address> - to replace existing address with new text\n
 
                 variation format for telefon number:
                 +38(055)111-22-33
@@ -116,7 +214,16 @@ NAME_COMMANDS = {
     "find": handler_find,
     "deletephone": handler_delete_phone,
     "deleteuser": handler_delete_user,
-    "nextbirthday": handler_next_birthday
+    "nextbirthday": handler_next_birthday,
+    "emailadd": handler_add_email,
+    "emaildelete": handler_delete_email,
+    "emailreplace": handler_replace_email,
+    "noteadd": handler_add_note,
+    "notedelete": handler_delete_note,
+    "notereplace": handler_replace_note,
+    "addressadd": handler_add_addr,
+    "addressdelete": handler_delete_addr,
+    "addressreplace": handler_replace_addr
 }
 
 
@@ -142,21 +249,21 @@ def parser_command(my_book, command):
 
 def main():
     print(handler_help())
-    # file_name_p = "bot_helper\\book_pickle.bin"
-    file_name_j = "bot_helper\\book_json.json"
+    file_name_p = "bot_helper\\book_pickle.bin"
+    # file_name_j = "bot_helper\\book_json.json"
     # file_name_j = Path("E:\pyton_proj\Go-IT\\bot_helper\\bot_helper\\book_json.json")
-    # my_book_p = book.AddressBook()
-    my_book_j = book.AddressBook()
-    # my_book = my_book_p.load_from_file_pickle(file_name_p) 
-    my_book = my_book_j.load_from_file_json(file_name_j)
+    my_book_p = book.AddressBook()
+    # my_book_j = book.AddressBook()
+    my_book = my_book_p.load_from_file_pickle(file_name_p) 
+    # my_book = my_book_j.load_from_file_json(file_name_j)
     while True:
         command = input("please enter command ").lower()
         ret_rezault = parser_command(my_book, command)
         if ret_rezault:
             print(ret_rezault)
             if ret_rezault == "Good bye!":
-                # my_book.save_to_file_pickle(file_name_p)
-                my_book.save_to_file_json(file_name_j)
+                my_book.save_to_file_pickle(file_name_p)
+                # my_book.save_to_file_json(file_name_j)
                 exit()
 
         
