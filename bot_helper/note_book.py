@@ -69,14 +69,16 @@ class Record:
 
     def remove_tag(self, tag):
         search_tag = Tag(tag)
-        self.tags.remove(search_tag)
+        print(search_tag)
+        self.tags.pop(search_tag)
     
     def find_by_tag(self, tag):
         search_tag = Tag(tag)
         for item in self.tags:
             if item == search_tag:
                 return item
-            
+
+
     def edit_text(self, new_text):
         chandge_text = Text(new_text)
         self.text = chandge_text

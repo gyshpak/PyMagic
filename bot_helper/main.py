@@ -131,8 +131,7 @@ def handler_find_note_by_tag(my_book, list_):
 # Not working
 def handler_delete_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
-    print(list_[1])
-    record.remove_tag(list_[1])
+    record.remove_tag(list_[1].lower())
     return print(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted")
 
 #Додавання тегу
