@@ -1,6 +1,7 @@
 # from pathlib import Path
 # import bot_helper.address_book as book
 import address_book as book
+from commands import *
 
 def input_error(func):
     def inner(my_book, val):
@@ -237,7 +238,8 @@ def defs_commands(comm):
 
 @input_error
 def parser_command(my_book, command):
-    list_command = command.split(" ")
+    # list_command = command.split(" ")
+    list_command = command
     if list_command[0] in NAME_COMMANDS:
         any_command = defs_commands(list_command[0])
         ret_rezault = any_command(my_book, list_command[1:])
@@ -261,10 +263,13 @@ def main():
     my_book = my_book_p.load_from_file_pickle(file_name_p) 
     # my_book = my_book_j.load_from_file_json(file_name_j)
     while True:
-        command = input("please enter command ").lower()
+        command = get_command_suggestions("")
         ret_rezault = parser_command(my_book, command)
         if ret_rezault:
-            print(ret_rezault)
+            print_result(ret_rezault)
+            # ret_result = get_user_info()
+                
+                
             if ret_rezault == "Good bye!":
                 my_book.save_to_file_pickle(file_name_p)
                 # my_book.save_to_file_json(file_name_j)
