@@ -159,19 +159,20 @@ class NoteBook(UserDict):
 if __name__ == "__main__":
     pass
 
-note = NoteBook()
-note1_record = Record("Tiiitle", "text")
-note1_record.add_tag("Tag1")
-note1_record.add_tag("Tag2")
-note.add_record(note1_record)
-
-note2_record = Record("Title23", "a lot of text")
-note2_record.add_tag("a")
-note2_record.add_tag("lot")
-note2_record.add_tag("of")
-note2_record.add_tag("tags")
-note.add_record(note2_record)
-
-note.find_records("Title23")
-for title, record in note.data.items():
-    print(record)
+#note = NoteBook()
+#note1_record = Record("Tiiitle", "text")
+#note1_record.add_tag("Tag1")
+#note1_record.add_tag("Tag2")
+#note.add_record(note1_record)
+#
+#note2_record = Record("Title23", "a lot of text")
+#note2_record.add_tag("a")
+#note2_record.add_tag("lot")
+#note2_record.add_tag("of")
+#note2_record.add_tag("tags")
+#note.add_record(note2_record)
+#
+#note.find_records("Title23")
+#note1_record.remove_tag("tag2")
+#for title, record in note.data.items():
+#    print(record)

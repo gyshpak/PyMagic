@@ -97,7 +97,6 @@ def handler_add_note(my_book, list_):
     return print("Command successfully complete")
 
 #Змінення тексту нотаток
-# Not working
 def handler_change_note(my_book, list_):
     print(list_[0].capitalize())
     record = my_book.find(list_[0].capitalize())
@@ -107,7 +106,6 @@ def handler_change_note(my_book, list_):
     return print(f"Text from note {list_[0].capitalize()} successfully changed")
 
 #Пошук нотаток
-# Not working
 def handler_find_note(my_book, list_):
     list_rec = my_book.find_records(list_[0].capitalize())
     if len(list_rec) != 0:
@@ -124,6 +122,11 @@ def handler_delete_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     record.remove_tag(list_[1])
     return print(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted")
+
+def handler_add_tag(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    record.add_tag(list_[1])
+    return print(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully added")
 
 #Видалення нотатки
 def handler_delete_note(my_book, list_):
@@ -190,6 +193,7 @@ NAME_COMMANDS = {
     "show-all-notes": handler_show_all_notes,
     "find-note": handler_find_note,
     "delete-note-tag": handler_delete_tag,
+    "add-note-tag":handler_add_tag,
     "delete-note": handler_delete_note,
     "back": mode_change
 }
