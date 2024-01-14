@@ -115,14 +115,27 @@ def handler_find_note(my_book, list_):
         return ret_book
     else:
         return print("Note not found")
+    
+#Пошук нотаток за тегом
+def handler_find_note_by_tag(my_book, list_):
+    list_rec = my_book.find_records(list_[0].lower())
+    if len(list_rec) != 0:
+        ret_book = notebook.NoteBook()
+        for rec_ in list_rec:
+            ret_book.add_record(rec_)
+        return ret_book
+    else:
+        return print("Note not found")
 
 #Видалення тегу
 # Not working
 def handler_delete_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
+    print(list_[1])
     record.remove_tag(list_[1])
     return print(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted")
 
+#Додавання тегу
 def handler_add_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     record.add_tag(list_[1])
@@ -192,6 +205,7 @@ NAME_COMMANDS = {
     "change-note": handler_change_note,
     "show-all-notes": handler_show_all_notes,
     "find-note": handler_find_note,
+    "find-note-by-tag": handler_find_note_by_tag,
     "delete-note-tag": handler_delete_tag,
     "add-note-tag":handler_add_tag,
     "delete-note": handler_delete_note,

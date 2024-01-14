@@ -93,7 +93,7 @@ class NoteBook(UserDict):
         self.data[record.title.value] = record
 
     def find(self, title):
-        record = self.get(title)
+        record = self.data.get(title)
         if record is not None:
             return record
         else:
