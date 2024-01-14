@@ -24,7 +24,8 @@ def input_error(func):
             return_data = "Not printable characters in Note or record size excides."
         except book.ExistsAddress:
             return_data = "User already has an address"
-            
+        except book.WrongAddress:
+            return_data = "Not printable characters in Address or record size excides."
         return return_data
     return inner
 
