@@ -27,6 +27,10 @@ def input_error(func):
             return_data = "User already has an address"
         except book.WrongAddress:
             return_data = "Not printable characters in Address or record size excides."
+        except book.WrongEmail:
+            return_data = "Wrong e-mail, repeat please"
+        except book.ExistsEmail:
+            return_data = "User already has an e-mail"
         return return_data
     return inner
 
@@ -141,7 +145,8 @@ def handler_exit(my_book, _ = None):
     return "Good bye!"
 
 def handler_find(my_book, list_):
-    list_rec = my_book.finde_records(list_[0].capitalize())
+    list_rec = my_book.find_records(list_[0].capitalize())
+    # list_rec = my_book.finde_records(list_[0].capitalize())
     if len(list_rec) != 0:
         ret_book = book.AddressBook()
         ret_book.qua_for_iter = my_book.qua_for_iter
@@ -184,11 +189,9 @@ def handler_help(my_book = None, _ = None):
         ['find <some_letters> | find <some_nombers>', 'for find record by name or phone'],
         ['delete phone <user> <phone>', 'for delete phone from user'],
         ['delete user <user>', 'for delete user from address book'],
-
-                email add <name> <email_text> - to add e-mail to user\n
-                email delete <name> - to delete e-mail from user\n
-                email replace <name> <new_email> - to replace existing e-mail with new text\n
-
+        ['email add <name> <email_text>', 'to add e-mail to user'],
+        ['email delete <name>', 'to delete e-mail from user'],
+        ['email replace <name> <new_email>', 'to replace existing e-mail with new text'],
         ['good bye | close | exit', 'for exit'],
         ['note add <name> <note_text>',
             'to add note to user (max.240 printable characters)'],
@@ -219,11 +222,9 @@ NAME_COMMANDS = {
     "deletephone": handler_delete_phone,
     "deleteuser": handler_delete_user,
     "nextbirthday": handler_next_birthday,
-
     "emailadd": handler_add_email,
     "emaildelete": handler_delete_email,
     "emailreplace": handler_replace_email,
-
     "noteadd": handler_add_note,
     "notedelete": handler_delete_note,
     "notereplace": handler_replace_note,
