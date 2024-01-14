@@ -3,6 +3,7 @@
 import address_book as book
 import note_book as notebook
 import pickle
+from commands import *
 
 def input_error(func):
     def inner(my_book, val):
@@ -20,6 +21,14 @@ def input_error(func):
             return_data = "Wrong birthday, repeat please"
         except book.ExistsPhone:
             return_data = "Phone is exist"
+        except book.ExistsNote:
+            return_data = "User already has a note"
+        except book.WrongNote:
+            return_data = "Not printable characters in Note or record size excides."
+        except book.ExistsAddress:
+            return_data = "User already has an address"
+        except book.WrongAddress:
+            return_data = "Not printable characters in Address or record size excides."
         return return_data
     return inner
 
@@ -49,7 +58,88 @@ def handler_change(my_book, list_):
     if record is not None:
         record.edit_phone(list_[1], list_[2])
     return f"Phone {list_[1]} from user {list_[0].capitalize()} successfully chandget to phone {list_[2]}"
-    
+
+
+def handler_add_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        new_email = ' '.join(list_[1:])
+        record.add_email(new_email)
+        return f"To user {list_[0].capitalize()} successfully added e-mail:\n\t {new_email}"
+
+def handler_delete_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        record.delete_email()
+        return f"From user {list_[0].capitalize()} successfully deleted e-mail."
+
+
+def handler_replace_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        email = record.email.value
+        record.delete_email()
+        try:
+            new_email = ' '.join(list_[1:])
+            record.add_email(new_email)
+            return f"For user {list_[0].capitalize()} e-mail successfully changed to:\n\t {new_email}"
+        except:
+            record.add_email(email)
+
+def handler_add_note(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        new_note = ' '.join(list_[1:])
+        record.add_note(new_note)
+        return f"To user {list_[0].capitalize()} successfully added note:\n\t {new_note}"
+
+def handler_delete_note(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        record.delete_note()
+        return f"From user {list_[0].capitalize()} successfully deleted note."
+
+
+def handler_replace_note(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        note = record.notes.value
+        record.delete_note()
+        try:
+            new_note = ' '.join(list_[1:])
+            record.add_note(new_note)
+            return f"For user {list_[0].capitalize()} note successfully changed to:\n\t {new_note}"
+        except:
+            record.add_note(note)
+
+
+def handler_add_addr(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        new_addr = ' '.join(list_[1:])
+        record.add_address(new_addr)
+        return f"To user {list_[0].capitalize()} successfully added address:\n\t {new_addr}"
+
+
+def handler_delete_addr(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        record.delete_address()
+        return f"From user {list_[0].capitalize()} successfully deleted address."
+
+
+def handler_replace_addr(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        addr = record.address.value
+        record.delete_address()
+        try:
+            new_addr = ' '.join(list_[1:])
+            record.add_address(new_addr)
+            return f"For user {list_[0].capitalize()} address successfully changed to:\n\t {new_addr}"
+        except:
+            record.add_address(addr)
+
 def handler_show_all(my_book, _ = None):
     return my_book
 
@@ -173,7 +263,18 @@ def handler_help(my_book = None, _ = None):
                 good bye | close | exit - for exit\n
                 find <some_letters> | <some_nombers> - for find record by name or phone\n
                 delete phone <user_name> <phone> - for delete phone from user\n
-                delete user <user_name> - for delete user from address book
+                delete user <user_name> - for delete user from address book\n
+
+                email add <name> <email_text> - to add e-mail to user\n
+                email delete <name> - to delete e-mail from user\n
+                email replace <name> <new_email> - to replace existing e-mail with new text\n
+
+                note add <name> <note_text> - to add note to user (max.240 printable characters)\n
+                note delete <name> - to delete note from user\n
+                note replace <name> <new_note> - to replace existing note with new text\n
+                address add <name> <address_text> - to add address to user (max.100 printable characters)\n
+                address delete <name> - to delete address from user\n
+                address replace <name> <new_address> - to replace existing address with new text\n
 
                 variation format for telefon number:
                 +38(055)111-22-33
@@ -199,6 +300,7 @@ NAME_COMMANDS = {
     "deletephone": handler_delete_phone,
     "deleteuser": handler_delete_user,
     "nextbirthday": handler_next_birthday,
+
     "add-note": handler_add_note,
     "change-note": handler_change_note,
     "show-all-notes": handler_show_all_notes,
@@ -207,6 +309,19 @@ NAME_COMMANDS = {
     "delete-note-tag": handler_delete_tag,
     "add-note-tag":handler_add_tag,
     "delete-note": handler_delete_note,
+
+
+    "emailadd": handler_add_email,
+    "emaildelete": handler_delete_email,
+    "emailreplace": handler_replace_email,
+
+    "noteadd": handler_add_note,
+    "notedelete": handler_delete_note,
+    "notereplace": handler_replace_note,
+    "addressadd": handler_add_addr,
+    "addressdelete": handler_delete_addr,
+    "addressreplace": handler_replace_addr
+
 }
 
 
@@ -216,7 +331,8 @@ def defs_commands(comm):
 
 @input_error
 def parser_command(my_book, command):
-    list_command = command.split(" ")
+    # list_command = command.split(" ")
+    list_command = command
     if list_command[0] in NAME_COMMANDS:
         any_command = defs_commands(list_command[0])
         ret_rezault = any_command(my_book, list_command[1:])
@@ -246,15 +362,25 @@ def main():
     my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
     
     while True:
+
         #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
         command = input("please enter command ").lower()
         if (mode == "1"):
+            command = get_command_suggestions("mode")
             ret_rezault = parser_command(my_book_phones, command)
         elif (mode == "2"):
+            command = get_command_suggestions("mode")
             ret_rezault = parser_command(my_book_notes, command)
+
+        
+        ret_rezault = parser_command(my_book, command)
+
         if ret_rezault:
-            print(ret_rezault)
+            print_result(ret_rezault)
+            # ret_result = get_user_info()
+                
+                
             if ret_rezault == "Good bye!":
                 my_book_phones.save_to_file_pickle(file_name_phones_p)
                 my_book_notes.save_to_file_pickle(file_name_notes_p)
