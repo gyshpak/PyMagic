@@ -9,6 +9,10 @@ class WrongBirthday(Exception):
     pass
 class ExistsPhone(Exception):
     pass
+class WrongEmail(Exception):
+    pass
+class ExistsEmail(Exception):
+    pass
 class WrongNote(Exception):
     pass
 class ExistsNote(Exception):
@@ -78,8 +82,8 @@ class Phone(Field):
     def __repr__(self):
         return self.__value
 
-# додано клас 
-class E_mail(Field):
+
+class Email(Field):
     def __init__(self, value):
         self.__value = ""
         self.value = value
@@ -90,12 +94,12 @@ class E_mail(Field):
         
     @value.setter
     def value(self, new_value):
-        if self.is_valid_e_mail(new_value):
-            self.__value =  new_value
+        if self.is_valid_email(new_value):
+            self.__value = new_value
         else:
-            raise ValueError
+            raise WrongEmail
  
-    def is_valid_e_mail(self, value):
+    def is_valid_email(self, value):
         if  value!= "":
             if match(r"[a-zA-Z0-9]+[\w\-]+[\.]?[a-zA-Z\w\-]+[@]{1}[a-z]+[\.]{1}[a-z]{2,}", value) != None:
                 return True
@@ -103,7 +107,7 @@ class E_mail(Field):
                 return False
 
     def __eq__(self, other):
-        if isinstance(other, E_mail):
+        if isinstance(other, Email):
             return self.value == other.value
         return NotImplemented   
     
@@ -113,7 +117,6 @@ class E_mail(Field):
     def __repr__(self):
         return self.__value
 
-# кінець
 
 class Birthday(Field):
     def __init__(self, value):
@@ -228,7 +231,7 @@ class Record:
             self.birthday = Birthday(birthday)
         self.name = Name(name)
         self.phones = []
-        self.e_mails = []
+        self.emails = None
         self.notes = None
         self.address = None
 
@@ -253,29 +256,15 @@ class Record:
             if item == search_phone:
                 return item
             
-    # додано 4 функції (аналогічно до phone)
-    def add_e_mail(self, e_mail):
-        e_mail_obj = E_mail(e_mail)
-        if e_mail_obj not in self.e_mails:
-            self.e_mails.append(e_mail_obj)
+    def add_email(self, email):
+        if self.emails:
+            raise ExistsEmail
+        email_obj = Email(email)
+        self.emails = email_obj
 
-    def remove_e_mail(self, e_mail):
-        search_e_mails = E_mail(e_mail)
-        self.e_mails.remove(search_e_mails)
-
-    def edit_e_mail(self, e_mail, new_e_mail):
-        search_e_mail = E_mail(e_mail)
-        chandge_e_mail = E_mail(new_e_mail)
-        index = self.e_mails.index(search_e_mail)
-        self.e_mails[index] = chandge_e_mail
-    
-    def find_e_mail(self, e_mail):
-        search_e_mail = E_mail(e_mail)
-        for item in self.e_mails:
-            if item == search_e_mail:
-                return item
-    # кінець
-                
+    def delete_email(self):
+        self.emails = None
+                    
     def days_to_birthday(self):
         today = Birthday(date.today().strftime("%Y %m %d"))
         return self.birthday - today
@@ -305,8 +294,8 @@ class Record:
         if hasattr(self, "birthday"):
             msg += f", birthday: {date.strftime(self.birthday.value, '%d.%m.%Y')}"
 
-        if self.e_mails:
-            msg += f", e-mails: {','.join(e.value for e in self.e_mails)}"
+        if self.emails:
+            msg += f", e-mail: {self.emails}"
 
         if self.notes:
             msg += f", notes: {self.notes}"

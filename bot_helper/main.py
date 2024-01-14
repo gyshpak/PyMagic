@@ -56,7 +56,34 @@ def handler_change(my_book, list_):
     if record is not None:
         record.edit_phone(list_[1], list_[2])
     return f"Phone {list_[1]} from user {list_[0].capitalize()} successfully chandget to phone {list_[2]}"
-    
+
+
+def handler_add_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        new_email = ' '.join(list_[1:])
+        record.add_email(new_email)
+        return f"To user {list_[0].capitalize()} successfully added e-mail:\n\t {new_email}"
+
+def handler_delete_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        record.delete_email()
+        return f"From user {list_[0].capitalize()} successfully deleted e-mail."
+
+
+def handler_replace_email(my_book, list_):
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        email = record.email.value
+        record.delete_email()
+        try:
+            new_email = ' '.join(list_[1:])
+            record.add_email(new_email)
+            return f"For user {list_[0].capitalize()} e-mail successfully changed to:\n\t {new_email}"
+        except:
+            record.add_email(email)
+
 def handler_add_note(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
@@ -157,6 +184,11 @@ def handler_help(my_book = None, _ = None):
         ['find <some_letters> | find <some_nombers>', 'for find record by name or phone'],
         ['delete phone <user> <phone>', 'for delete phone from user'],
         ['delete user <user>', 'for delete user from address book'],
+
+                email add <name> <email_text> - to add e-mail to user\n
+                email delete <name> - to delete e-mail from user\n
+                email replace <name> <new_email> - to replace existing e-mail with new text\n
+
         ['good bye | close | exit', 'for exit'],
         ['note add <name> <note_text>',
             'to add note to user (max.240 printable characters)'],
@@ -187,6 +219,11 @@ NAME_COMMANDS = {
     "deletephone": handler_delete_phone,
     "deleteuser": handler_delete_user,
     "nextbirthday": handler_next_birthday,
+
+    "emailadd": handler_add_email,
+    "emaildelete": handler_delete_email,
+    "emailreplace": handler_replace_email,
+
     "noteadd": handler_add_note,
     "notedelete": handler_delete_note,
     "notereplace": handler_replace_note,
