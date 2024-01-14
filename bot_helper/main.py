@@ -86,7 +86,7 @@ def handler_next_birthday(my_book, list_):
 #Додавання нотатки
 # Not working
 def handler_add_note(my_book, list_):
-    my_book.exists_tag(list_[2])
+    #my_book.exists_tag(list_[2])
     try:
         record = my_book.find(list_[0].capitalize())
     except:
@@ -94,7 +94,7 @@ def handler_add_note(my_book, list_):
 
     record.add_tag(list_[2])
     my_book.add_record(record)
-    return print("Command successfully complete")
+    return "Command successfully complete"
 
 #Змінення тексту нотаток
 def handler_change_note(my_book, list_):
@@ -103,7 +103,7 @@ def handler_change_note(my_book, list_):
     print(record)
     if record is not None:
         record.edit_text(list_[1])
-    return print(f"Text from note {list_[0].capitalize()} successfully changed")
+    return f"Text from note {list_[0].capitalize()} successfully changed"
 
 #Пошук нотаток
 def handler_find_note(my_book, list_):
@@ -114,7 +114,7 @@ def handler_find_note(my_book, list_):
             ret_book.add_record(rec_)
         return ret_book
     else:
-        return print("Note not found")
+        return "Note not found"
     
 #Пошук нотаток за тегом
 def handler_find_note_by_tag(my_book, list_):
@@ -125,19 +125,19 @@ def handler_find_note_by_tag(my_book, list_):
             ret_book.add_record(rec_)
         return ret_book
     else:
-        return print("Note not found")
+        return "Note not found"
 
 #Видалення тегу
 def handler_delete_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     record.remove_tag(list_[1].lower())
-    return print(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted")
+    return f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted"
 
 #Додавання тегу
 def handler_add_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     record.add_tag(list_[1])
-    return print(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully added")
+    return f"Tag {list_[1]} of note {list_[0].capitalize()} successfully added"
 
 #Видалення нотатки
 def handler_delete_note(my_book, list_):

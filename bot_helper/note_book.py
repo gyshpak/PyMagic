@@ -119,12 +119,12 @@ class NoteBook(UserDict):
                         break
         return list_recs
     
-    def exists_tag(self, tag=None):
-        if tag is not None:
-            tag_ = Tag(tag)
-            for record_ in self.values():
-                if tag_ in record_.tags:
-                    raise ExistsTag
+    #def exists_tag(self, tag=None):
+    #    if tag is not None:
+    #        tag_ = Tag(tag)
+    #        for record_ in self.values():
+    #            if tag_ in record_.tags:
+    #                raise ExistsTag
                 
     def __next__(self):
         if len(self.list_for_iter) == len(self.data):
