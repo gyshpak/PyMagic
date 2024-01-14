@@ -87,15 +87,20 @@ def handler_next_birthday(my_book, list_):
 #Додавання нотатки
 # Not working
 def handler_add_note(my_book, list_):
-    my_book.exists_tag(list_[2])
-    try:
-        record = my_book.find(list_[0].capitalize())
-    except:
+    # my_book.exists_tag(list_[2])
+    # try:
+    #     record = my_book.find(list_[0].capitalize())
+    # except:
+    #     record = notebook.Record(list_[0].capitalize(),list_[1])
+    record = my_book.find(list_[0].capitalize())
+    if record is not None:
+        print("find ecord")
+        print(record)
+    else:
         record = notebook.Record(list_[0].capitalize(),list_[1])
-
-    record.add_tag(list_[2])
-    my_book.add_record(record)
-    return print("Command successfully complete")
+        record.add_tag(list_[2])
+        my_book.add_record(record)
+        return print("Command successfully complete")
 
 #Змінення тексту нотаток
 def handler_change_note(my_book, list_):
@@ -234,7 +239,7 @@ def parser_command(my_book, command):
 
 
 def main():
-    print(handler_help())
+    # print(handler_help())
     file_name_phones_p = "bot_helper\\book_pickle.bin"
     # file_name_j = "bot_helper\\book_json.json"
     # file_name_j = Path("E:\pyton_proj\Go-IT\\bot_helper\\bot_helper\\book_json.json")
