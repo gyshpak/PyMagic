@@ -85,7 +85,7 @@ def handler_next_birthday(my_book, list_):
 
 #Додавання нотатки
 def handler_add_note(my_book, list_):
-    my_book.exists_tag(list_[1])
+    my_book.exists_tag(list_[2])
     try:
         record = my_book.find(list_[0].capitalize())
     except:
@@ -127,7 +127,7 @@ def handler_find_note(my_book, list_):
 def handler_delete_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     record.remove_tag(list_[1])
-    return cprint(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted", 'green')
+    return print(f"Tag {list_[1]} of note {list_[0].capitalize()} successfully deleted")
 
 #Видалення нотатки
 def handler_delete_note(my_book, list_):
