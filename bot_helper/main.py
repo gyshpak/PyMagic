@@ -217,7 +217,7 @@ def parser_command(my_book, command):
 
 
 def main():
-    print(handler_help())
+    handler_help()
     file_name_p = "bot_helper\\book_pickle.bin"
     # file_name_j = "bot_helper\\book_json.json"
     # file_name_j = Path("E:\pyton_proj\Go-IT\\bot_helper\\bot_helper\\book_json.json")
