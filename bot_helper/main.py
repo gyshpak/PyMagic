@@ -1,6 +1,7 @@
 # from pathlib import Path
 # import bot_helper.address_book as book
 import address_book as book
+from pretty_table import pretty_table
 
 def input_error(func):
     def inner(my_book, val):
@@ -69,7 +70,6 @@ def handler_delete_note(my_book, list_):
         record.delete_note()
         return f"From user {list_[0].capitalize()} successfully deleted note."
 
-
 def handler_replace_note(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
@@ -82,7 +82,6 @@ def handler_replace_note(my_book, list_):
         except:
             record.add_note(note)
 
-
 def handler_add_addr(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
@@ -90,13 +89,11 @@ def handler_add_addr(my_book, list_):
         record.add_address(new_addr)
         return f"To user {list_[0].capitalize()} successfully added address:\n\t {new_addr}"
 
-
 def handler_delete_addr(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
         record.delete_address()
         return f"From user {list_[0].capitalize()} successfully deleted address."
-
 
 def handler_replace_addr(my_book, list_):
     record = my_book.find(list_[0].capitalize())
@@ -143,33 +140,38 @@ def handler_next_birthday(my_book, list_):
 
 
 def handler_help(my_book = None, _ = None):
-    help_string = '''
-                Hellow, you can us next command with format:\n
-                help - for help\n
-                hello - for hello\n
-                add <user_name> <phone(10 or 13 number)> [birthday] - for add user, if user is exist will be added phone to user\n
-                change <user_name> <phone_from_chandge> <phone_to_chandge> - for chandge phone\n
-                show all - for show all records\n
-                good bye | close | exit - for exit\n
-                find <some_letters> | <some_nombers> - for find record by name or phone\n
-                delete phone <user_name> <phone> - for delete phone from user\n
-                delete user <user_name> - for delete user from address book\n
-                note add <name> <note_text> - to add note to user (max.240 printable characters)\n
-                note delete <name> - to delete note from user\n
-                note replace <name> <new_note> - to replace existing note with new text\n
-                address add <name> <address_text> - to add address to user (max.100 printable characters)\n
-                address delete <name> - to delete address from user\n
-                address replace <name> <new_address> - to replace existing address with new text\n
+    help_list = [
+        ['help', 'for help'],
+        ['hello', 'for hello'],
+        ['add <name> <phone> [birthday]',
+        'for add user, if user is exist will be added\n'
+        'variation format for telefon number:\n'
+        '+38(055)111-22-33\n'
+        '38(055)111-22-34\n'
+        '8(055)111-22-35\n'
+        '(055)111-22-36\n'
+        '055111-22-37\n'
+        'and all variant without "-"'],
+        ['change <name> <from_phone> <to_phone>', 'for chandge phone'],
+        ['show all', 'for show all records'],
+        ['find <some_letters> | find <some_nombers>', 'for find record by name or phone'],
+        ['delete phone <user> <phone>', 'for delete phone from user'],
+        ['delete user <user>', 'for delete user from address book'],
+        ['good bye | close | exit', 'for exit'],
+        ['note add <name> <note_text>',
+            'to add note to user (max.240 printable characters)'],
+        ['note delete <name>', 'to delete note from user'],
+        ['note replace <name> <note_text>', 'to replace existing note at user with new text'],
+        ['address add <name> <address_text>', 'to add address to user (max.100 printable characters)'],
+        ['address delete <name>', 'to delete address from user'],
+        ['address replace <name> <new_address>', 'to replace existing address at user with new text']
+    ]
 
-                variation format for telefon number:
-                +38(055)111-22-33
-                38(055)111-22-34
-                8(055)111-22-35
-                (055)111-22-36
-                055111-22-37
-                and all variant without "-"
-                '''
-    return help_string
+    pretty_table(
+        title='List of commands with format',
+        header=['Command', 'Description'],
+        rows=help_list
+    )
 
 NAME_COMMANDS = {
 
@@ -215,7 +217,7 @@ def parser_command(my_book, command):
 
 
 def main():
-    print(handler_help())
+    handler_help()
     # file_name_p = "bot_helper\\book_pickle.bin"
     file_name_j = "bot_helper\\book_json.json"
     # file_name_j = Path("E:\pyton_proj\Go-IT\\bot_helper\\bot_helper\\book_json.json")
