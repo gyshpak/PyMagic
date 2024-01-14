@@ -84,6 +84,7 @@ def handler_next_birthday(my_book, list_):
 #Coded by Illia
 
 #Додавання нотатки
+# Not working
 def handler_add_note(my_book, list_):
     my_book.exists_tag(list_[2])
     try:
@@ -104,11 +105,6 @@ def handler_change_note(my_book, list_):
     if record is not None:
         record.edit_text(list_[1])
     return print(f"Text from note {list_[0].capitalize()} successfully changed")
-
-#Показати всі нотатки
-def handler_show_all_notes(my_book, _=None):
-
-    return my_book
 
 #Пошук нотаток
 # Not working
@@ -134,6 +130,11 @@ def handler_delete_note(my_book, list_):
     print(list_[0].capitalize())
     my_book.delete(list_[0].capitalize())
     return f"Note {list_[0].capitalize()} successfully deleted"
+
+#Показати всі нотатки
+def handler_show_all_notes(my_book, _=None):
+    return my_book
+
 #Вибір режиму (телефонна книга або нотатки)
 def mode_change(my_book = None, _ = None):
     i = True
