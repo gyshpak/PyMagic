@@ -103,6 +103,10 @@ class E_mail(Field):
         if isinstance(other, E_mail):
             return self.value == other.value
         return NotImplemented   
+    
+    def __str__(self):
+        return str(self.__value)
+
 # кінець
 
 class Birthday(Field):
@@ -209,9 +213,7 @@ class Record:
             self.birthday = Birthday(birthday)
         self.name = Name(name)
         self.phones = []
-        # додано строку
         self.e_mails = []
-
         self.notes = None
         self.address = None
 
@@ -287,6 +289,10 @@ class Record:
     
         if hasattr(self, "birthday"):
             msg += f", birthday: {date.strftime(self.birthday.value, '%d.%m.%Y')}"
+
+        if self.e_mails:
+            msg += f", e-mails: {','.join(e.value for e in self.e_mails)}"
+
         if self.notes:
             msg += f", notes: {self.notes}"
         if self.address:
