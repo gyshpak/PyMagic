@@ -241,8 +241,8 @@ def defs_commands(comm):
 
 @input_error
 def parser_command(my_book, command):
-    # list_command = command.split(" ")
-    list_command = command
+    list_command = command.split(" ")
+    # list_command = command
     if list_command[0] in NAME_COMMANDS:
         any_command = defs_commands(list_command[0])
         ret_rezault = any_command(my_book, list_command[1:])
