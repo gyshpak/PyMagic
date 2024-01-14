@@ -5,13 +5,10 @@ import pickle
 class ExistsTag(Exception):
     pass
 
-class Field:
+class Field_N:
     def __init__(self, value):
         self.value = value
     
-    def __eq__(self, other):
-        return self.value == other.value
-
     def __eq__(self, other):
         return self.value == other.value
 
@@ -19,47 +16,15 @@ class Field:
         return str(self.value)
 
 
-class Title(Field):
-    def __init__(self, value):
-        self.__value = ""
-        self.value = value
+class Title(Field_N):
+    pass
 
-    @property
-    def value(self):
-        return self.__value
-        
-    @value.setter
-    def value(self, new_value):
-        self.__value =  new_value
-
-
-class Text(Field):
-    def __init__(self, value):
-        self.__value = ""
-        self.value = value
-
-    @property
-    def value(self):
-        return self.__value
-        
-    @value.setter
-    def value(self, new_value):
-        self.__value =  new_value
+class Text(Field_N):
+    pass
     
-
-class Tag(Field):
-    def __init__(self, value):
-        self.__value = ""
-        self.value = value
-
-    @property
-    def value(self):
-        return self.__value
-        
-    @value.setter
-    def value(self, new_value):
-        self.__value =  new_value
-
+class Tag(Field_N):
+    pass
+    
 
 class Record:
     def __init__(self, title, text):
@@ -74,8 +39,10 @@ class Record:
                 self.tags.append(tag_obj)
 
     def remove_tag(self, tag):
+        print(tag)
         search_tag = Tag(tag)
         print(search_tag)
+        print("search_tag")
         self.tags.remove(search_tag)
     
     def find_by_tag(self, tag):
@@ -90,7 +57,6 @@ class Record:
         self.text = chandge_text
 
     def __str__(self):
-    
         return f"Title: {self.title.value}, text: {self.text.value}, tags: {', '.join(t.value for t in self.tags)}"
 
 class NoteBook(UserDict):
@@ -108,7 +74,8 @@ class NoteBook(UserDict):
             raise KeyError
     
     def delete(self, title):
-        self.pop(title)
+        # self.pop(title)
+        self.remove(title)
     
     def find_records(self, search=None):
         list_recs = []
@@ -165,22 +132,40 @@ class NoteBook(UserDict):
 
             
 if __name__ == "__main__":
-    pass
+    # pass
 
-#note = NoteBook()
-#note1_record = Record("Tiiitle", "text")
-#note1_record.add_tag("Tag1")
-#note1_record.add_tag("Tag2")
-#note.add_record(note1_record)
-#
-#note2_record = Record("Title23", "a lot of text")
-#note2_record.add_tag("a")
-#note2_record.add_tag("lot")
-#note2_record.add_tag("of")
-#note2_record.add_tag("tags")
-#note.add_record(note2_record)
-#
-#note.find_records("Title23")
-#note1_record.remove_tag("tag2")
-#for title, record in note.data.items():
-#    print(record)
+
+########################################################################################
+
+
+    note = NoteBook()
+    note1_record = Record("Tiiitle", "text")
+    note1_record.add_tag("Tag1")
+    note1_record.add_tag("Tag2")
+    note.add_record(note1_record)
+
+    note2_record = Record("Title23", "a lot of text")
+    note2_record.add_tag("a")
+    note2_record.add_tag("lot")
+    note2_record.add_tag("of")
+    note2_record.add_tag("tags")
+    note.add_record(note2_record)
+    print(note)
+    note2_record.remove_tag("of")
+    print("remove_tag  of")
+    print(note)
+    note2_record.edit_text("enazer text")
+    print("edit_text   enazer text")
+    print(note)
+
+
+    tag2 = note2_record.find_by_tag("lot")
+    print("find_by_tag    lot")
+    print(tag2)
+
+
+    rec1 = note.find("Title23")
+    print(rec1)
+    print("find_records:")
+    rec1 = note.find_records("Title23")
+    print(rec1)
