@@ -278,8 +278,10 @@ class Record:
     
         if hasattr(self, "birthday"):
             msg += f", birthday: {date.strftime(self.birthday.value, '%d.%m.%Y')}"
+
         if self.emails:
             msg += f", e-mail: {self.emails}"
+
         if self.notes:
             msg += f", notes: {self.notes}"
         if self.address:
