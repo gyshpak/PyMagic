@@ -74,6 +74,9 @@ class Phone(Field):
         if isinstance(other, Phone):
             return self.value == other.value
         return NotImplemented
+    
+    def __repr__(self):
+        return self.__value
 
 # додано клас 
 class E_mail(Field):
@@ -106,6 +109,9 @@ class E_mail(Field):
     
     def __str__(self):
         return str(self.__value)
+    
+    def __repr__(self):
+        return self.__value
 
 # кінець
 
@@ -165,7 +171,10 @@ class Birthday(Field):
     
     def __str__(self):
         return self.value.strftime("%d.%m.%Y")
-    
+
+    def __repr__(self):
+        return self.value.strftime("%d.%m.%Y")
+
 
 class Note(Field):
     def __init__(self, note_text: str):
@@ -186,6 +195,9 @@ class Note(Field):
 
     def __str__(self):
         return str(self.__value)
+    
+    def __repr__(self):
+        return str(self.__value)
 
 
 class Address(Field):
@@ -205,6 +217,9 @@ class Address(Field):
             raise WrongAddress
 
     def __str__(self):
+        return self.__value
+
+    def __repr__(self):
         return self.__value
 
 class Record:
