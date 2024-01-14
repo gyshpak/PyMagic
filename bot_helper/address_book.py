@@ -9,7 +9,14 @@ class WrongBirthday(Exception):
     pass
 class ExistsPhone(Exception):
     pass
-
+class WrongNote(Exception):
+    pass
+class ExistsNote(Exception):
+    pass
+class ExistsAddress(Exception):
+    pass
+class WrongAddress(Exception):
+    pass
 
 class Field:
     def __init__(self, value):
@@ -127,12 +134,54 @@ class Birthday(Field):
         return self.value.strftime("%d.%m.%Y")
     
 
+class Note(Field):
+    def __init__(self, note_text: str):
+        self.__value = ''
+        self.value = note_text
+
+    @property
+    def value(self):
+        return self.__value
+    
+    @value.setter
+    def value(self, note_text: str):
+        print(type(note_text))
+        if note_text.isprintable() and len(note_text)<=240:
+            self.__value = note_text
+        else:
+            raise WrongNote
+
+    def __str__(self):
+        return str(self.__value)
+
+
+class Address(Field):
+    def __init__(self, adr_text: str):
+        self.__value = None
+        self.value = adr_text
+
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, adr_text):
+        if adr_text.isprintable() and len(adr_text) <= 100:
+            self.__value = adr_text
+        else:
+            raise WrongAddress
+
+    def __str__(self):
+        return self.__value
+
 class Record:
     def __init__(self, name, birthday = None):
         if birthday is not None:
             self.birthday = Birthday(birthday)
         self.name = Name(name)
         self.phones = []
+        self.notes = None
+        self.address = None
 
     def add_phone(self, phone):
         phone_obj = Phone(phone)
@@ -159,13 +208,35 @@ class Record:
         today = Birthday(date.today().strftime("%Y %m %d"))
         return self.birthday - today
 
+    def add_note(self, note_str):
+        if self.notes:
+            raise ExistsNote
+        note = Note(note_str)
+        self.notes = note
+
+    def delete_note(self):
+        self.notes = None
+        
+    def add_address(self, adr_text):
+        if self.address:
+            raise ExistsAddress
+        adr = Address(adr_text)
+        self.address = adr
+        
+    def delete_address(self):
+        self.address = None
+
     def __str__(self):
+
+        msg = f"Contact name: {self.name.value}, phones: {', '.join(p.value for p in self.phones)}"
     
         if hasattr(self, "birthday"):
-            return f"Contact name: {self.name.value}, phones: {', '.join(p.value for p in self.phones)}, birthday: {date.strftime(self.birthday.value, '%d.%m.%Y')}"
-        else:
-            return f"Contact name: {self.name.value}, phones: {', '.join(p.value for p in self.phones)}"
-        
+            msg += f", birthday: {date.strftime(self.birthday.value, '%d.%m.%Y')}"
+        if self.notes:
+            msg += f", notes: {self.notes}"
+        if self.address:
+            msg += f", address: {self.address}"
+        return msg
 
 class AddressBook(UserDict):
     qua_for_iter = 2
