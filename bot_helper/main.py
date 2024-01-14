@@ -128,7 +128,6 @@ def handler_find_note_by_tag(my_book, list_):
         return print("Note not found")
 
 #Видалення тегу
-# Not working
 def handler_delete_tag(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     record.remove_tag(list_[1].lower())
@@ -208,7 +207,6 @@ NAME_COMMANDS = {
     "delete-note-tag": handler_delete_tag,
     "add-note-tag":handler_add_tag,
     "delete-note": handler_delete_note,
-    "back": mode_change
 }
 
 
