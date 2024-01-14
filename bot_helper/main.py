@@ -89,15 +89,10 @@ def handler_add_note(my_book, list_):
     try:
         record = my_book.find(list_[0].capitalize())
     except:
-        if len(list_) == 3:
-            record = notebook.Record(list_[0].capitalize(),list_[2])
-        else:
-            record = notebook.Record(list_[0].capitalize())
-        record.add_tag(list_[1])
-        my_book.add_record(record)
-    else:
-        record.add_tag(list_[1])
-        my_book.add_record(record)
+        record = notebook.Record(list_[0].capitalize(),list_[1])
+
+    record.add_tag(list_[2])
+    my_book.add_record(record)
     return print("Command successfully complete")
 
 #Змінення тексту нотаток
@@ -125,7 +120,7 @@ def handler_find_note(my_book, list_):
             ret_book.add_record(rec_)
         return ret_book
     else:
-        return cprint("Note not found", 'red')
+        return print("Note not found")
 
 #Видалення тегу
 # Not working
@@ -141,11 +136,16 @@ def handler_delete_note(my_book, list_):
     return f"Note {list_[0].capitalize()} successfully deleted"
 #Вибір режиму (телефонна книга або нотатки)
 def mode_change(my_book = None, _ = None):
-    try: 
+    i = True
+    while i:
         mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ")
-    except KeyboardInterrupt:
-        exit()
-    return mode
+        if(mode == "1"):
+            return mode
+        if(mode == "2"):
+            return mode
+        else:
+            print("Wrong number!")
+
 
 def handler_help(my_book = None, _ = None):
     help_string = '''
@@ -190,6 +190,7 @@ NAME_COMMANDS = {
     "find-note": handler_find_note,
     "delete-note-tag": handler_delete_tag,
     "delete-note": handler_delete_note,
+    "back": mode_change
 }
 
 
@@ -226,38 +227,23 @@ def main():
     #Файл для Notes
     file_name_notes_p = "bot_helper\\notes_book_pickle.bin"
     my_book_notes_p = notebook.NoteBook()
-    try:
-        my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
-    except (EOFError, pickle.UnpicklingError):
-        print("Error loading data from pickle file. Check file format and data consistency.")
-        my_book_notes = notebook.NoteBook() 
-
+    my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
+    
     while True:
         #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
+        command = input("please enter command ").lower()
         if (mode == "1"):
-            command = input("please enter command ").lower()
             ret_rezault = parser_command(my_book_phones, command)
-            if ret_rezault:
-                print(ret_rezault)
-                if ret_rezault == "Good bye!":
-                    my_book_phones.save_to_file_pickle(file_name_phones_p)
-                    my_book_notes.save_to_file_pickle(file_name_notes_p)
-                    # my_book.save_to_file_json(file_name_j)
-                    exit()
-        if (mode == "2"):
-            command = input("please enter command ").lower()
+        elif (mode == "2"):
             ret_rezault = parser_command(my_book_notes, command)
-            if ret_rezault:
-                print(ret_rezault)
-                if ret_rezault == "Good bye!":
-                    my_book_phones.save_to_file_pickle(file_name_phones_p)
-                    my_book_notes.save_to_file_pickle(file_name_notes_p)
-                    # my_book.save_to_file_json(file_name_j)
-                    exit()
-        else:
-            print("Wrong command!")
-            mode = mode_change()
+        if ret_rezault:
+            print(ret_rezault)
+            if ret_rezault == "Good bye!":
+                my_book_phones.save_to_file_pickle(file_name_phones_p)
+                my_book_notes.save_to_file_pickle(file_name_notes_p)
+                # my_book.save_to_file_json(file_name_j)
+                exit()
 
         
 if __name__ == "__main__":
