@@ -21,6 +21,12 @@ NAME_COMMANDS = {
     "delete-user",
     "next-birthday",
     "back",
+    "address-replace",
+    "address-delete",
+    "address-add",
+    "email-replace",
+    "email-delete",
+    "email-add",
 }
 
 # 13 add, show, back, change, good bye, close, exit, find, next-birthday, delete-telephone, delete-user, help, hello
@@ -40,6 +46,9 @@ NAME_COMMANDS_NOTES = {
     "find-note-by-tag",
     "delete-note-tag",
     "delete-note",
+    "note-add",
+    "note-delete",
+    "note-replace",
 }
 
 # add, show, change, goodbye, find, back, delete (x2), next-birthday, add-note, change-note, show-all-notes, find-note, delete-note-tag, delete-note
