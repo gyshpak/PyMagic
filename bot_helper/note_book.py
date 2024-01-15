@@ -126,7 +126,7 @@ class NoteBook(UserDict):
                         break
         return list_recs
     
-    #Search by tag
+    #Find by tag
     def find_records_by_tag(self, search=None):
         list_recs = []
         for title, records in self.data.items():
