@@ -7,7 +7,7 @@ from rich.table import Table
 from rich.prompt import Prompt
 from rich.console import Console
 
-NAME_COMMANDS = {
+NAME_COMMANDS = [
     "help",
     "hello",
     "add",
@@ -30,11 +30,11 @@ NAME_COMMANDS = {
     "memo-add",
     "memo-delete",
     "memo-replace",
-}
+]
 
 # 13 add, show, back, change, good bye, close, exit, find, next-birthday, delete-telephone, delete-user, help, hello
 
-NAME_COMMANDS_NOTES = {
+NAME_COMMANDS_NOTES = [
     "help",
     "hello",
     "goodbye",
@@ -50,7 +50,7 @@ NAME_COMMANDS_NOTES = {
     "delete-note-tag",
     "delete-note",
     
-}
+]
 
 # add, show, change, goodbye, find, back, delete (x2), next-birthday, add-note, change-note, show-all-notes, find-note, delete-note-tag, delete-note
 

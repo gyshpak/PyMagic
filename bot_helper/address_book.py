@@ -104,7 +104,10 @@ class Email(Field):
             raise WrongEmail
  
     def is_valid_email(self, value):
-        if  value!= "":
+        if value == "":
+            pass
+        else:
+        # if  value!= "":
             if match(r"[a-zA-Z0-9]+[\w\-]+[\.]?[a-zA-Z\w\-]+[@]{1}[a-z]+[\.]{1}[a-z]{2,}", value) != None:
                 return True
             else:
@@ -124,7 +127,7 @@ class Email(Field):
 
 class Birthday(Field):
     def __init__(self, value):
-        self.__value = ""
+        self.__value = None
         self.value = value
 
     @property
@@ -138,7 +141,9 @@ class Birthday(Field):
             if norm_birthday != "":
                 self.__value = norm_birthday
             else:
-                raise WrongBirthday
+                print('NONE')
+                self.__value = None
+                # raise WrongBirthday
         else:
             raise WrongBirthday
 
@@ -324,39 +329,33 @@ class AddressBook(UserDict):
     def delete(self, name):
         self.data.pop(name)
     
-    def finde_records(self, search = None):
-        list_rec = []
-        for name, records in self.data.items():
-            if search.lower() in name.lower():
-                list_rec.append(records)
-            else:
-                for phones in records.phones:
-                    if search in phones.value:
-                        list_rec.append(records)
-                        break
-        return list_rec
+    # def finde_records(self, search = None):
+    #     list_rec = []
+    #     for name, records in self.data.items():
+    #         if search.lower() in name.lower():
+    #             list_rec.append(records)
+    #         else:
+    #             for phones in records.phones:
+    #                 if search in phones.value:
+    #                     list_rec.append(records)
+    #                     break
+    #     return list_rec
     
     def find_records(self, search=None):
         list_rec = []
         for name, records in self.data.items():
-            print("MEMOS")
             if search.lower() in name.lower():
                 list_rec.append(records)
-            # elif records.memos and (search.lower() in records.memos.value.lower()):
-            #     list_rec.append(records)
-                
-            elif hasattr(records.memos):
-                    print("attr memos")
-                    if (search.lower() in records.memos.value.lower()):
-                        list_rec.append(records)
-            elif records.address and (search.lower() in records.address.value.lower()):
+            elif hasattr(records, "memos") and (search.lower() in records.memos.value.lower()):
+                    list_rec.append(records)
+            elif hasattr(records, "address") and records.address and (search.lower() in records.address.value.lower()):
                 list_rec.append(records)
-            elif records.emails and (search.lower() in records.emails.value.lower()):
+            elif hasattr(records, "emails") and records.emails:      # and (search.lower() in records.emails.value.lower()):
                 list_rec.append(records)
                 # for email in records.emails:
                 #     if search in email.value:
                 #         list_rec.append(records)
-            else:
+            elif hasattr(records, "phones"):
                 for phones in records.phones:
                     if search in phones.value:
                         list_rec.append(records)
