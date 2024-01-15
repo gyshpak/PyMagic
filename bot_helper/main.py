@@ -325,9 +325,11 @@ NAME_COMMANDS = {
     "close": handler_exit,
     "exit": handler_exit,
     "find": handler_find,
-    "delete-phone": handler_delete_phone,
+
+    "delete-telephone": handler_delete_phone,
     "delete-user": handler_delete_user,
-    "nex-tbirthday": handler_next_birthday,
+    "next-birthday": handler_next_birthday,
+
 
     "add-note": handler_add_note,
     "change-note": handler_change_note,
@@ -344,6 +346,8 @@ NAME_COMMANDS = {
     "memo-add": handler_add_memo,
     "memo-delete": handler_delete_memo,
     "memo-replace": handler_replace_memo,
+
+
     "address-add": handler_add_addr,
     "address-delete": handler_delete_addr,
     "address-replace": handler_replace_addr
@@ -388,28 +392,18 @@ def main():
     
     while True:
 
-####################################################################
-        # #Вибір режиму (телефонна книга або нотатки)
-        # mode = mode_change()
-        # # command = input("please enter command ").lower()
-        # if (mode == "1"):
-        #     command = get_command_suggestions("mode")
-        #     ret_rezault = parser_command(my_book_phones, command)
-        # elif (mode == "2"):
-        #     command = get_command_suggestions("mode")
-        #     ret_rezault = parser_command(my_book_notes, command)
-####################################################################
-        
-####################################################################
         # #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
+
         if (mode == "1"):
-            command = input("please enter command ").lower()
+            command = get_command_suggestions("", mode)
+            print(command)
             ret_rezault = parser_command(my_book_phones, command)
         elif (mode == "2"):
-            command = input("please enter command ").lower()
+            command = get_command_suggestions("", mode)
+
             ret_rezault = parser_command(my_book_notes, command)
-####################################################################
+
 
         
         if ret_rezault:
