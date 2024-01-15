@@ -27,16 +27,14 @@ def table(title=None, title_style=None, header=[], header_style='bold blue', row
     Console().print(table)
 
 
-def parser(book):
+def parser(book, mode):
     
     if isinstance(book, str):
         console = Console()
         console.print(book, style = 'red')
         return
-    records = []
-    rec_per_page = book.qua_for_iter
-    
-    def value_getter(key):
+
+    def value_getter(record, key):
         value = record.__dict__.get(key)
         if isinstance(value, list):
             value = ' '.join([repr(i) for i in value])
@@ -45,32 +43,64 @@ def parser(book):
         else:
             value = ''
         return value
-    
-    for record in book.data.values():
-        row = [
-            value_getter('name'),
-            value_getter('phones'),
-            value_getter('emails'),
-            value_getter('birthday'),
-            value_getter('address'),
-            value_getter('notes')
-               ]
-        records.append(row)
 
-    header = ['Name', 'Phones', 'E-mails',
-              'Birthday', 'Address', 'Notes']
-    title = '...'
-    page = []
-    for row in enumerate(records, start=1):
-        if (row[0] == len(records)): # and (page != []):
-            page.append(row[1])  
-            table(title=title, header=header, rows=page)
-            page.clear()
-        elif row[0]%rec_per_page:
-            page.append(row[1])
-        else:
-            page.append(row[1])
-            table(title=title, header=header, rows=page)    
-            page.clear()
-            if input("Continue (n - to break)?").lower() == 'n':
-                break 
+    if mode == '1':
+        records = []
+        rec_per_page = book.qua_for_iter
+                
+        for record in book.data.values():
+            row = [
+                value_getter(record, 'name'),
+                value_getter(record, 'phones'),
+                value_getter(record, 'emails'),
+                value_getter(record, 'birthday'),
+                value_getter(record, 'address'),
+                value_getter(record, 'notes')
+                ]
+            records.append(row)
+
+        header = ['Name', 'Phones', 'E-mails',
+                'Birthday', 'Address', 'Notes']
+        title = '...'
+        page = []
+        for row in enumerate(records, start=1):
+            if (row[0] == len(records)): # and (page != []):
+                page.append(row[1])  
+                table(title=title, header=header, rows=page)
+                page.clear()
+            elif row[0]%rec_per_page:
+                page.append(row[1])
+            else:
+                page.append(row[1])
+                table(title=title, header=header, rows=page)    
+                page.clear()
+                if input("Continue (n - to break)?").lower() == 'n':
+                    break 
+    else:
+        records = []
+        rec_per_page = book.qua_for_iter
+        
+        for record in book.data.values():
+            row = [
+                value_getter(record, 'title'),
+                value_getter(record, 'text'),
+                value_getter(record, 'tags'),
+                ]
+            records.append(row)
+
+        header = ['Title', 'Text', 'Tags']
+        title = '...'
+        page = []
+        for row in enumerate(records, start=1):
+            if (row[0] == len(records)): # and (page != []):
+                page.append(row[1])  
+                table(title=title, header=header, rows=page)
+                page.clear()
+            elif row[0]%rec_per_page:
+                page.append(row[1])
+            else:
+                page.append(row[1])
+                table(title=title, header=header, rows=page)    
+                page.clear()
+                if input("Continue (n - to break)?").lower() == 'n':
+                    break 

@@ -5,7 +5,6 @@ import note_book as notebook
 import pickle
 from commands import *
 import pretty
-from commands import *
 
 def input_error(func):
     def inner(my_book, val):
@@ -65,7 +64,6 @@ def handler_change(my_book, list_):
         record.edit_phone(list_[1], list_[2])
     return f"Phone {list_[1]} from user {list_[0].capitalize()} successfully chandget to phone {list_[2]}"
 
-
 def handler_add_email(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
@@ -78,7 +76,6 @@ def handler_delete_email(my_book, list_):
     if record is not None:
         record.delete_email()
         return f"From user {list_[0].capitalize()} successfully deleted e-mail."
-
 
 def handler_replace_email(my_book, list_):
     record = my_book.find(list_[0].capitalize())
@@ -370,7 +367,7 @@ def main():
 
         #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
-        command = input("please enter command ").lower()
+        # command = input("please enter command ").lower()
         if (mode == "1"):
             command = get_command_suggestions("mode")
             ret_rezault = parser_command(my_book_phones, command)
@@ -378,12 +375,11 @@ def main():
             command = get_command_suggestions("mode")
             ret_rezault = parser_command(my_book_notes, command)
 
-        
-        ret_rezault = parser_command(my_book, command)
+        # ret_rezault = parser_command(my_book_phones, command)
 
         if ret_rezault:
             # print_result(ret_rezault)
-            pretty.parser(ret_rezault)
+            pretty.parser(ret_rezault, mode)
             # ret_result = get_user_info()
                 
                 
