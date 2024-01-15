@@ -339,10 +339,12 @@ class AddressBook(UserDict):
     def find_records(self, search=None):
         list_rec = []
         for name, records in self.data.items():
+            print("MEMOS")
             if search.lower() in name.lower():
                 list_rec.append(records)
             # elif records.memos and (search.lower() in records.memos.value.lower()):
             #     list_rec.append(records)
+                
             elif hasattr(records.memos):
                     print("attr memos")
                     if (search.lower() in records.memos.value.lower()):
