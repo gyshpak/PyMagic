@@ -269,11 +269,34 @@ def get_command_suggestions(prefix, mode):
             return user_input_list
         
         
+#                 command = user_input
+#                 name = input("Name user: ")
+#                 number = input("Enter number: ")
+#                 # email = input("Enter email: ")
+#                 # address = input("Enter address: ")
+#                 birthday = input("Enter birthday: ")
+#                 # notes = input("Enter notes: ")
+
+#                 user_input_list = [command, name, number, birthday] # name,  email, , notes address, 
+#                 return user_input_list
+#         elif user_input == "change":
+#             command = user_input
+#             name = input("Name user: ")
+#             number = input("New phone number: ")
+#         elif user_input == "change":
+#             command = user_input
+#             name = input("Name user: ")
+#             number = input("New phone number: ")
+            
         
         return user_input.lower()
     except KeyboardInterrupt:
         print("\nCommand input interrupted. Exiting...")
         exit()
+        
+        
+# def print_return(result_1):
+#     rows = []
 
 
 
@@ -287,6 +310,13 @@ def get_command_suggestions(prefix, mode):
 
 
 
+#     pretty_table(
+#         title='List of commands with format',
+#         header=['Name', 'Telephone', 'Email', 'Birthday'],
+#         rows=rows
+#     )
+#     print(result_1)
+##############################>>>>>>> main
 
 
 
