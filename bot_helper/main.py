@@ -276,6 +276,15 @@ def handler_help(my_book = None, _ = None):
                 address delete <name> - to delete address from user\n
                 address replace <name> <new_address> - to replace existing address with new text\n
 
+                add-note <title> <text> [tag] - to add note
+                change-note <title> <new_text> - to change text in note by title
+                show-all-notes - to show all notes
+                find-note <some_text> - to find notes by <some_text> in title of note
+                find-note-by-tag <some_text> - to find notes by <some_text> in tags of note
+                delete-note-tag <title> <tag> - to delete tag <tag> in note <title>
+                add-note-tag <title> <tag> - to add tag <tag> in note <title>
+                delete-note <title> - to delete note by <title>
+
                 variation format for telefon number:
                 +38(055)111-22-33
                 38(055)111-22-34
