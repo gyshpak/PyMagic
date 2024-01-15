@@ -13,9 +13,9 @@ class WrongEmail(Exception):
     pass
 class ExistsEmail(Exception):
     pass
-class WrongNote(Exception):
+class WrongMemo(Exception):
     pass
-class ExistsNote(Exception):
+class ExistsMemo(Exception):
     pass
 class ExistsAddress(Exception):
     pass
@@ -183,22 +183,22 @@ class Birthday(Field):
         return self.value.strftime("%d.%m.%Y")
 
 
-class Note(Field):
-    def __init__(self, note_text: str):
+class Memo(Field):
+    def __init__(self, memo_text: str):
         self.__value = ''
-        self.value = note_text
+        self.value = memo_text
 
     @property
     def value(self):
         return self.__value
     
     @value.setter
-    def value(self, note_text: str):
-        print(type(note_text))
-        if note_text.isprintable() and len(note_text)<=240:
-            self.__value = note_text
+    def value(self, memo_text: str):
+        print(type(memo_text))
+        if memo_text.isprintable() and len(memo_text)<=240:
+            self.__value = memo_text
         else:
-            raise WrongNote
+            raise WrongMemo
 
     def __str__(self):
         return str(self.__value)
@@ -236,7 +236,7 @@ class Record:
         self.name = Name(name)
         self.phones = []
         self.emails = None
-        self.notes = None
+        self.memos = None
         self.address = None
 
     def add_phone(self, phone):
@@ -261,8 +261,8 @@ class Record:
                 return item
             
     def add_email(self, email):
-        if self.emails:
-            raise ExistsEmail
+        # if self.emails:
+        #     raise ExistsEmail
         email_obj = Email(email)
         self.emails = email_obj
 
@@ -273,14 +273,14 @@ class Record:
         today = Birthday(date.today().strftime("%Y %m %d"))
         return self.birthday - today
 
-    def add_note(self, note_str):
-        if self.notes:
-            raise ExistsNote
-        note = Note(note_str)
-        self.notes = note
+    def add_memo(self, memo_str):
+        if self.memos:
+            raise ExistsMemo
+        memo = Memo(memo_str)
+        self.memos = memo
 
-    def delete_note(self):
-        self.notes = None
+    def delete_memo(self):
+        self.memos = None
         
     def add_address(self, adr_text):
         if self.address:
@@ -301,14 +301,14 @@ class Record:
         if self.emails:
             msg += f", e-mail: {self.emails}"
 
-        if self.notes:
-            msg += f", notes: {self.notes}"
+        if self.memos:
+            msg += f", memos: {self.memos}"
         if self.address:
             msg += f", address: {self.address}"
         return msg
 
 class AddressBook(UserDict):
-    qua_for_iter = 2
+    qua_for_iter = 10
     list_for_iter = []
 
     def add_record(self, record):
@@ -339,10 +339,16 @@ class AddressBook(UserDict):
     def find_records(self, search=None):
         list_rec = []
         for name, records in self.data.items():
+            print("MEMOS")
             if search.lower() in name.lower():
                 list_rec.append(records)
-            elif records.notes and (search.lower() in records.notes.value.lower()):
-                list_rec.append(records)
+            # elif records.memos and (search.lower() in records.memos.value.lower()):
+            #     list_rec.append(records)
+                
+            elif hasattr(records.memos):
+                    print("attr memos")
+                    if (search.lower() in records.memos.value.lower()):
+                        list_rec.append(records)
             elif records.address and (search.lower() in records.address.value.lower()):
                 list_rec.append(records)
             elif records.emails and (search.lower() in records.emails.value.lower()):

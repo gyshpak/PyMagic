@@ -55,12 +55,12 @@ def parser(book, mode):
                 value_getter(record, 'emails'),
                 value_getter(record, 'birthday'),
                 value_getter(record, 'address'),
-                value_getter(record, 'notes')
+                value_getter(record, 'memos')
                 ]
             records.append(row)
 
         header = ['Name', 'Phones', 'E-mails',
-                'Birthday', 'Address', 'Notes']
+                'Birthday', 'Address', 'Memos']
         title = '...'
         page = []
         for row in enumerate(records, start=1):
