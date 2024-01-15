@@ -2,9 +2,11 @@
 # import bot_helper.address_book as book
 import address_book as book
 import note_book as notebook
-import pickle
-from commands import *
 import pretty
+# import pickle
+from clean import sorting_files
+from commands import *
+
 
 
 def input_error(func):
@@ -249,10 +251,12 @@ def handler_show_all_notes(my_book, _=None):
 def mode_change(my_book = None, _ = None):
     i = True
     while i:
-        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n ")
-        if(mode == "1"):
-            return mode
-        if(mode == "2"):
+        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n 3. Sort folder\n")
+        if mode == "1" or mode == "2" or mode == "3":
+        #     return mode
+        # if(mode == "2"):
+        #     return mode
+        # if(mode == "3"):
             return mode
         else:
             print("Wrong number!")
@@ -306,7 +310,7 @@ NAME_COMMANDS = {
 
     "help": handler_help,
     "hello": handler_hello,
-     "add": handler_add,
+    "add": handler_add,
     "change": handler_change,
     "show-all": handler_show_all,
     "goodbye": handler_exit,
@@ -316,6 +320,7 @@ NAME_COMMANDS = {
     "delete-telephone": handler_delete_phone,
     "delete-user": handler_delete_user,
     "next-birthday": handler_next_birthday,
+    "sort-folder" : sorting_files,
 
     "add-note": handler_add_note,
     "change-note": handler_change_note,
@@ -369,11 +374,16 @@ def main():
     while True:
         # #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
-        if (mode == "1"):
+        if mode == "1":
             command = get_command_suggestions("", mode)
             ret_rezault = parser_command(my_book_phones, command)
-        elif (mode == "2"):
+        elif mode == "2":
             command = get_command_suggestions("", mode)
+            ret_rezault = parser_command(my_book_notes, command)
+        elif mode == "3":
+            command = ["sort-folder"]
+            command.append(input("Please enter path for folder for sorting "))
+            print(command)
             ret_rezault = parser_command(my_book_notes, command)
         if ret_rezault:
             pretty.parser(ret_rezault, mode)

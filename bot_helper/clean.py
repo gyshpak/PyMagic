@@ -3,7 +3,7 @@ import shutil
 import sys
 from pathlib import Path
 
-def main():
+def sorting_files(*path_from_bot):
 
     def translate(name):
         return_name = ""
@@ -88,17 +88,20 @@ def main():
         TRANS[ord(c)] = l
         TRANS[ord(c.upper())] = l.upper()
 
+    # if  len(sys.argv) != 2:
+    #     print("Insert path")
+    #     sys.exit(1)
+    # G_path = Path((sys.argv[1]).lower())
 
-    if  len(sys.argv) != 2:
-        print("Insert path")
-        sys.exit(1)
-    G_path = Path((sys.argv[1]).lower())
+    G_path = Path(path_from_bot[1][0].lower())
     if not G_path.is_dir():
         print("path not found")
-        sys.exit(1)
+        # sys.exit(1)
+        return None
 
     for new_dir in file_type:
-        path_new_dir = Path(sys.argv[1],new_dir)
+        # path_new_dir = Path(sys.argv[1],new_dir)
+        path_new_dir = Path(path_from_bot[0][1],new_dir)
         try:
             Path.mkdir(path_new_dir)
         except FileExistsError:
@@ -128,8 +131,7 @@ def main():
     for i in set_suffix:
         print(f"set {i} suffix: {set_suffix.get(i)}")
 
-if __name__ == '__main__':
-    main()
-    ############################
-    #####################
+# if __name__ == '__main__':
+#     main()
+
     
