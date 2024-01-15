@@ -23,10 +23,10 @@ def input_error(func):
             return_data = "Wrong birthday, repeat please"
         except book.ExistsPhone:
             return_data = "Phone is exist"
-        except book.ExistsNote:
-            return_data = "User already has a note"
-        except book.WrongNote:
-            return_data = "Not printable characters in Note or record size excides."
+        except book.ExistsMemo:
+            return_data = "User already has a memo"
+        except book.WrongMemo:
+            return_data = "Not printable characters in Memo or record size excides."
         except book.ExistsAddress:
             return_data = "User already has an address"
         except book.WrongAddress:
@@ -90,30 +90,30 @@ def handler_replace_email(my_book, list_):
         except:
             record.add_email(email)
 
-def handler_add_note(my_book, list_):
+def handler_add_memo(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
-        new_note = ' '.join(list_[1:])
-        record.add_note(new_note)
-        return f"To user {list_[0].capitalize()} successfully added note:\n\t {new_note}"
+        new_memo = ' '.join(list_[1:])
+        record.add_memo(new_memo)
+        return f"To user {list_[0].capitalize()} successfully added memo:\n\t {new_memo}"
 
-def handler_delete_note(my_book, list_):
+def handler_delete_memo(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
-        record.delete_note()
-        return f"From user {list_[0].capitalize()} successfully deleted note."
+        record.delete_memo()
+        return f"From user {list_[0].capitalize()} successfully deleted memo."
 
-def handler_replace_note(my_book, list_):
+def handler_replace_memo(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
-        note = record.notes.value
-        record.delete_note()
+        memo = record.memos.value
+        record.delete_memo()
         try:
-            new_note = ' '.join(list_[1:])
-            record.add_note(new_note)
-            return f"For user {list_[0].capitalize()} note successfully changed to:\n\t {new_note}"
+            new_memo = ' '.join(list_[1:])
+            record.add_memo(new_memo)
+            return f"For user {list_[0].capitalize()} memo successfully changed to:\n\t {new_memo}"
         except:
-            record.add_note(note)
+            record.add_memo(memo)
 
 def handler_add_addr(my_book, list_):
     record = my_book.find(list_[0].capitalize())
@@ -305,14 +305,14 @@ NAME_COMMANDS = {
     "hello": handler_hello,
     "add": handler_add,
     "change": handler_change,
-    "showall": handler_show_all,
+    "show-all": handler_show_all,
     "goodbye": handler_exit,
     "close": handler_exit,
     "exit": handler_exit,
     "find": handler_find,
-    "deletephone": handler_delete_phone,
-    "deleteuser": handler_delete_user,
-    "nextbirthday": handler_next_birthday,
+    "delete-phone": handler_delete_phone,
+    "delete-user": handler_delete_user,
+    "nex-tbirthday": handler_next_birthday,
 
     "add-note": handler_add_note,
     "change-note": handler_change_note,
@@ -323,15 +323,15 @@ NAME_COMMANDS = {
     "add-note-tag":handler_add_tag,
     "delete-note": handler_delete_note,
 
-    "emailadd": handler_add_email,
-    "emaildelete": handler_delete_email,
-    "emailreplace": handler_replace_email,
-    "noteadd": handler_add_note,
-    "notedelete": handler_delete_note,
-    "notereplace": handler_replace_note,
-    "addressadd": handler_add_addr,
-    "addressdelete": handler_delete_addr,
-    "addressreplace": handler_replace_addr
+    "email-add": handler_add_email,
+    "email-delete": handler_delete_email,
+    "email-replace": handler_replace_email,
+    "memo-add": handler_add_memo,
+    "memo-delete": handler_delete_memo,
+    "memo-replace": handler_replace_memo,
+    "address-add": handler_add_addr,
+    "address-delete": handler_delete_addr,
+    "address-replace": handler_replace_addr
 
 }
 
@@ -343,8 +343,9 @@ def defs_commands(comm):
 @input_error
 def parser_command(my_book, command):
 
-    # list_command = command.split(" ")
-    list_command = command
+    list_command = command.split(" ")
+    # list_command = command
+    print(list_command)
 
     if list_command[0] in NAME_COMMANDS:
         any_command = defs_commands(list_command[0])
@@ -360,7 +361,7 @@ def parser_command(my_book, command):
 
 
 def main():
-    handler_help()
+    # handler_help()
     file_name_phones_p = "bot_helper\\book_pickle.bin"
     my_book_phones_p = book.AddressBook()
     my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
@@ -372,17 +373,30 @@ def main():
     
     while True:
 
-
-        #Вибір режиму (телефонна книга або нотатки)
+####################################################################
+        # #Вибір режиму (телефонна книга або нотатки)
+        # mode = mode_change()
+        # # command = input("please enter command ").lower()
+        # if (mode == "1"):
+        #     command = get_command_suggestions("mode")
+        #     ret_rezault = parser_command(my_book_phones, command)
+        # elif (mode == "2"):
+        #     command = get_command_suggestions("mode")
+        #     ret_rezault = parser_command(my_book_notes, command)
+####################################################################
+        
+####################################################################
+        # #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
-        # command = input("please enter command ").lower()
         if (mode == "1"):
-            command = get_command_suggestions("mode")
+            command = input("please enter command ").lower()
             ret_rezault = parser_command(my_book_phones, command)
         elif (mode == "2"):
-            command = get_command_suggestions("mode")
+            command = input("please enter command ").lower()
             ret_rezault = parser_command(my_book_notes, command)
+####################################################################
 
+        
         if ret_rezault:
             pretty.parser(ret_rezault, mode)
 
