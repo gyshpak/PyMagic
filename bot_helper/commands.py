@@ -1,5 +1,5 @@
 from prompt_toolkit import prompt
-# from termcolor import colored, cprint
+from termcolor import colored, cprint
 from prompt_toolkit.completion import WordCompleter
 # from main import handler_help, handler_hello, handler_add, handler_change, handler_show_all, handler_exit, handler_find, handler_delete_phone, handler_delete_user, handler_next_birthday, handler_add_note, handler_change_note, handler_show_all_notes, handler_find_note, handler_delete_tag, handler_delete_note, mode_change
 import address_book as book
