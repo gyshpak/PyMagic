@@ -27,6 +27,9 @@ NAME_COMMANDS = {
     "email-replace",
     "email-delete",
     "email-add",
+    "memo-add",
+    "memo-delete",
+    "memo-replace",
 }
 
 # 13 add, show, back, change, good bye, close, exit, find, next-birthday, delete-telephone, delete-user, help, hello
@@ -46,9 +49,7 @@ NAME_COMMANDS_NOTES = {
     "find-note-by-tag",
     "delete-note-tag",
     "delete-note",
-    "note-add",
-    "note-delete",
-    "note-replace",
+    
 }
 
 # add, show, change, goodbye, find, back, delete (x2), next-birthday, add-note, change-note, show-all-notes, find-note, delete-note-tag, delete-note
@@ -234,21 +235,21 @@ def get_command_suggestions(prefix, mode):
             newNameForEmail = input("Write new name of email: ")
             user_input_list = [command, nameReplaceEmail, newNameForEmail]
             return user_input_list
-        elif user_input == "note-add":
+        elif user_input == "memo-add":
             command = user_input
-            nameOfNote = input("Write name of note: ")
-            textOfNote = input("Write text for note: ")
+            nameOfNote = input("Write name of memo: ")
+            textOfNote = input("Write text for memo: ")
             user_input_list = [command, nameOfNote, textOfNote]
             return user_input_list
-        elif user_input == "note-delete":
+        elif user_input == "memo-delete":
             command = user_input
-            deleteNote = input("Write name of note for delete: ")
+            deleteNote = input("Write name of memo for delete: ")
             user_input_list = [command, deleteNote]
             return user_input_list
-        elif user_input == "note-replace":
+        elif user_input == "memo-replace":
             command = user_input
-            nameReplaceNote = input("Write name of note: ")
-            textForNote = input("Write new text for note: ")
+            nameReplaceNote = input("Write name of memo: ")
+            textForNote = input("Write new text for memo: ")
             user_input_list = [command, nameReplaceNote, textForNote]
             return user_input_list
         elif user_input == "address-add":

@@ -305,14 +305,14 @@ NAME_COMMANDS = {
     "hello": handler_hello,
     "add": handler_add,
     "change": handler_change,
-    "showall": handler_show_all,
+    "show-all": handler_show_all,
     "goodbye": handler_exit,
     "close": handler_exit,
     "exit": handler_exit,
     "find": handler_find,
-    "deletephone": handler_delete_phone,
-    "deleteuser": handler_delete_user,
-    "nextbirthday": handler_next_birthday,
+    "delete-telephone": handler_delete_phone,
+    "delete-user": handler_delete_user,
+    "next-birthday": handler_next_birthday,
 
     "add-note": handler_add_note,
     "change-note": handler_change_note,
@@ -323,15 +323,15 @@ NAME_COMMANDS = {
     "add-note-tag":handler_add_tag,
     "delete-note": handler_delete_note,
 
-    "emailadd": handler_add_email,
-    "emaildelete": handler_delete_email,
-    "emailreplace": handler_replace_email,
-    "noteadd": handler_add_note,
-    "notedelete": handler_delete_note,
-    "notereplace": handler_replace_note,
-    "addressadd": handler_add_addr,
-    "addressdelete": handler_delete_addr,
-    "addressreplace": handler_replace_addr
+    "email-add": handler_add_email,
+    "email-delete": handler_delete_email,
+    "email-replace": handler_replace_email,
+    "memo-add": handler_add_note,
+    "memo-delete": handler_delete_note,
+    "memo-replace": handler_replace_note,
+    "address-add": handler_add_addr,
+    "address-delete": handler_delete_addr,
+    "address-replace": handler_replace_addr
 
 }
 
@@ -360,7 +360,7 @@ def parser_command(my_book, command):
 
 
 def main():
-    handler_help()
+    # handler_help()
     file_name_phones_p = "bot_helper\\book_pickle.bin"
     my_book_phones_p = book.AddressBook()
     my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
@@ -379,6 +379,7 @@ def main():
         # command = input("please enter command ").lower()
         if (mode == "1"):
             command = get_command_suggestions("", mode)
+            print(command)
             ret_rezault = parser_command(my_book_phones, command)
         elif (mode == "2"):
             command = get_command_suggestions("", mode)
