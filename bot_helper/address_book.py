@@ -236,7 +236,7 @@ class Record:
         self.name = Name(name)
         self.phones = []
         self.emails = None
-        self.nemos = None
+        self.memos = None
         self.address = None
 
     def add_phone(self, phone):
@@ -261,8 +261,8 @@ class Record:
                 return item
             
     def add_email(self, email):
-        if self.emails:
-            raise ExistsEmail
+        # if self.emails:
+        #     raise ExistsEmail
         email_obj = Email(email)
         self.emails = email_obj
 
@@ -273,8 +273,8 @@ class Record:
         today = Birthday(date.today().strftime("%Y %m %d"))
         return self.birthday - today
 
-    def add_memo(self, nemo_str):
-        if self.nemos:
+    def add_memo(self, memo_str):
+        if self.memos:
             raise ExistsMemo
         memo = Memo(memo_str)
         self.memos = memo
@@ -308,7 +308,7 @@ class Record:
         return msg
 
 class AddressBook(UserDict):
-    qua_for_iter = 2
+    qua_for_iter = 10
     list_for_iter = []
 
     def add_record(self, record):
@@ -341,8 +341,12 @@ class AddressBook(UserDict):
         for name, records in self.data.items():
             if search.lower() in name.lower():
                 list_rec.append(records)
-            elif records.memos and (search.lower() in records.memos.value.lower()):
-                list_rec.append(records)
+            # elif records.memos and (search.lower() in records.memos.value.lower()):
+            #     list_rec.append(records)
+            elif hasattr(records.memos):
+                    print("attr memos")
+                    if (search.lower() in records.memos.value.lower()):
+                        list_rec.append(records)
             elif records.address and (search.lower() in records.address.value.lower()):
                 list_rec.append(records)
             elif records.emails and (search.lower() in records.emails.value.lower()):

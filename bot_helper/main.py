@@ -47,11 +47,26 @@ def handler_add(my_book, list_):
     try:
         record = my_book.find(list_[0].capitalize())
     except:
-        if len(list_) == 3:
+        # if len(list_) == 3:
+        if len(list_[2]) is not None:
             record = book.Record(list_[0].capitalize(),list_[2])
         else:
             record = book.Record(list_[0].capitalize())
-        record.add_phone(list_[1])
+        # record.add_phone(list_[1])
+        
+##########################
+        if list_[1] is not None:
+            record.add_phone(list_[1])
+        if list_[3] is not None:
+            record.add_email(list_[3])
+        if list_[4] is not None:
+            record.add_address(list_[4])
+        if list_[5] is not None:
+            record.add_memo(list_[5])
+
+##########################
+
+
         my_book.add_record(record)
     else:
         record.add_phone(list_[1])
@@ -148,11 +163,11 @@ def handler_exit(my_book, _ = None):
 
 def handler_find(my_book, list_):
     list_rec = my_book.find_records(list_[0].capitalize())
-    # list_rec = my_book.finde_records(list_[0].capitalize())
     if len(list_rec) != 0:
         ret_book = book.AddressBook()
         ret_book.qua_for_iter = my_book.qua_for_iter
         for rec_ in list_rec:
+            # print(rec_)
             ret_book.add_record(rec_)
         return ret_book
     else:
@@ -351,10 +366,10 @@ def parser_command(my_book, command):
         any_command = defs_commands(list_command[0])
         ret_rezault = any_command(my_book, list_command[1:])
         return ret_rezault
-    elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
-        any_command = defs_commands(list_command[0]+list_command[1])
-        ret_rezault = any_command(my_book, list_command[2:])
-        return ret_rezault
+    # elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
+    #     any_command = defs_commands(list_command[0]+list_command[1])
+    #     ret_rezault = any_command(my_book, list_command[2:])
+    #     return ret_rezault
     else:
         any_command = defs_commands()
         return ret_rezault
