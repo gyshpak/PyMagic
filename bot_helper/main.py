@@ -266,8 +266,8 @@ def main():
         command = get_command_suggestions("")
         ret_rezault = parser_command(my_book, command)
         if ret_rezault:
-            print_result(ret_rezault)
-            # ret_result = get_user_info()
+            print(ret_rezault)
+            # ret_result = print_result(ret_rezault)
                 
                 
             if ret_rezault == "Good bye!":
