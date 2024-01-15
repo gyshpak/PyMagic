@@ -6,6 +6,7 @@ import pickle
 from commands import *
 import pretty
 
+
 def input_error(func):
     def inner(my_book, val):
         try:
@@ -341,8 +342,10 @@ def defs_commands(comm):
 
 @input_error
 def parser_command(my_book, command):
-    list_command = command.split(" ")
-    # list_command = command
+
+    # list_command = command.split(" ")
+    list_command = command
+
     if list_command[0] in NAME_COMMANDS:
         any_command = defs_commands(list_command[0])
         ret_rezault = any_command(my_book, list_command[1:])
@@ -369,6 +372,7 @@ def main():
     
     while True:
 
+
         #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
         # command = input("please enter command ").lower()
@@ -381,6 +385,7 @@ def main():
 
         if ret_rezault:
             pretty.parser(ret_rezault, mode)
+
                 
             if ret_rezault == "Good bye!":
                 my_book_phones.save_to_file_pickle(file_name_phones_p)
