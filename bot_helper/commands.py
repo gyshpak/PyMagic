@@ -147,20 +147,20 @@ def print_result(result_1):
 
 # , mode
 
-def get_command_suggestions(prefix):
+def get_command_suggestions(prefix, mode):
     try:
-        # if mode == "1":
-        #     command_list = NAME_COMMANDS
-        # elif mode == "2": 
-        #     command_list = NAME_COMMANDS_NOTES
-        # else:
-        #     print('COMMANDS.PY')
+        if mode == "1":
+            command_list = NAME_COMMANDS
+        elif mode == "2": 
+            command_list = NAME_COMMANDS_NOTES
+        else:
+            print('COMMANDS.PY')
             
         # suggestions = [cmd for cmd in command_list.keys() if prefix.lower() in cmd.lower()]
         # formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
         # user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
         # return user_input.lower()
-        suggestions = [cmd for cmd in NAME_COMMANDS if prefix.lower() in cmd.lower()]
+        suggestions = [cmd for cmd in command_list if prefix.lower() in cmd.lower()]
         formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
         
         user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))

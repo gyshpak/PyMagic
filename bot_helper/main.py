@@ -365,16 +365,16 @@ def main():
 
         #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
-        command = input("please enter command ").lower()
+        # command = input("please enter command ").lower()
         if (mode == "1"):
-            command = get_command_suggestions("mode")
+            command = get_command_suggestions("", mode)
             ret_rezault = parser_command(my_book_phones, command)
         elif (mode == "2"):
-            command = get_command_suggestions("mode")
+            command = get_command_suggestions("", mode)
             ret_rezault = parser_command(my_book_notes, command)
 
         
-        ret_rezault = parser_command(my_book, command)
+        # ret_rezault = parser_command(my_book, command)
 
         if ret_rezault:
             print(ret_rezault)
