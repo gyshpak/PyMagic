@@ -7,7 +7,6 @@ from rich.table import Table
 from rich.prompt import Prompt
 from rich.console import Console
 
-
 # NAME_COMMANDS = {
 #     "help": handler_help,
 #     "hello": handler_hello,
@@ -77,6 +76,8 @@ NAME_COMMANDS = {
     "back",
 }
 
+# 13 add, show, back, change, good bye, close, exit, find, next-birthday, delete-telephone, delete-user, help, hello
+
 NAME_COMMANDS_NOTES = {
     "help",
     "hello",
@@ -92,6 +93,10 @@ NAME_COMMANDS_NOTES = {
     "delete-note",
 }
 
+# 13 add, show, back, change, good bye, close, exit, find, next-birthday, delete-telephone, delete-user
+# 12 
+
+# add, show, change, goodbye, find, back, delete (x2), next-birthday, add-note, change-note, show-all-notes, find-note, delete-note-tag, delete-note
 
 
 def pretty_table(title=None, title_style=None, header=[], header_style='bold blue', rows=[], row_style='bright_green'): 
@@ -140,28 +145,27 @@ def print_result(result_1):
         rows=rows
     )
 
+# , mode
 
-
-def get_command_suggestions(prefix):
+def get_command_suggestions(prefix, mode):
     try:
-        # if mode == "1":
-        #     command_list = NAME_COMMANDS
-        # elif mode == "2": 
-        #     command_list = NAME_COMMANDS_NOTES
-        # else:
-        #     print('COMMANDS.PY')
+        if mode == "1":
+            command_list = NAME_COMMANDS
+        elif mode == "2": 
+            command_list = NAME_COMMANDS_NOTES
+        else:
+            print('COMMANDS.PY')
             
         # suggestions = [cmd for cmd in command_list.keys() if prefix.lower() in cmd.lower()]
         # formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
         # user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
         # return user_input.lower()
-        suggestions = [cmd for cmd in NAME_COMMANDS if prefix.lower() in cmd.lower()]
+        suggestions = [cmd for cmd in command_list if prefix.lower() in cmd.lower()]
         formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
         
         user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
         
         if user_input == "add":
-###########################<<<<<<< Roman-branch-14.01.2024
             command = user_input
             name = input("User name: ")
             number = input("Enter phone number: ")
@@ -265,7 +269,6 @@ def get_command_suggestions(prefix):
             return user_input_list
         
         
-###########################=======
 #                 command = user_input
 #                 name = input("Name user: ")
 #                 number = input("Enter number: ")
@@ -285,27 +288,27 @@ def get_command_suggestions(prefix):
 #             name = input("Name user: ")
 #             number = input("New phone number: ")
             
-#############################>>>>>>> main
         
         return user_input.lower()
     except KeyboardInterrupt:
         print("\nCommand input interrupted. Exiting...")
         exit()
-##############################<<<<<<< Roman-branch-14.01.2024
-##############################=======
         
         
 # def print_return(result_1):
 #     rows = []
 
-#     for record in result_1:
-#         name = record.name.value()
-#         phones = ', '.join(p.value for p in record.phones)
-#         email = ''
-#         birthday = date.strftime(record.birthday.value, '%d.%m.%Y') if hasattr(record, "birthday") else ''
-#         rows.append([name, phones, email, birthday])
-    
-#     print(record)
+
+
+
+
+
+
+
+
+
+
+
 
 #     pretty_table(
 #         title='List of commands with format',

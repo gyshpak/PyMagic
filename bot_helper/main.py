@@ -377,11 +377,12 @@ def main():
         mode = mode_change()
         # command = input("please enter command ").lower()
         if (mode == "1"):
-            command = get_command_suggestions("mode")
+            command = get_command_suggestions("", mode)
             ret_rezault = parser_command(my_book_phones, command)
         elif (mode == "2"):
-            command = get_command_suggestions("mode")
+            command = get_command_suggestions("", mode)
             ret_rezault = parser_command(my_book_notes, command)
+
 
         if ret_rezault:
             pretty.parser(ret_rezault, mode)
