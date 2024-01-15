@@ -254,6 +254,21 @@ def mode_change(my_book = None, _ = None):
 
 
 def handler_help(my_book = None, _ = None):
+###################################
+    help_string = '''
+  
+                add-note <title> <text> [tag] - to add note
+                change-note <title> <new_text> - to change text in note by title
+                show-all-notes - to show all notes
+                find-note <some_text> - to find notes by <some_text> in title of note
+                find-note-by-tag <some_text> - to find notes by <some_text> in tags of note
+                delete-note-tag <title> <tag> - to delete tag <tag> in note <title>
+                add-note-tag <title> <tag> - to add tag <tag> in note <title>
+                delete-note <title> - to delete note by <title>
+
+      
+    return help_string
+##################################
     help_list = [
         ['help', 'for help'],
         ['hello', 'for hello'],
@@ -289,6 +304,7 @@ def handler_help(my_book = None, _ = None):
         header=['Command', 'Description'],
         rows=help_list
     )
+####################################
 
 NAME_COMMANDS = {
 
