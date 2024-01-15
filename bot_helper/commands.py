@@ -23,6 +23,8 @@ NAME_COMMANDS = {
     "back",
 }
 
+# 13 add, show, back, change, good bye, close, exit, find, next-birthday, delete-telephone, delete-user, help, hello
+
 NAME_COMMANDS_NOTES = {
     "help",
     "hello",
@@ -40,6 +42,7 @@ NAME_COMMANDS_NOTES = {
     "delete-note",
 }
 
+# add, show, change, goodbye, find, back, delete (x2), next-birthday, add-note, change-note, show-all-notes, find-note, delete-note-tag, delete-note
 
 def pretty_table(title=None, title_style=None, header=[], header_style='bold blue', rows=[], row_style='bright_green'): 
          
