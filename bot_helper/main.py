@@ -159,7 +159,6 @@ def handler_find(my_book, list_):
         ret_book = book.AddressBook()
         ret_book.qua_for_iter = my_book.qua_for_iter
         for rec_ in list_rec:
-            # print(rec_)
             ret_book.add_record(rec_)
         return ret_book
     else:
@@ -171,7 +170,7 @@ def handler_delete_phone(my_book, list_):
     return f"Phone {list_[1]} of user {list_[0].capitalize()} successfully deleted"
 
 def handler_delete_user(my_book, list_):
-    print(list_[0].capitalize())
+    # print(list_[0].capitalize())
     my_book.delete(list_[0].capitalize())
     return f"User {list_[0].capitalize()} successfully deleted"
 
@@ -195,9 +194,9 @@ def handler_add_note(my_book, list_):
 
 #Змінення тексту нотаток
 def handler_change_note(my_book, list_):
-    print(list_[0].capitalize())
+    # print(list_[0].capitalize())
     record = my_book.find(list_[0].capitalize())
-    print(record)
+    # print(record)
     if record is not None:
         record.edit_text(list_[1])
     return f"Text from note {list_[0].capitalize()} successfully changed"
@@ -238,7 +237,7 @@ def handler_add_tag(my_book, list_):
 
 #Видалення нотатки
 def handler_delete_note(my_book, list_):
-    print(list_[0].capitalize())
+    # print(list_[0].capitalize())
     my_book.delete(list_[0].capitalize())
     return f"Note {list_[0].capitalize()} successfully deleted"
 
@@ -257,7 +256,6 @@ def mode_change(my_book = None, _ = None):
             return mode
         else:
             print("Wrong number!")
-
 
 def handler_help(my_book = None, _ = None):
     help_list = [
@@ -296,7 +294,6 @@ def handler_help(my_book = None, _ = None):
         ['delete-note-tag <title> <tag>',' to delete tag <tag> in note <title>'],
         ['add-note-tag <title> <tag>',' to add tag <tag> in note <title>'],
         ['delete-note <title>',' to delete note by <title>']
-
     ]
 
     pretty.table(
@@ -305,15 +302,11 @@ def handler_help(my_book = None, _ = None):
         rows=help_list
     )
 
-
 NAME_COMMANDS = {
 
     "help": handler_help,
     "hello": handler_hello,
- 
- ################  Gena
-
-    "add": handler_add,
+     "add": handler_add,
     "change": handler_change,
     "show-all": handler_show_all,
     "goodbye": handler_exit,
@@ -324,25 +317,17 @@ NAME_COMMANDS = {
     "delete-user": handler_delete_user,
     "next-birthday": handler_next_birthday,
 
-#################   Roma
-
     "add-note": handler_add_note,
     "change-note": handler_change_note,
     "show-all-notes": handler_show_all_notes,
     "find-note": handler_find_note,
     "find-note-by-tag": handler_find_note_by_tag,
     "delete-note-tag": handler_delete_tag,
-
-
-#######################   Olena
-
     "add-note-tag":handler_add_tag,
     "delete-note": handler_delete_note,
     "email-add": handler_add_email,
     "email-delete": handler_delete_email,
     "email-replace": handler_replace_email,
-
-######################   Andriy    
     
     "memo-add": handler_add_memo,
     "memo-delete": handler_delete_memo,
@@ -360,19 +345,11 @@ def defs_commands(comm):
 
 @input_error
 def parser_command(my_book, command):
-
-    # list_command = command.split(" ")
     list_command = command
-    print(list_command)
-
     if list_command[0] in NAME_COMMANDS:
         any_command = defs_commands(list_command[0])
         ret_rezault = any_command(my_book, list_command[1:])
         return ret_rezault
-    # elif len(list_command) > 1 and list_command[0]+list_command[1] in NAME_COMMANDS:
-    #     any_command = defs_commands(list_command[0]+list_command[1])
-    #     ret_rezault = any_command(my_book, list_command[2:])
-    #     return ret_rezault
     else:
         any_command = defs_commands()
         return ret_rezault
@@ -390,30 +367,20 @@ def main():
     my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
     
     while True:
-
         # #Вибір режиму (телефонна книга або нотатки)
         mode = mode_change()
-
         if (mode == "1"):
             command = get_command_suggestions("", mode)
-            print(command)
             ret_rezault = parser_command(my_book_phones, command)
         elif (mode == "2"):
             command = get_command_suggestions("", mode)
-
             ret_rezault = parser_command(my_book_notes, command)
-
-
-        
         if ret_rezault:
             pretty.parser(ret_rezault, mode)
-
-                
             if ret_rezault == "Good bye!":
                 my_book_phones.save_to_file_pickle(file_name_phones_p)
                 my_book_notes.save_to_file_pickle(file_name_notes_p)
                 exit()
-
         
 if __name__ == "__main__":
     main()
