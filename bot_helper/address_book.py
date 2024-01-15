@@ -21,6 +21,10 @@ class ExistsAddress(Exception):
     pass
 class WrongAddress(Exception):
     pass
+class WrongEmail(Exception):
+    pass
+class ExistsEmail(Exception):
+    pass
 
 class Field:
     def __init__(self, value):
@@ -332,7 +336,27 @@ class AddressBook(UserDict):
                         break
         return list_rec
     
-    def exists_phone(self, phone = None):
+    def find_records(self, search=None):
+        list_rec = []
+        for name, records in self.data.items():
+            if search.lower() in name.lower():
+                list_rec.append(records)
+            elif records.notes and (search.lower() in records.notes.value.lower()):
+                list_rec.append(records)
+            elif records.address and (search.lower() in records.address.value.lower()):
+                list_rec.append(records)
+            elif records.emails and (search.lower() in records.emails.value.lower()):
+                list_rec.append(records)
+                # for email in records.emails:
+                #     if search in email.value:
+                #         list_rec.append(records)
+            else:
+                for phones in records.phones:
+                    if search in phones.value:
+                        list_rec.append(records)
+        return list_rec
+
+    def exists_phone(self, phone=None):
         if phone is not None:
             phone_ = Phone(phone)
             for record_ in self.data.values():

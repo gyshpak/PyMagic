@@ -17,7 +17,7 @@ def table(title=None, title_style=None, header=[], header_style='bold blue', row
             header.append(f'Column_{i}')
 
     for column in header:
-        table.add_column(column, header_style=header_style)
+        table.add_column(column, header_style=header_style, width=40)
 
     for row in rows:
         table.add_row(*row, style=row_style)
@@ -28,25 +28,29 @@ def table(title=None, title_style=None, header=[], header_style='bold blue', row
 
 
 def parser(book):
-    # print(type(book))
+    
+    if isinstance(book, str):
+        console = Console()
+        console.print(book, style = 'red')
+        return
     records = []
     rec_per_page = book.qua_for_iter
     
     def value_getter(key):
         value = record.__dict__.get(key)
         if isinstance(value, list):
-            value = ' '.join([repr(i) for i in value]) if len(value) else '*'
+            value = ' '.join([repr(i) for i in value])
         elif value:
             value = repr(value)
         else:
-            value = '*'
+            value = ''
         return value
     
     for record in book.data.values():
         row = [
             value_getter('name'),
             value_getter('phones'),
-            value_getter('e_mails'),
+            value_getter('emails'),
             value_getter('birthday'),
             value_getter('address'),
             value_getter('notes')
@@ -58,51 +62,15 @@ def parser(book):
     title = '...'
     page = []
     for row in enumerate(records, start=1):
-        if row[0]%rec_per_page:
-            page.append(row[1])
-        elif (row[0] == len(records)) and (page != []):
+        if (row[0] == len(records)): # and (page != []):
             page.append(row[1])  
             table(title=title, header=header, rows=page)
             page.clear()
+        elif row[0]%rec_per_page:
+            page.append(row[1])
         else:
             page.append(row[1])
             table(title=title, header=header, rows=page)    
             page.clear()
-            
-    # print(rows)
-    
-    # for row in rows:
-    #     table(title, header, row)
-    #     if input("Next page (y)?") == 'y':
-    #         continue
-    #     else:
-    #         break
-
-    # pages = str(book).split(' \n')
-    # print(pages)
-
-
-    # def validator(object: str, pattern: str):
-    #     index = object.find(pattern)
-    #     if index != -1:
-    #         found = object[index:]
-    #         found = found.split(':')[1]
-    #         rest = object[:index]
-    #     else:
-    #         found = '*'
-    #         rest = object
-    #     return rest, found
-
-    # for page in pages:
-    #     lines = page.split('; ')
-    #     rows = []
-    #     for line in lines:
-    #         text = line
-    #         text, address = validator(text, 'address:')
-    #         text, note = validator(text, 'notes:')
-    #         text, birthday = validator(text, 'birthday:')
-    #         text, phones = validator(text, 'phones:')
-    #         text, name = validator(text, 'Contact name:')
-
-    #         rows.append([name, phones, birthday, address, note])
-
+            if input("Continue (n - to break)?").lower() == 'n':
+                break 
