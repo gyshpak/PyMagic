@@ -175,9 +175,7 @@ def handler_next_birthday(my_book, list_):
 #Coded by Illia
 
 #Додавання нотатки
-# Not working
 def handler_add_note(my_book, list_):
-    #my_book.exists_tag(list_[2])
     try:
         record = my_book.find(list_[0].capitalize())
     except:
@@ -254,21 +252,6 @@ def mode_change(my_book = None, _ = None):
 
 
 def handler_help(my_book = None, _ = None):
-###################################
-    help_string = '''
-  
-                add-note <title> <text> [tag] - to add note
-                change-note <title> <new_text> - to change text in note by title
-                show-all-notes - to show all notes
-                find-note <some_text> - to find notes by <some_text> in title of note
-                find-note-by-tag <some_text> - to find notes by <some_text> in tags of note
-                delete-note-tag <title> <tag> - to delete tag <tag> in note <title>
-                add-note-tag <title> <tag> - to add tag <tag> in note <title>
-                delete-note <title> - to delete note by <title>
-
-      
-    return help_string
-##################################
     help_list = [
         ['help', 'for help'],
         ['hello', 'for hello'],
@@ -296,7 +279,16 @@ def handler_help(my_book = None, _ = None):
         ['note replace <name> <note_text>', 'to replace existing note at user with new text'],
         ['address add <name> <address_text>', 'to add address to user (max.100 printable characters)'],
         ['address delete <name>', 'to delete address from user'],
-        ['address replace <name> <new_address>', 'to replace existing address at user with new text']
+        ['address replace <name> <new_address>', 'to replace existing address at user with new text'],
+        ['add-note <title> <text> [tag]',' to add note'],
+        ['change-note <title> <new_text>',' to change text in note by title'],
+        ['show-all-notes',' to show all notes'],
+        ['find-note <some_text>',' to find notes by <some_text> in title of note'],
+        ['find-note-by-tag <some_text>',' to find notes by <some_text> in tags of note'],
+        ['delete-note-tag <title> <tag>',' to delete tag <tag> in note <title>'],
+        ['add-note-tag <title> <tag>',' to add tag <tag> in note <title>'],
+        ['delete-note <title>',' to delete note by <title>']
+
     ]
 
     pretty.table(
@@ -304,7 +296,7 @@ def handler_help(my_book = None, _ = None):
         header=['Command', 'Description'],
         rows=help_list
     )
-####################################
+
 
 NAME_COMMANDS = {
 
@@ -367,12 +359,8 @@ def parser_command(my_book, command):
 def main():
     handler_help()
     file_name_phones_p = "bot_helper\\book_pickle.bin"
-    # file_name_j = "bot_helper\\book_json.json"
-    # file_name_j = Path("E:\pyton_proj\Go-IT\\bot_helper\\bot_helper\\book_json.json")
     my_book_phones_p = book.AddressBook()
-    # my_book_j = book.AddressBook()
     my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
-    # my_book = my_book_j.load_from_file_json(file_name_j)
 
     #Файл для Notes
     file_name_notes_p = "bot_helper\\notes_book_pickle.bin"
@@ -391,18 +379,12 @@ def main():
             command = get_command_suggestions("mode")
             ret_rezault = parser_command(my_book_notes, command)
 
-        # ret_rezault = parser_command(my_book_phones, command)
-
         if ret_rezault:
-            # print_result(ret_rezault)
             pretty.parser(ret_rezault, mode)
-            # ret_result = get_user_info()
-                
                 
             if ret_rezault == "Good bye!":
                 my_book_phones.save_to_file_pickle(file_name_phones_p)
                 my_book_notes.save_to_file_pickle(file_name_notes_p)
-                # my_book.save_to_file_json(file_name_j)
                 exit()
 
         
