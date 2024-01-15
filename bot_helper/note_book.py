@@ -29,6 +29,8 @@ class Title(Field):
     def value(self, new_value):
         self.__value =  new_value
 
+    def __repr__(self):
+        return self.__value
 
 class Text(Field):
     def __init__(self, value):
@@ -43,6 +45,8 @@ class Text(Field):
     def value(self, new_value):
         self.__value =  new_value
     
+    def __repr__(self):
+        return self.__value
 
 class Tag(Field):
     def __init__(self, value):
@@ -56,6 +60,9 @@ class Tag(Field):
     @value.setter
     def value(self, new_value):
         self.__value =  new_value
+
+    def __repr__(self):
+        return self.__value
 
 
 class Record:
@@ -91,7 +98,7 @@ class Record:
         return f"Title: {self.title.value}, text: {self.text.value}, tags: {', '.join(t.value for t in self.tags)}"
 
 class NoteBook(UserDict):
-    qua_for_iter = 1
+    qua_for_iter = 5
     list_for_iter = []
 
     def add_record(self, record):
@@ -164,20 +171,20 @@ class NoteBook(UserDict):
 if __name__ == "__main__":
     pass
 
-#note = NoteBook()
-#note1_record = Record("Tiiitle", "text")
-#note1_record.add_tag("Tag1")
-#note1_record.add_tag("Tag2")
-#note.add_record(note1_record)
-#
-#note2_record = Record("Title23", "a lot of text")
-#note2_record.add_tag("a")
-#note2_record.add_tag("lot")
-#note2_record.add_tag("of")
-#note2_record.add_tag("tags")
-#note.add_record(note2_record)
-#
-#note.find_records("Title23")
-#note1_record.remove_tag("tag2")
-#for title, record in note.data.items():
+# note = NoteBook()
+# note1_record = Record("Tiiitle", "text")
+# note1_record.add_tag("Tag1")
+# note1_record.add_tag("Tag2")
+# note.add_record(note1_record)
+
+# note2_record = Record("Title23", "a lot of text")
+# note2_record.add_tag("a")
+# note2_record.add_tag("lot")
+# note2_record.add_tag("of")
+# note2_record.add_tag("tags")
+# note.add_record(note2_record)
+
+# note.find_records("Title23")
+# # note1_record.remove_tag("tag2")
+# for title, record in note.data.items():
 #    print(record)
