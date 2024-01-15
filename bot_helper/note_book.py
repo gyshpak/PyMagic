@@ -126,6 +126,16 @@ class NoteBook(UserDict):
                         break
         return list_recs
     
+    #Search by tag
+    def find_records_by_tag(self, search=None):
+        list_recs = []
+        for title, records in self.data.items():
+            for tags in records.tags:
+                if search in tags.value:
+                    list_recs.append(records)
+                    break
+        return list_recs
+    
     #def exists_tag(self, tag=None):
     #    if tag is not None:
     #        tag_ = Tag(tag)

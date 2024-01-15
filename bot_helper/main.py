@@ -208,7 +208,7 @@ def handler_find_note(my_book, list_):
     
 #Пошук нотаток за тегом
 def handler_find_note_by_tag(my_book, list_):
-    list_rec = my_book.find_records(list_[0].lower())
+    list_rec = my_book.find_records_by_tag(list_[0].lower())
     if len(list_rec) != 0:
         ret_book = notebook.NoteBook()
         for rec_ in list_rec:
