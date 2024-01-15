@@ -318,6 +318,9 @@ NAME_COMMANDS = {
 
     "help": handler_help,
     "hello": handler_hello,
+ 
+ ################  Gena
+
     "add": handler_add,
     "change": handler_change,
     "show-all": handler_show_all,
@@ -325,11 +328,11 @@ NAME_COMMANDS = {
     "close": handler_exit,
     "exit": handler_exit,
     "find": handler_find,
-
     "delete-telephone": handler_delete_phone,
     "delete-user": handler_delete_user,
     "next-birthday": handler_next_birthday,
 
+#################   Roma
 
     "add-note": handler_add_note,
     "change-note": handler_change_note,
@@ -337,17 +340,21 @@ NAME_COMMANDS = {
     "find-note": handler_find_note,
     "find-note-by-tag": handler_find_note_by_tag,
     "delete-note-tag": handler_delete_tag,
+
+
+#######################   Olena
+
     "add-note-tag":handler_add_tag,
     "delete-note": handler_delete_note,
-
     "email-add": handler_add_email,
     "email-delete": handler_delete_email,
     "email-replace": handler_replace_email,
+
+######################   Andriy    
+    
     "memo-add": handler_add_memo,
     "memo-delete": handler_delete_memo,
     "memo-replace": handler_replace_memo,
-
-
     "address-add": handler_add_addr,
     "address-delete": handler_delete_addr,
     "address-replace": handler_replace_addr
