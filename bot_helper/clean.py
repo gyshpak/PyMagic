@@ -61,7 +61,7 @@ def sorting_files(*path_from_bot):
 
     def normalize(name):
         trans_name = translate(name)
-        norm_name = re.sub("\W", "_", trans_name)
+        norm_name = re.sub(r"\W", "_", trans_name)
         return(norm_name)
 
     file_type = {'images':['.jpeg', '.png', '.jpg', '.svg', '.bmp'],

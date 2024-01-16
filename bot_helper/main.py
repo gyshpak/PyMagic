@@ -389,7 +389,7 @@ def main():
         elif mode == "3":
             command = ["sort-folder"]
             command.append(input("Please enter path for folder for sorting "))
-            print(command)
+            # print(command)
             ret_rezault = parser_command(my_book_notes, command)
         if ret_rezault:
             pretty.parser(ret_rezault, mode)

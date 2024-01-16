@@ -349,7 +349,7 @@ class AddressBook(UserDict):
                     list_rec.append(records)
             elif hasattr(records, "address") and records.address and (search.lower() in records.address.value.lower()):
                 list_rec.append(records)
-            elif hasattr(records, "emails") and records.emails:      # and (search.lower() in records.emails.value.lower()):
+            elif hasattr(records, "emails") and records.emails and (search.lower() in records.emails.value.lower()):
                 list_rec.append(records)
                 # for email in records.emails:
                 #     if search in email.value:
