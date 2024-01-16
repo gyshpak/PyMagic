@@ -31,7 +31,12 @@ def parser(book, mode):
     
     if isinstance(book, str):
         console = Console()
-        console.print(book, style = 'red')
+        console.print(book, style = 'green')
+        return
+
+    if isinstance(book, tuple):
+        console = Console()
+        console.print(book[0], style='red')
         return
 
     def value_getter(record, key):

@@ -12,29 +12,29 @@ def input_error(func):
         try:
             return_data = func(my_book, val)
         except IndexError:
-            return_data = "Give me name and phone please"
+            return_data = ("Give me name and phone please", )
         except TypeError:
-            return_data = "Wrong command, try again"
+            return_data = ("Wrong command, try again", )
         except KeyError:
-            return_data = "Wrong user, repeat please"
+            return_data = ("Wrong user, repeat please", )
         except ValueError:
-            return_data = "Wrong number, repeat please"
+            return_data = ("Wrong number, repeat please", )
         except book.WrongBirthday:
-            return_data = "Wrong birthday, repeat please"
+            return_data = ("Wrong birthday, repeat please",)
         except book.ExistsPhone:
-            return_data = "Phone is exist"
+            return_data = ("Phone is exist", )
         except book.ExistsMemo:
-            return_data = "User already has a memo"
+            return_data = ("User already has a memo", )
         except book.WrongMemo:
-            return_data = "Not printable characters in Memo or record size excides."
+            return_data = ("Not printable characters in Memo or record size excides.", )
         except book.ExistsAddress:
-            return_data = "User already has an address"
+            return_data = ("User already has an address", )
         except book.WrongAddress:
-            return_data = "Not printable characters in Address or record size excides."
+            return_data = ("Not printable characters in Address or record size excides.", )
         except book.WrongEmail:
-            return_data = "Wrong e-mail, repeat please"
+            return_data = ("Wrong e-mail, repeat please", )
         except book.ExistsEmail:
-            return_data = "User already has an e-mail"
+            return_data = ("User already has an e-mail", )
         return return_data
     return inner
 
@@ -113,14 +113,17 @@ def handler_delete_memo(my_book, list_):
 def handler_replace_memo(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
-        memo = record.memos.value
-        record.delete_memo()
-        try:
-            new_memo = ' '.join(list_[1:])
-            record.add_memo(new_memo)
-            return f"For user {list_[0].capitalize()} memo successfully changed to:\n\t {new_memo}"
-        except:
-            record.add_memo(memo)
+        if record.memos is not None:
+            memo = record.memos.value
+            record.delete_memo()
+            try:
+                new_memo = ' '.join(list_[1:])
+                record.add_memo(new_memo)
+                return f"For user {list_[0].capitalize()} memo successfully changed to:\n\t {new_memo}"
+            except:
+                record.add_memo(memo)
+        else:
+            return handler_add_memo(my_book, list_)
 
 def handler_add_addr(my_book, list_):
     record = my_book.find(list_[0].capitalize())
@@ -138,14 +141,17 @@ def handler_delete_addr(my_book, list_):
 def handler_replace_addr(my_book, list_):
     record = my_book.find(list_[0].capitalize())
     if record is not None:
-        addr = record.address.value
-        record.delete_address()
-        try:
-            new_addr = ' '.join(list_[1:])
-            record.add_address(new_addr)
-            return f"For user {list_[0].capitalize()} address successfully changed to:\n\t {new_addr}"
-        except:
-            record.add_address(addr)
+        if record.address is not None:
+            addr = record.address.value
+            record.delete_address()
+            try:
+                new_addr = ' '.join(list_[1:])
+                record.add_address(new_addr)
+                return f"For user {list_[0].capitalize()} address successfully changed to:\n\t {new_addr}"
+            except:
+                record.add_address(addr)
+        else:
+            return handler_add_addr(my_book, list_)
 
 def handler_show_all(my_book, _ = None):
     return my_book
@@ -279,13 +285,13 @@ def handler_help(my_book = None, _ = None):
         ['email delete <name>', 'to delete e-mail from user'],
         ['email replace <name> <new_email>', 'to replace existing e-mail with new text'],
         ['good bye | close | exit', 'for exit'],
-        ['note add <name> <note_text>',
+        ['memo-add <name> <note_text>',
             'to add note to user (max.240 printable characters)'],
-        ['note delete <name>', 'to delete note from user'],
-        ['note replace <name> <note_text>', 'to replace existing note at user with new text'],
-        ['address add <name> <address_text>', 'to add address to user (max.100 printable characters)'],
-        ['address delete <name>', 'to delete address from user'],
-        ['address replace <name> <new_address>', 'to replace existing address at user with new text'],
+        ['memo-delete <name>', 'to delete note from user'],
+        ['memo-replace <name> <note_text>', 'to replace existing note at user with new text'],
+        ['address-add <name> <address_text>', 'to add address to user (max.100 printable characters)'],
+        ['address-delete <name>', 'to delete address from user'],
+        ['address-replace <name> <new_address>', 'to replace existing address at user with new text'],
         ['add-note <title> <text> [tag]',' to add note'],
         ['change-note <title> <new_text>',' to change text in note by title'],
         ['show-all-notes',' to show all notes'],
@@ -306,7 +312,7 @@ NAME_COMMANDS = {
 
     "help": handler_help,
     "hello": handler_hello,
-     "add": handler_add,
+    "add": handler_add,
     "change": handler_change,
     "show-all": handler_show_all,
     "goodbye": handler_exit,
