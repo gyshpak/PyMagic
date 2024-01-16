@@ -107,10 +107,10 @@ def sorting_files(*path_from_bot):
     iter_dir(G_path)
 
     for i in set_of_list_file_by_type:
-        return_ = f"list of {i} files: {set_of_list_file_by_type.get(i)}"
+        return_ = f"list of {i} files: {set_of_list_file_by_type.get(i)}\n"
         # print(f"list of {i} files: {set_of_list_file_by_type.get(i)}")
     for i in set_suffix:
-        return_ += f"set {i} suffix: {set_suffix.get(i)}"
+        return_ += f"set {i} suffix: {set_suffix.get(i)}\n"
         # print(f"set {i} suffix: {set_suffix.get(i)}")
     return return_
 
