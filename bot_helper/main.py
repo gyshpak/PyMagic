@@ -370,13 +370,13 @@ def parser_command(my_book, command):
 
 def main():
     # handler_help()
-    # file_name_phones_p = "E:\\GitHub\\PyMagic\\bot_helper\\book_pickle.bin"
-    file_name_phones_p = "bot_helper\\book_pickle.bin"
+    file_name_phones_p = "E:\\GitHub\\PyMagic\\bot_helper\\book_pickle.bin"
+    # file_name_phones_p = "bot_helper\\book_pickle.bin"
     my_book_phones_p = book.AddressBook()
     my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
 
-    # file_name_notes_p = "E:\\GitHub\\PyMagic\\bot_helper\\notes_book_pickle.bin"
-    file_name_notes_p = "bot_helper\\notes_book_pickle.bin"
+    file_name_notes_p = "E:\\GitHub\\PyMagic\\bot_helper\\notes_book_pickle.bin"
+    # file_name_notes_p = "bot_helper\\notes_book_pickle.bin"
     my_book_notes_p = notebook.NoteBook()
     my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
     
