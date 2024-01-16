@@ -1,6 +1,6 @@
 import re
 import shutil
-import sys
+# import sys
 from pathlib import Path
 
 def sorting_files(*path_from_bot):
@@ -61,7 +61,7 @@ def sorting_files(*path_from_bot):
 
     def normalize(name):
         trans_name = translate(name)
-        norm_name = re.sub("\W", "_", trans_name)
+        norm_name = re.sub(r"\W", "_", trans_name)
         return(norm_name)
 
     file_type = {'images':['.jpeg', '.png', '.jpg', '.svg', '.bmp'],
@@ -108,13 +108,9 @@ def sorting_files(*path_from_bot):
 
     for i in set_of_list_file_by_type:
         return_ = f"list of {i} files: {set_of_list_file_by_type.get(i)}"
-        # print(f"list of {i} files: {set_of_list_file_by_type.get(i)}")
     for i in set_suffix:
         return_ += f"set {i} suffix: {set_suffix.get(i)}"
-        # print(f"set {i} suffix: {set_suffix.get(i)}")
     return return_
 
-# if __name__ == '__main__':
-#     main()
-
-    
+if __name__ == '__main__':
+    pass    

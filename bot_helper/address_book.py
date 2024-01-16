@@ -2,7 +2,7 @@ from collections import UserDict
 from datetime import date
 from re import match
 import pickle
-import json
+# import json
 
 
 class WrongBirthday(Exception):
@@ -141,7 +141,6 @@ class Birthday(Field):
             if norm_birthday != "":
                 self.__value = norm_birthday
             else:
-                print('NONE')
                 self.__value = None
                 # raise WrongBirthday
         else:
@@ -328,18 +327,6 @@ class AddressBook(UserDict):
     def delete(self, name):
         self.data.pop(name)
     
-    # def finde_records(self, search = None):
-    #     list_rec = []
-    #     for name, records in self.data.items():
-    #         if search.lower() in name.lower():
-    #             list_rec.append(records)
-    #         else:
-    #             for phones in records.phones:
-    #                 if search in phones.value:
-    #                     list_rec.append(records)
-    #                     break
-    #     return list_rec
-    
     def find_records(self, search=None):
         list_rec = []
         for name, records in self.data.items():
@@ -349,7 +336,7 @@ class AddressBook(UserDict):
                     list_rec.append(records)
             elif hasattr(records, "address") and records.address and (search.lower() in records.address.value.lower()):
                 list_rec.append(records)
-            elif hasattr(records, "emails") and records.emails:      # and (search.lower() in records.emails.value.lower()):
+            elif hasattr(records, "emails") and records.emails and (search.lower() in records.emails.value.lower()):
                 list_rec.append(records)
                 # for email in records.emails:
                 #     if search in email.value:
@@ -396,37 +383,37 @@ class AddressBook(UserDict):
         with open(file_name, 'rb') as file:
             return pickle.load(file)
         
-    def save_to_file_json(self, file_name):
-        data = {}
-        dict_phones = {}
-        list_phones = []
-        for name_i, records_i in self.data.items():
-            for i_phone in records_i.phones:
-                list_phones.append(i_phone.value)
-            dict_phones["phone"] = list_phones
-            if hasattr(records_i, "birthday"):
-                data[name_i] = [dict_phones, {"birthday": records_i.birthday.value.strftime("%Y %m %d")}]
-            else:
-                data[name_i] = [dict_phones]
-            list_phones = []
-            dict_phones = {}
-        with open(file_name, 'w') as file:
-            json.dump(data, file)
+    # def save_to_file_json(self, file_name):
+    #     data = {}
+    #     dict_phones = {}
+    #     list_phones = []
+    #     for name_i, records_i in self.data.items():
+    #         for i_phone in records_i.phones:
+    #             list_phones.append(i_phone.value)
+    #         dict_phones["phone"] = list_phones
+    #         if hasattr(records_i, "birthday"):
+    #             data[name_i] = [dict_phones, {"birthday": records_i.birthday.value.strftime("%Y %m %d")}]
+    #         else:
+    #             data[name_i] = [dict_phones]
+    #         list_phones = []
+    #         dict_phones = {}
+    #     with open(file_name, 'w') as file:
+    #         json.dump(data, file)
 
-    def load_from_file_json(self, file_name):
-        data = None
-        with open(file_name, 'r') as file:
-            data = json.load(file)
-        ret_book = self
-        for j_name, j_records in data.items():
-            if len(j_records) == 2:
-                record = Record(j_name, j_records[1].get("birthday"))
-            else:
-                record = Record(j_name)
-            for j_phone in j_records[0].get("phone"):
-                record.add_phone(j_phone)
-            ret_book.add_record(record)
-        return ret_book
+    # def load_from_file_json(self, file_name):
+    #     data = None
+    #     with open(file_name, 'r') as file:
+    #         data = json.load(file)
+    #     ret_book = self
+    #     for j_name, j_records in data.items():
+    #         if len(j_records) == 2:
+    #             record = Record(j_name, j_records[1].get("birthday"))
+    #         else:
+    #             record = Record(j_name)
+    #         for j_phone in j_records[0].get("phone"):
+    #             record.add_phone(j_phone)
+    #         ret_book.add_record(record)
+    #     return ret_book
     
     def __str__(self):
         ret_list = ""

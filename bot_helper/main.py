@@ -178,7 +178,6 @@ def handler_delete_phone(my_book, list_):
     return f"Phone {list_[1]} of user {list_[0].capitalize()} successfully deleted"
 
 def handler_delete_user(my_book, list_):
-    # print(list_[0].capitalize())
     my_book.delete(list_[0].capitalize())
     return f"User {list_[0].capitalize()} successfully deleted"
 
@@ -202,9 +201,7 @@ def handler_add_note(my_book, list_):
 
 #Змінення тексту нотаток
 def handler_change_note(my_book, list_):
-    # print(list_[0].capitalize())
     record = my_book.find(list_[0].capitalize())
-    # print(record)
     if record is not None:
         record.edit_text(list_[1])
     return f"Text from note {list_[0].capitalize()} successfully changed"
@@ -245,7 +242,6 @@ def handler_add_tag(my_book, list_):
 
 #Видалення нотатки
 def handler_delete_note(my_book, list_):
-    # print(list_[0].capitalize())
     my_book.delete(list_[0].capitalize())
     return f"Note {list_[0].capitalize()} successfully deleted"
 
@@ -259,10 +255,6 @@ def mode_change(my_book = None, _ = None):
     while i:
         mode = input("Please choose mode\n 1. Address book\n 2. Notes\n 3. Sort folder\n")
         if mode == "1" or mode == "2" or mode == "3":
-        #     return mode
-        # if(mode == "2"):
-        #     return mode
-        # if(mode == "3"):
             return mode
         else:
             print("Wrong number!")
@@ -389,7 +381,6 @@ def main():
         elif mode == "3":
             command = ["sort-folder"]
             command.append(input("Please enter path for folder for sorting "))
-            print(command)
             ret_rezault = parser_command(my_book_notes, command)
         if ret_rezault:
             pretty.parser(ret_rezault, mode)
