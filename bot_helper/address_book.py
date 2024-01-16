@@ -199,7 +199,6 @@ class Memo(Field):
     
     @value.setter
     def value(self, memo_text: str):
-        print(type(memo_text))
         if memo_text.isprintable() and len(memo_text)<=240:
             self.__value = memo_text
         else:
