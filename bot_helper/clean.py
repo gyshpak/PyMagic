@@ -1,6 +1,5 @@
 import re
 import shutil
-# import sys
 from pathlib import Path
 
 def sorting_files(*path_from_bot):
@@ -80,6 +79,7 @@ def sorting_files(*path_from_bot):
         TRANS[ord(c.upper())] = l.upper()
 
     G_path = Path(path_from_bot[1][0].lower())
+    print(G_path)
     if not G_path.is_dir():
         return f"Path not found"
     for new_dir in file_type:
@@ -103,13 +103,14 @@ def sorting_files(*path_from_bot):
                     'archives':set(),
                     'unknown':set()}
 
-
     iter_dir(G_path)
 
-    for i in set_of_list_file_by_type:
-        return_ = f"list of {i} files: {set_of_list_file_by_type.get(i)}"
-    for i in set_suffix:
-        return_ += f"set {i} suffix: {set_suffix.get(i)}"
+    return_ = ""
+    for kay, value in set_of_list_file_by_type.items():
+        return_ += f"list of {kay} files: {', '.join(p.stem for p in value)}\n"
+    
+    for kay, value in set_suffix.items():
+        return_ += f"set {kay} suffix: {', ' .join(p for p in value)}\n"
     return return_
 
 if __name__ == '__main__':
