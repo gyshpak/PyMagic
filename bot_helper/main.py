@@ -3,6 +3,7 @@ import bot_helper.note_book as notebook
 import bot_helper.pretty as pretty
 from bot_helper.clean import sorting_files
 from bot_helper.commands import *
+import os
 
 # from . import address_book as book
 # from . import note_book as notebook
@@ -368,17 +369,29 @@ def parser_command(my_book, command):
         return ret_rezault
 
 
+current_path = os.path.abspath(os.getcwd())
+file_name_phones_p = os.path.join(current_path, 'bot_helper', 'book_pickle.bin')
+file_name_notes_p = os.path.join(current_path, 'bot_helper', 'notes_book_pickle.bin')
+
+
+
 def main():
     # handler_help()
-    file_name_phones_p = "E:\\GitHub\\PyMagic\\bot_helper\\book_pickle.bin"
+    # file_name_phones_p = "E:\\GitHub\\PyMagic\\bot_helper\\book_pickle.bin"
     # file_name_phones_p = "bot_helper\\book_pickle.bin"
-    my_book_phones_p = book.AddressBook()
-    my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
+    if os.path.exists(file_name_phones_p):
+        my_book_phones_p = book.AddressBook()
+        my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
+    else:
+        my_book_phones = book.AddressBook()
 
-    file_name_notes_p = "E:\\GitHub\\PyMagic\\bot_helper\\notes_book_pickle.bin"
+    # file_name_notes_p = "E:\\GitHub\\PyMagic\\bot_helper\\notes_book_pickle.bin"
     # file_name_notes_p = "bot_helper\\notes_book_pickle.bin"
-    my_book_notes_p = notebook.NoteBook()
-    my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
+    if os.path.exists(file_name_notes_p):
+        my_book_notes_p = notebook.NoteBook()
+        my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
+    else:
+        my_book_notes = notebook.NoteBook()
     
     while True:
         # #Вибір режиму (телефонна книга або нотатки)

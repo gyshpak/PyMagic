@@ -142,7 +142,7 @@ class Birthday(Field):
                 self.__value = norm_birthday
             else:
                 self.__value = None
-                # raise WrongBirthday
+                raise WrongBirthday
         else:
             raise WrongBirthday
 
