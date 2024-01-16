@@ -54,45 +54,45 @@ NAME_COMMANDS_NOTES = [
 
 # add, show, change, goodbye, find, back, delete (x2), next-birthday, add-note, change-note, show-all-notes, find-note, delete-note-tag, delete-note
 
-def pretty_table(title=None, title_style=None, header=[], header_style='bold blue', rows=[], row_style='bright_green'): 
+# def pretty_table(title=None, title_style=None, header=[], header_style='bold blue', rows=[], row_style='bright_green'): 
          
-        table = Table() 
-        if title: 
-            table.title = title 
-            table.title_style = title_style 
-            table.title_justify = 'left' 
+#         table = Table() 
+#         if title: 
+#             table.title = title 
+#             table.title_style = title_style 
+#             table.title_justify = 'left' 
          
-        longest_row = max([len(row) for row in rows]) if rows else 0
-        if len(header) < longest_row: 
-            for i in range(longest_row - len(header)): 
-                header.append(f'Column_{i}') 
+#         longest_row = max([len(row) for row in rows]) if rows else 0
+#         if len(header) < longest_row: 
+#             for i in range(longest_row - len(header)): 
+#                 header.append(f'Column_{i}') 
          
-        for column in header: 
-            table.add_column(column, header_style=header_style) 
+#         for column in header: 
+#             table.add_column(column, header_style=header_style) 
  
-        for row in rows: 
-            table.add_row(*row, style=row_style) 
+#         for row in rows: 
+#             table.add_row(*row, style=row_style) 
          
-        table.show_lines = True 
+#         table.show_lines = True 
  
-        Console().print(table)
+#         Console().print(table)
 
-def print_result(result_1):
-    rows = []
+# def print_result(result_1):
+#     rows = []
 
-    for record in result_1:
-        if hasattr(record, 'name') and hasattr(record, 'phones') and hasattr(record, 'birthday'):
-            name = record.name.value()
-            phones = ', '.join(p.value for p in record.phones)
-            email = ''
-            birthday = date.strftime(record.birthday.value, '%d.%m.%Y') if hasattr(record, "birthday") else ''
-            rows.append([name, phones, email, birthday])
+#     for record in result_1:
+#         if hasattr(record, 'name') and hasattr(record, 'phones') and hasattr(record, 'birthday'):
+#             name = record.name.value()
+#             phones = ', '.join(p.value for p in record.phones)
+#             email = ''
+#             birthday = date.strftime(record.birthday.value, '%d.%m.%Y') if hasattr(record, "birthday") else ''
+#             rows.append([name, phones, email, birthday])
             
-    pretty_table(
-        title='List of commands with format',
-        header=['Name', 'Telephone', 'Address', 'Email', 'Birthday', 'Notes'],
-        rows=rows
-    )
+#     pretty_table(
+#         title='List of commands with format',
+#         header=['Name', 'Telephone', 'Address', 'Email', 'Birthday', 'Notes'],
+#         rows=rows
+#     )
 
 def get_command_suggestions(prefix, mode):
     try:

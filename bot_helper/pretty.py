@@ -26,7 +26,6 @@ def table(title=None, title_style=None, header=[], header_style='bold blue', row
 
     Console().print(table)
 
-
 def parser(book, mode):
     
     if isinstance(book, str):
