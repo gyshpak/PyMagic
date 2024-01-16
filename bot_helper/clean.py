@@ -4,13 +4,11 @@ import sys
 from pathlib import Path
 
 def sorting_files(*path_from_bot):
-
     def translate(name):
         return_name = ""
         for i in name:
             return_name += i.translate(TRANS)
         return return_name
-
 
     def iter_dir(path):
         for i in path.iterdir():
@@ -46,11 +44,9 @@ def sorting_files(*path_from_bot):
         set_of_list_file_by_type[new_dir].append(name_file)
         set_suffix[new_dir].add((name_file.suffix)[1:])
 
-
     def unpack_file(src_file, name_file, new_dir):
         shutil.unpack_archive(src_file, Path(G_path,new_dir,name_file.stem))
         src_file.unlink()
-
 
     def move_file(src_file, name_file, new_dir):
         to_file = Path(str(G_path), new_dir, str(name_file))
@@ -63,13 +59,10 @@ def sorting_files(*path_from_bot):
                 src_file.rename(to_file)
                 break
 
-
     def normalize(name):
         trans_name = translate(name)
         norm_name = re.sub("\W", "_", trans_name)
         return(norm_name)
-
-
 
     file_type = {'images':['.jpeg', '.png', '.jpg', '.svg', '.bmp'],
                 'documents':['.doc', '.docx', '.txt', '.pdf', '.xlsx', '.pptx'],
@@ -77,36 +70,24 @@ def sorting_files(*path_from_bot):
                 'audio':['.mp3', '.ogg', '.wav', '.amr'],
                 'archives':['.zip', '.gz', '.tar']}
 
-
     CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
     TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
                 "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "je", "i", "ji", "g")
-
 
     TRANS = {}
     for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION):
         TRANS[ord(c)] = l
         TRANS[ord(c.upper())] = l.upper()
 
-    # if  len(sys.argv) != 2:
-    #     print("Insert path")
-    #     sys.exit(1)
-    # G_path = Path((sys.argv[1]).lower())
-
     G_path = Path(path_from_bot[1][0].lower())
     if not G_path.is_dir():
-        print("path not found")
-        # sys.exit(1)
-        return None
-
+        return f"Path not found"
     for new_dir in file_type:
-        # path_new_dir = Path(sys.argv[1],new_dir)
-        path_new_dir = Path(path_from_bot[0][1],new_dir)
+        path_new_dir = Path(path_from_bot[1][0],new_dir)
         try:
             Path.mkdir(path_new_dir)
         except FileExistsError:
             pass
-
     set_of_list_file_by_type = {'images':[],
                                 'documents':[],
                                 'video':[],
@@ -125,11 +106,13 @@ def sorting_files(*path_from_bot):
 
     iter_dir(G_path)
 
-
     for i in set_of_list_file_by_type:
-        print(f"list of {i} files: {set_of_list_file_by_type.get(i)}")
+        return_ = f"list of {i} files: {set_of_list_file_by_type.get(i)}"
+        # print(f"list of {i} files: {set_of_list_file_by_type.get(i)}")
     for i in set_suffix:
-        print(f"set {i} suffix: {set_suffix.get(i)}")
+        return_ += f"set {i} suffix: {set_suffix.get(i)}"
+        # print(f"set {i} suffix: {set_suffix.get(i)}")
+    return return_
 
 # if __name__ == '__main__':
 #     main()
