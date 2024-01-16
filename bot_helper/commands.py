@@ -162,7 +162,7 @@ def get_command_suggestions(prefix, mode):
             # print(user_input_list)
             return user_input_list
         elif user_input == "goodbye" or user_input == "close" or user_input == "exit":
-            exit()
+            return [user_input]
         elif user_input == "find":
             command = user_input
             letter = input("Give me a letter: ")
