@@ -9,6 +9,6 @@ setup(
     license='MIT',
     include_package_data=True,
     packages=find_namespace_packages(),
-    install_requires=['rich','prompt_toolkit']
+    install_requires=['rich','prompt_toolkit'],
     entry_points={'console_scripts': ['bot-helper = bot_helper.main:main']}
 )
