@@ -332,7 +332,7 @@ def handler_help(my_book = None, _ = None):
     help_list = [
         ['help', 'command description'],
         ['hello', 'greets the user'],
-        ['add <name> / [phone] / [birthday] / [Email] / [postal address] / [memos]',
+        ['add <name> \[phone] \[birthday] \[Email] \[postal address] \[memos]',
         'for add user, if user is exist will be added\n'
         'variation format for telefon number:\n'
         '+38(055)111-22-33\n'
@@ -350,7 +350,7 @@ def handler_help(my_book = None, _ = None):
         ['email-delete <name>', 'to delete Email from user'],
         ['email-replace <name> <new Email>', 'to replace existing Email with new text'],
         ['next-birthday <name>', 'shows the number of days until the subscriber`s next birthday'],
-        ['finde-birthday / [number of days]', 'displaying a list of subscribers for the nearest specified number of days'],
+        ['finde-birthday \[number of days]', 'displaying a list of subscribers for the nearest specified number of days'],
         ['memo-add <name> <note text>',
             'to add note to user (max.240 printable characters)'],
         ['memo-delete <name>', 'to delete note from user'],
@@ -358,7 +358,7 @@ def handler_help(my_book = None, _ = None):
         ['address-add <name> <address text>', 'to add address to user (max.100 printable characters)'],
         ['address-delete <name>', 'to delete address from user'],
         ['address-replace <name> <new address>', 'to replace existing address at user with new text'],
-        ['add-note <title> <text> / [tag]', 'to add note'],
+        ['add-note <title> <text> \[tag]',' to add note'],
         ['change-note <title> <new_text>', 'to change text in note by title'],
         ['show-all-notes', 'to show all notes'],
         ['find-note <some text>', 'to find notes by <some_text> in title of note'],
