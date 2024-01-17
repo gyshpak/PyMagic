@@ -20,6 +20,7 @@ NAME_COMMANDS = [
     "delete-telephone",
     "delete-user",
     "next-birthday",
+    "finde-birthday",
     "back",
     "address-replace",
     "address-delete",
@@ -185,8 +186,13 @@ def get_command_suggestions(prefix, mode):
             return user_input_list
         elif user_input == "next-birthday":
             command = user_input
-            nextBirthday = input("Give me a date of next birthday: ")
+            nextBirthday = input("Give me Name: ")
             user_input_list = [command, nextBirthday]
+            return user_input_list
+        elif user_input == "finde-birthday":
+            command = user_input
+            findebirthday = input("Give me quantity days: ")
+            user_input_list = [command, findebirthday]
             return user_input_list
         elif user_input == "delete-telephone":
             command = user_input

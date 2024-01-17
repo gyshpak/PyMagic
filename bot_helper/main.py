@@ -172,7 +172,11 @@ def handler_replace_addr(my_book, list_):
             return handler_add_addr(my_book, list_)
 
 def handler_show_all(my_book, _ = None):
-    return my_book
+    if my_book:
+        return my_book
+    else:
+        return 'No users'
+    # return my_book
 
 def handler_exit(my_book, _ = None):
     return "Good bye!"
@@ -187,6 +191,23 @@ def handler_find(my_book, list_):
         return ret_book
     else:
         return "Contact not found"
+
+def handler_find_birthday(my_book, list_):
+    qua_days = list_[0]
+    if qua_days == "":
+        qua_days = 10
+    else:
+        qua_days = int(qua_days)
+    list_rec = my_book.find_records_for_birthday(qua_days)
+    if len(list_rec) != 0:
+        ret_book = book.AddressBook()
+        ret_book.qua_for_iter = my_book.qua_for_iter
+        for rec_ in list_rec:
+            ret_book.add_record(rec_)
+        return ret_book
+    else:
+        return f"Contact for {qua_days} days not found"
+
     
 def handler_delete_phone(my_book, list_):
     record = my_book.find(list_[0].capitalize())
@@ -263,7 +284,11 @@ def handler_delete_note(my_book, list_):
 
 #Показати всі нотатки
 def handler_show_all_notes(my_book, _=None):
-    return my_book
+    if my_book:
+        return my_book
+    else:
+        return 'No notes'
+    # return my_book
 
 #Вибір режиму (телефонна книга або нотатки)
 def mode_change(my_book = None, _ = None):
@@ -277,9 +302,9 @@ def mode_change(my_book = None, _ = None):
 
 def handler_help(my_book = None, _ = None):
     help_list = [
-        ['help', 'for help'],
-        ['hello', 'for hello'],
-        ['add <name> <phone> [birthday]',
+        ['help', 'command description'],
+        ['hello', 'greets the user'],
+        ['add <name> \[phone] \[birthday] \[Email] \[postal address] \[memos]',
         'for add user, if user is exist will be added\n'
         'variation format for telefon number:\n'
         '+38(055)111-22-33\n'
@@ -288,36 +313,38 @@ def handler_help(my_book = None, _ = None):
         '(055)111-22-36\n'
         '055111-22-37\n'
         'and all variant without "-"'],
-        ['change <name> <from_phone> <to_phone>', 'for chandge phone'],
-        ['show all', 'for show all records'],
-        ['find <some_letters> | find <some_nombers>', 'for find record by name or phone'],
-        ['delete phone <user> <phone>', 'for delete phone from user'],
-        ['delete user <user>', 'for delete user from address book'],
-        ['email add <name> <email_text>', 'to add e-mail to user'],
-        ['email delete <name>', 'to delete e-mail from user'],
-        ['email replace <name> <new_email>', 'to replace existing e-mail with new text'],
-        ['good bye | close | exit', 'for exit'],
-        ['memo-add <name> <note_text>',
+        ['change <name> <from phone> <to phone>', 'for chandge phone'],
+        ['show-all' , 'for show all records'],
+        ['find <some letters> | find <some nombers>', 'for find record by name or phone'],
+        ['delete-phone <user> <phone>', 'for delete phone from user'],
+        ['delete-user <user>', 'for delete user from address book'],
+        ['email-add <name> <email text>', 'to add e-mail to user'],
+        ['email-delete <name>', 'to delete Email from user'],
+        ['email-replace <name> <new Email>', 'to replace existing Email with new text'],
+        ['next-birthday <name>', 'shows the number of days until the subscriber`s next birthday'],
+        ['finde-birthday \[number of days]', 'displaying a list of subscribers for the nearest specified number of days'],
+        ['memo-add <name> <note text>',
             'to add note to user (max.240 printable characters)'],
         ['memo-delete <name>', 'to delete note from user'],
-        ['memo-replace <name> <note_text>', 'to replace existing note at user with new text'],
-        ['address-add <name> <address_text>', 'to add address to user (max.100 printable characters)'],
+        ['memo-replace <name> <note text>', 'to replace existing note at user with new text'],
+        ['address-add <name> <address text>', 'to add address to user (max.100 printable characters)'],
         ['address-delete <name>', 'to delete address from user'],
-        ['address-replace <name> <new_address>', 'to replace existing address at user with new text'],
-        ['add-note <title> <text> [tag]',' to add note'],
+        ['address-replace <name> <new address>', 'to replace existing address at user with new text'],
+        ['add-note <title> <text> \[tag]',' to add note'],
         ['change-note <title> <new_text>',' to change text in note by title'],
         ['show-all-notes',' to show all notes'],
-        ['find-note <some_text>',' to find notes by <some_text> in title of note'],
-        ['find-note-by-tag <some_text>',' to find notes by <some_text> in tags of note'],
+        ['find-note <some text>',' to find notes by <some_text> in title of note'],
+        ['find-note-by-tag <some text>',' to find notes by <some_text> in tags of note'],
         ['delete-note-tag <title> <tag>',' to delete tag <tag> in note <title>'],
         ['add-note-tag <title> <tag>',' to add tag <tag> in note <title>'],
-        ['delete-note <title>',' to delete note by <title>']
+        ['delete-note <title>',' to delete note by <title>'],
+        ['good-bye | close | exit', 'for exit']
     ]
 
     pretty.table(
         title='List of commands with format',
         header=['Command', 'Description'],
-        rows=help_list
+        rows=help_list,
     )
 
 NAME_COMMANDS = {
@@ -334,6 +361,7 @@ NAME_COMMANDS = {
     "delete-telephone": handler_delete_phone,
     "delete-user": handler_delete_user,
     "next-birthday": handler_next_birthday,
+    "finde-birthday": handler_find_birthday,
     "sort-folder" : sorting_files,
 
     "add-note": handler_add_note,
@@ -378,20 +406,14 @@ current_path = os.path.abspath(os.getcwd())
 file_name_phones_p = os.path.join(current_path, 'bot_helper', 'book_pickle.bin')
 file_name_notes_p = os.path.join(current_path, 'bot_helper', 'notes_book_pickle.bin')
 
-
-
 def main():
     # handler_help()
-    # file_name_phones_p = "E:\\GitHub\\PyMagic\\bot_helper\\book_pickle.bin"
-    # file_name_phones_p = "bot_helper\\book_pickle.bin"
+
     if os.path.exists(file_name_phones_p):
         my_book_phones_p = book.AddressBook()
         my_book_phones = my_book_phones_p.load_from_file_pickle(file_name_phones_p)
     else:
         my_book_phones = book.AddressBook()
-
-    # file_name_notes_p = "E:\\GitHub\\PyMagic\\bot_helper\\notes_book_pickle.bin"
-    # file_name_notes_p = "bot_helper\\notes_book_pickle.bin"
     if os.path.exists(file_name_notes_p):
         my_book_notes_p = notebook.NoteBook()
         my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
