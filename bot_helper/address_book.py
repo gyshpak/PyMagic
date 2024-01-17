@@ -96,7 +96,6 @@ class Email(Field):
         
     @value.setter
     def value(self, new_value):
-        print(new_value)
         if new_value == "":
             self.__value = None
         elif self.is_valid_email(new_value):
@@ -147,7 +146,6 @@ class Birthday(Field):
                 raise WrongBirthday
         else:
             # self.__value = None
-            print("print2222")
             raise WrongBirthday
 
     def is_valid_birthday(self, value):
@@ -285,8 +283,9 @@ class Record:
         self.emails = None
                     
     def days_to_birthday(self):
-        today = Birthday(date.today().strftime("%Y %m %d"))
-        return self.birthday - today
+        if hasattr(self, "birthday") and self.birthday is not None:
+            today = Birthday(date.today().strftime("%Y %m %d"))
+            return self.birthday - today
 
     def add_memo(self, memo_str):
         if self.memos:
@@ -309,13 +308,10 @@ class Record:
     def __str__(self):
 
         msg = f"Contact name: {self.name.value}, phones: {', '.join(p.value for p in self.phones)}"
-    
         if hasattr(self, "birthday"):
             msg += f", birthday: {date.strftime(self.birthday.value, '%d.%m.%Y')}"
-
         if self.emails:
             msg += f", e-mail: {self.emails}"
-
         if self.memos:
             msg += f", memos: {self.memos}"
         if self.address:
@@ -350,14 +346,20 @@ class AddressBook(UserDict):
                 list_rec.append(records)
             elif hasattr(records, "emails") and records.emails and (search.lower() in records.emails.value.lower()):
                 list_rec.append(records)
-                # for email in records.emails:
-                #     if search in email.value:
-                #         list_rec.append(records)
             elif hasattr(records, "phones"):
                 for phones in records.phones:
                     if search in phones.value:
                         list_rec.append(records)
         return list_rec
+    
+    def find_records_for_birthday(self, qua_days):
+        list_rec = []
+        for records in self.data.values():
+            delta_day = records.days_to_birthday()
+            if delta_day != None and delta_day <= qua_days:
+                list_rec.append(records)
+        return list_rec
+
 
     def exists_phone(self, phone=None):
         if phone is not None:
@@ -394,39 +396,7 @@ class AddressBook(UserDict):
     def load_from_file_pickle(self, file_name):
         with open(file_name, 'rb') as file:
             return pickle.load(file)
-        
-    # def save_to_file_json(self, file_name):
-    #     data = {}
-    #     dict_phones = {}
-    #     list_phones = []
-    #     for name_i, records_i in self.data.items():
-    #         for i_phone in records_i.phones:
-    #             list_phones.append(i_phone.value)
-    #         dict_phones["phone"] = list_phones
-    #         if hasattr(records_i, "birthday"):
-    #             data[name_i] = [dict_phones, {"birthday": records_i.birthday.value.strftime("%Y %m %d")}]
-    #         else:
-    #             data[name_i] = [dict_phones]
-    #         list_phones = []
-    #         dict_phones = {}
-    #     with open(file_name, 'w') as file:
-    #         json.dump(data, file)
 
-    # def load_from_file_json(self, file_name):
-    #     data = None
-    #     with open(file_name, 'r') as file:
-    #         data = json.load(file)
-    #     ret_book = self
-    #     for j_name, j_records in data.items():
-    #         if len(j_records) == 2:
-    #             record = Record(j_name, j_records[1].get("birthday"))
-    #         else:
-    #             record = Record(j_name)
-    #         for j_phone in j_records[0].get("phone"):
-    #             record.add_phone(j_phone)
-    #         ret_book.add_record(record)
-    #     return ret_book
-    
     def __str__(self):
         ret_list = ""
         for record in self:
@@ -436,3 +406,41 @@ class AddressBook(UserDict):
             
 if __name__ == "__main__":
     pass
+
+###############################################################################
+
+    # book = AddressBook()
+
+    # # # Створення запису для John
+    # john_record = Record("John")
+    # john_record.add_phone("0234567890")
+    # john_record.add_phone("0234567891")
+    # john_record.add_phone("(055)555-55-55")
+    # john_record.add_birthday("17.12.1975")
+    # # john_record.add_phone("(055)555-55-")
+    # # print(john_record.days_to_birthday())
+
+    # # # # # Додавання запису John до адресної книги
+    # book.add_record(john_record)
+
+    # # # # Створення запису для Jorjy
+    # # # # Додавання запису Jorjy до адресної книги
+    # jorjy_record = Record("Jorjy")
+    # jorjy_record.add_phone("380888888888")
+    # jorjy_record.add_birthday("01.01.1980")
+    # book.add_record(jorjy_record)
+    # # print(jorjy_record.days_to_birthday())
+
+    # jorjy1_record = Record("Jorjy1")
+    # jorjy1_record.add_phone("380888888888")
+    # jorjy1_record.add_birthday("25.02.1975")
+    # book.add_record(jorjy1_record)
+    # # print(jorjy1_record.days_to_birthday())
+
+    # jorjy2_record = Record("Jorjy2")
+    # jorjy2_record.add_phone("380888888888")
+    # # jorjy2_record.add_birthday("25.07.1975")
+    # book.add_record(jorjy2_record)
+    # # print(jorjy2_record.days_to_birthday())
+
+    # print(book.find_records_for_birthday("500"))
