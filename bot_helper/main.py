@@ -25,7 +25,7 @@ def input_error(func):
         try:
             return_data = func(my_book, val)
         except IndexError:
-            return_data = ("Give me name and phone please", )
+            return_data = ("Give me name please", )   #and phone please", )
         except TypeError:
             return_data = ("Wrong command, try again", )
         except KeyError:
@@ -33,7 +33,7 @@ def input_error(func):
         except ValueError:
             return_data = ("Wrong number, repeat please", )
         except book.WrongBirthday:
-            return_data = ("Wrong birthday, repeat please",)
+            return_data = ("Wrong birthday, repeat please", )
         except book.ExistsPhone:
             return_data = ("Phone is exist", )
         except book.ExistsMemo:
@@ -56,19 +56,24 @@ def handler_hello(my_book, _ = None):
     return "How can I help you?"
 
 def handler_add(my_book, list_):
+    if list_[0] == "":
+        raise IndexError
     my_book.exists_phone(list_[1])
     try:
         record = my_book.find(list_[0].capitalize())
     except:
-        if list_[2] != '':
-            record = book.Record(list_[0].capitalize(),list_[2])
-        else:
-            record = book.Record(list_[0].capitalize())
+        # if list_[2] != '':
+        #     record = book.Record(list_[0].capitalize(),list_[2])
+        # else:
+        #     record = book.Record(list_[0].capitalize())
+        record = book.Record(list_[0].capitalize())
     else:
         my_book.add_record(record)
     finally:
         if list_[1] != "":
             record.add_phone(list_[1])
+        if list_[2] != "":
+            record.add_birthday(list_[2])
         if list_[3] != "":
             record.add_email(list_[3])
         if list_[4] != "":

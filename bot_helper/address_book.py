@@ -9,10 +9,6 @@ class WrongBirthday(Exception):
     pass
 class ExistsPhone(Exception):
     pass
-class WrongEmail(Exception):
-    pass
-class ExistsEmail(Exception):
-    pass
 class WrongMemo(Exception):
     pass
 class ExistsMemo(Exception):
@@ -50,7 +46,9 @@ class Phone(Field):
         
     @value.setter
     def value(self, new_value):
-        if self.is_valid_phone(new_value):
+        if new_value == "":
+            self.__value = None
+        elif self.is_valid_phone(new_value):
             norm_phone = self.normalis_phone(new_value)
             self.__value =  norm_phone
         else:
@@ -98,20 +96,23 @@ class Email(Field):
         
     @value.setter
     def value(self, new_value):
-        if self.is_valid_email(new_value):
+        print(new_value)
+        if new_value == "":
+            self.__value = None
+        elif self.is_valid_email(new_value):
             self.__value = new_value
         else:
             raise WrongEmail
  
     def is_valid_email(self, value):
-        if value == "":
-            pass
-        else:
+        # if value == "":
+        #     pass
+        # else:
         # if  value!= "":
-            if match(r"[a-zA-Z0-9]+[\w\-]+[\.]?[a-zA-Z\w\-]+[@]{1}[a-z]+[\.]{1}[a-z]{2,}", value) != None:
-                return True
-            else:
-                return False
+        if match(r"[a-zA-Z0-9]+[\w\-]+[\.]?[a-zA-Z\w\-]+[@]{1}[a-z]+[\.]{1}[a-z]{2,}", value) != None:
+            return True
+        else:
+            return False
 
     def __eq__(self, other):
         if isinstance(other, Email):
@@ -136,14 +137,17 @@ class Birthday(Field):
     
     @value.setter
     def value(self, new_value):
-        if self.is_valid_birthday(new_value):
+        if new_value == "":
+            self.__value = None
+        elif self.is_valid_birthday(new_value):
             norm_birthday = self.normalis_birthday(new_value)
             if norm_birthday != "":
                 self.__value = norm_birthday
             else:
-                self.__value = None
                 raise WrongBirthday
         else:
+            # self.__value = None
+            print("print2222")
             raise WrongBirthday
 
     def is_valid_birthday(self, value):
@@ -160,15 +164,15 @@ class Birthday(Field):
                     .replace(":",",")
         date_birthday = norm_birthday.split(",")
         if len(date_birthday[0]) == 4:
-            try:
-                return date(int(date_birthday[0]), int(date_birthday[1]), int(date_birthday[2]))
-            except:
-                raise WrongBirthday
+            # try:
+            return date(int(date_birthday[0]), int(date_birthday[1]), int(date_birthday[2]))
+            # except:
+                # raise WrongBirthday
         else:
-            try:
-                return date(int(date_birthday[2]), int(date_birthday[1]), int(date_birthday[0]))
-            except:
-                raise WrongBirthday
+            # try:
+            return date(int(date_birthday[2]), int(date_birthday[1]), int(date_birthday[0]))
+            # except:
+                # raise WrongBirthday
         
     def __sub__(self, other):
         birthday_month = self.value.month
@@ -233,10 +237,12 @@ class Address(Field):
         return self.__value
 
 class Record:
-    def __init__(self, name, birthday = None):
-        if birthday is not None:
-            self.birthday = Birthday(birthday)
+    # def __init__(self, name, birthday = None):
+    def __init__(self, name):
+        # if birthday is not None:
+            # self.birthday = Birthday(birthday)
         self.name = Name(name)
+        self.birthday = None
         self.phones = []
         self.emails = None
         self.memos = None
@@ -268,6 +274,12 @@ class Record:
         #     raise ExistsEmail
         email_obj = Email(email)
         self.emails = email_obj
+    
+    def add_birthday(self, birthday):
+        # if self.emails:
+        #     raise ExistsEmail
+        birthday_obj = Birthday(birthday)
+        self.birthday = birthday_obj
 
     def delete_email(self):
         self.emails = None
