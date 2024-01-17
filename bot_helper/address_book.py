@@ -344,8 +344,8 @@ class AddressBook(UserDict):
         for name, records in self.data.items():
             if search.lower() in name.lower():
                 list_rec.append(records)
-            elif hasattr(records, "memos") and (search.lower() in records.memos.value.lower()):
-                    list_rec.append(records)
+            elif hasattr(records, "memos") and records.memos and (search.lower() in records.memos.value.lower()):
+                list_rec.append(records)
             elif hasattr(records, "address") and records.address and (search.lower() in records.address.value.lower()):
                 list_rec.append(records)
             elif hasattr(records, "emails") and records.emails and (search.lower() in records.emails.value.lower()):
