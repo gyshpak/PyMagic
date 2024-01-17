@@ -21,7 +21,6 @@ NAME_COMMANDS = [
     "delete-user",
     "next-birthday",
     "finde-birthday",
-    "back",
     "address-replace",
     "address-delete",
     "address-add",

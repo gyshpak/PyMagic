@@ -366,7 +366,6 @@ def handler_help(my_book = None, _ = None):
         ['delete-note-tag <title> <tag>', 'to delete tag <tag> in note <title>'],
         ['add-note-tag <title> <tag>', 'to add tag <tag> in note <title>'],
         ['delete-note <title>', 'to delete note by <title>'],
-        ['back', 'to return to user input'],
         ['sort-folder <path>', 'sorts files in a folder path'],
         ['good-bye | close | exit', 'for exit']
     ]
