@@ -56,8 +56,8 @@ def parser(book, mode):
             row = [
                 value_getter(record, 'name'),
                 value_getter(record, 'phones'),
-                value_getter(record, 'birthday'),
                 value_getter(record, 'emails'),
+                value_getter(record, 'birthday'),
                 value_getter(record, 'address'),
                 value_getter(record, 'memos')
                 ]
