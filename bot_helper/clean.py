@@ -78,7 +78,9 @@ def sorting_files(*path_from_bot):
         TRANS[ord(c)] = l
         TRANS[ord(c.upper())] = l.upper()
 
+    path_from_bot[1][0] = "E:\\for_sort\\hlam\\hlam\\hlam\\hlam"
     G_path = Path(path_from_bot[1][0].lower())
+
     print(G_path)
     if not G_path.is_dir():
         return f"Path not found"

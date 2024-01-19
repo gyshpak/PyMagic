@@ -6,18 +6,6 @@ import bot_helper.pretty as pretty
 from bot_helper.clean import sorting_files
 from bot_helper.commands import *
 
-# from . import address_book as book
-# from . import note_book as notebook
-# from . import pretty
-# from .clean import sorting_files
-# from .commands import *
-
-# import address_book as book
-# import note_book as notebook
-# import pretty
-# from clean import sorting_files
-# from commands import *
-
 def input_error(func):
     """Функія-декоратор, що ловить помилки вводу"""
     def inner(my_book, val):
@@ -65,10 +53,6 @@ def handler_add(my_book, list_):
     try:
         record = my_book.find(list_[0].capitalize())
     except:
-        # if list_[2] != '':
-        #     record = book.Record(list_[0].capitalize(),list_[2])
-        # else:
-        #     record = book.Record(list_[0].capitalize())
         record = book.Record(list_[0].capitalize())
     else:
         my_book.add_record(record)
@@ -205,6 +189,10 @@ def handler_exit(my_book, _ = None):
     """Метод обробляє команди виходу """
     return "Good bye!"
 
+def handler_back(my_book, _ = None):
+    """Метод обробляє команди повернення до вибору режимів """
+    return None
+
 def handler_find(my_book, list_):
     """Метод обробляє команду 'find'
     """
@@ -321,8 +309,9 @@ def mode_change(my_book = None, _ = None):
     """Метод вибирає режим (книга контактів чи нотатки)"""
     i = True
     while i:
-        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n 3. Sort folder\n")
-        if mode == "1" or mode == "2" or mode == "3":
+        mode = input("Please choose mode\n 1. Address book\n 2. Notes\n 3. Sort folder\n 4. Exit\n")
+        if mode in "1234":
+        # if mode == "1" or mode == "2" or mode == "3":
             return mode
         print("Wrong number!")
 
@@ -375,6 +364,7 @@ def handler_help(my_book = None, _ = None):
         header=['Command', 'Description'],
         rows=help_list,
     )
+    return ""
 
 NAME_COMMANDS = {
 
@@ -392,7 +382,16 @@ NAME_COMMANDS = {
     "next-birthday": handler_next_birthday,
     "finde-birthday": handler_find_birthday,
     "sort-folder" : sorting_files,
-
+    "email-add": handler_add_email,
+    "email-delete": handler_delete_email,
+    "email-replace": handler_replace_email,
+    "memo-add": handler_add_memo,
+    "memo-delete": handler_delete_memo,
+    "memo-replace": handler_replace_memo,
+    "address-add": handler_add_addr,
+    "address-delete": handler_delete_addr,
+    "address-replace": handler_replace_addr,
+    "back": handler_back,
     "add-note": handler_add_note,
     "change-note": handler_change_note,
     "show-all-notes": handler_show_all_notes,
@@ -400,17 +399,7 @@ NAME_COMMANDS = {
     "find-note-by-tag": handler_find_note_by_tag,
     "delete-note-tag": handler_delete_tag,
     "add-note-tag":handler_add_tag,
-    "delete-note": handler_delete_note,
-    "email-add": handler_add_email,
-    "email-delete": handler_delete_email,
-    "email-replace": handler_replace_email,
-
-    "memo-add": handler_add_memo,
-    "memo-delete": handler_delete_memo,
-    "memo-replace": handler_replace_memo,
-    "address-add": handler_add_addr,
-    "address-delete": handler_delete_addr,
-    "address-replace": handler_replace_addr
+    "delete-note": handler_delete_note
 
 }
 
@@ -418,7 +407,6 @@ NAME_COMMANDS = {
 def defs_commands(comm):
     """Метод додає до команди функцію"""
     return NAME_COMMANDS[comm]
-
 
 @input_error
 def parser_command(my_book, command):
@@ -450,10 +438,12 @@ def main():
         my_book_notes = my_book_notes_p.load_from_file_pickle(file_name_notes_p)
     else:
         my_book_notes = notebook.NoteBook()
-
+    
+    ret_rezault = None
     while True:
         # #Вибір режиму (телефонна книга або нотатки)
-        mode = mode_change()
+        if ret_rezault == None:
+            mode = mode_change()
         if mode == "1":
             command = get_command_suggestions("", mode)
             ret_rezault = parser_command(my_book_phones, command)
@@ -463,13 +453,17 @@ def main():
         elif mode == "3":
             command = ["sort-folder"]
             command.append(input("Please enter path for folder for sorting "))
-            ret_rezault = parser_command(my_book_notes, command)
+            ret_rezault = parser_command(my_book_phones, command)
+        elif mode == "4":
+            ret_rezault = "Good bye!"
         if ret_rezault:
             pretty.parser(ret_rezault, mode)
             if ret_rezault == "Good bye!":
                 my_book_phones.save_to_file_pickle(file_name_phones_p)
                 my_book_notes.save_to_file_pickle(file_name_notes_p)
                 exit()
+        if mode == "3":
+            ret_rezault = None
 
 if __name__ == "__main__":
     main()

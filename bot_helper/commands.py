@@ -1,11 +1,5 @@
 from prompt_toolkit import prompt
-# from termcolor import colored, cprint
 from prompt_toolkit.completion import WordCompleter
-# from main import handler_help, handler_hello, handler_add, handler_change, handler_show_all, handler_exit, handler_find, handler_delete_phone, handler_delete_user, handler_next_birthday, handler_add_note, handler_change_note, handler_show_all_notes, handler_find_note, handler_delete_tag, handler_delete_note, mode_change
-# import address_book as book
-# from rich.table import Table
-# from rich.prompt import Prompt
-# from rich.console import Console
 
 NAME_COMMANDS = [
     "help",
@@ -30,9 +24,8 @@ NAME_COMMANDS = [
     "memo-add",
     "memo-delete",
     "memo-replace",
+    "back"
 ]
-
-# 13 add, show, back, change, good bye, close, exit, find, next-birthday, delete-telephone, delete-user, help, hello
 
 NAME_COMMANDS_NOTES = [
     "help",
@@ -48,51 +41,8 @@ NAME_COMMANDS_NOTES = [
     "find-note",
     "find-note-by-tag",
     "delete-note-tag",
-    "delete-note",
-    
+    "delete-note"    
 ]
-
-# add, show, change, goodbye, find, back, delete (x2), next-birthday, add-note, change-note, show-all-notes, find-note, delete-note-tag, delete-note
-
-# def pretty_table(title=None, title_style=None, header=[], header_style='bold blue', rows=[], row_style='bright_green'): 
-         
-#         table = Table() 
-#         if title: 
-#             table.title = title 
-#             table.title_style = title_style 
-#             table.title_justify = 'left' 
-         
-#         longest_row = max([len(row) for row in rows]) if rows else 0
-#         if len(header) < longest_row: 
-#             for i in range(longest_row - len(header)): 
-#                 header.append(f'Column_{i}') 
-         
-#         for column in header: 
-#             table.add_column(column, header_style=header_style) 
- 
-#         for row in rows: 
-#             table.add_row(*row, style=row_style) 
-         
-#         table.show_lines = True 
- 
-#         Console().print(table)
-
-# def print_result(result_1):
-#     rows = []
-
-#     for record in result_1:
-#         if hasattr(record, 'name') and hasattr(record, 'phones') and hasattr(record, 'birthday'):
-#             name = record.name.value()
-#             phones = ', '.join(p.value for p in record.phones)
-#             email = ''
-#             birthday = date.strftime(record.birthday.value, '%d.%m.%Y') if hasattr(record, "birthday") else ''
-#             rows.append([name, phones, email, birthday])
-            
-#     pretty_table(
-#         title='List of commands with format',
-#         header=['Name', 'Telephone', 'Address', 'Email', 'Birthday', 'Notes'],
-#         rows=rows
-#     )
 
 def get_command_suggestions(prefix, mode):
     try:
@@ -100,14 +50,12 @@ def get_command_suggestions(prefix, mode):
             command_list = NAME_COMMANDS
         elif mode == "2": 
             command_list = NAME_COMMANDS_NOTES
-        else:
-            print('COMMANDS.PY')
             
         suggestions = [cmd for cmd in command_list if prefix.lower() in cmd.lower()]
-        formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
         
         user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
         
+        only_command = ["exit", "goodbye", "close", "back", "show-all", "show-all-notes", "help", "hello"]
         if user_input == "add":
             command = user_input
             name = input("User name: ")
@@ -117,7 +65,6 @@ def get_command_suggestions(prefix, mode):
             address = input("Enter address: ")
             notes = input("Enter notes: ")
             user_input_list = [command, name, number, birthday, email, address, notes]
-            # print(user_input_list)
             return user_input_list
         elif user_input == "add-note":
             command = user_input
@@ -125,26 +72,12 @@ def get_command_suggestions(prefix, mode):
             textNote = input("Write some text: ")
             tagNote = input("Write some tag: ")
             user_input_list = [command, titleNote, textNote, tagNote]
-            # print(user_input_list)
             return user_input_list
         elif user_input == "add-note-tag":
             command = user_input
             title = input("Note for title: ")
             tag = input("Write some text: ")
             user_input_list = [command, title, tag]
-            # print(user_input_list)
-            return user_input_list
-        elif user_input == "show-all":
-            command = user_input
-            user_input_list = [command]
-            return user_input_list
-        elif user_input == "show-all-notes":
-            command = user_input
-            user_input_list = [command]
-            return user_input_list
-        elif user_input == "back":
-            command = user_input
-            user_input_list = [command]
             return user_input_list
         elif user_input == "change":
             command = user_input
@@ -152,20 +85,18 @@ def get_command_suggestions(prefix, mode):
             old_phone_number = input("Old phone number: ")
             new_phone_number = input("New phone number: ")
             user_input_list = [command, name, old_phone_number, new_phone_number]
-            # print(user_input_list)
             return user_input_list
         elif user_input == "change-note":
             command = user_input
             titleOld = input("Title of note: ")
-            titleNew = input("New title of note: ")
+            titleNew = input("New text of note: ")
             user_input_list = [command, titleOld, titleNew]
-            # print(user_input_list)
             return user_input_list
-        elif user_input == "goodbye" or user_input == "close" or user_input == "exit":
+        elif user_input in only_command:
             return [user_input]
         elif user_input == "find":
             command = user_input
-            letter = input("Give me a letter: ")
+            letter = input("Give me a same letter or number: ")
             user_input_list = [command, letter]
             return user_input_list
         elif user_input == "find-note":
@@ -214,14 +145,6 @@ def get_command_suggestions(prefix, mode):
             command = user_input
             nameOfNote = input("Give me a name of note: ")
             user_input_list = [command, nameOfNote]
-            return user_input_list
-        elif user_input == "help":
-            command = user_input
-            user_input_list = [command]
-            return user_input_list
-        elif user_input == "hello":
-            command = user_input
-            user_input_list = [command]
             return user_input_list
         elif user_input == "email-add":
             command = user_input
