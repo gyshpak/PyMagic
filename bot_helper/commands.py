@@ -50,11 +50,8 @@ def get_command_suggestions(prefix, mode):
             command_list = NAME_COMMANDS
         elif mode == "2": 
             command_list = NAME_COMMANDS_NOTES
-        else:
-            print('COMMANDS.PY')
             
         suggestions = [cmd for cmd in command_list if prefix.lower() in cmd.lower()]
-        formatted_suggestions = "\n".join(f"{' ' * 60}| {cmd} |" for cmd in suggestions)
         
         user_input = prompt(f"Please enter your command: ", completer=WordCompleter(suggestions, ignore_case=True))
         
@@ -68,7 +65,6 @@ def get_command_suggestions(prefix, mode):
             address = input("Enter address: ")
             notes = input("Enter notes: ")
             user_input_list = [command, name, number, birthday, email, address, notes]
-            # print(user_input_list)
             return user_input_list
         elif user_input == "add-note":
             command = user_input
@@ -76,40 +72,27 @@ def get_command_suggestions(prefix, mode):
             textNote = input("Write some text: ")
             tagNote = input("Write some tag: ")
             user_input_list = [command, titleNote, textNote, tagNote]
-            # print(user_input_list)
             return user_input_list
         elif user_input == "add-note-tag":
             command = user_input
             title = input("Note for title: ")
             tag = input("Write some text: ")
             user_input_list = [command, title, tag]
-            # print(user_input_list)
             return user_input_list
-        # elif user_input == "show-all":
-        #     command = user_input
-        #     user_input_list = [command]
-        #     return user_input_list
-        # elif user_input == "show-all-notes":
-        #     return [user_input]
-        # elif user_input == "back":
-        #     return [user_input]
         elif user_input == "change":
             command = user_input
             name = input("User name: ")
             old_phone_number = input("Old phone number: ")
             new_phone_number = input("New phone number: ")
             user_input_list = [command, name, old_phone_number, new_phone_number]
-            # print(user_input_list)
             return user_input_list
         elif user_input == "change-note":
             command = user_input
             titleOld = input("Title of note: ")
             titleNew = input("New text of note: ")
             user_input_list = [command, titleOld, titleNew]
-            # print(user_input_list)
             return user_input_list
         elif user_input in only_command:
-        # elif user_input == "goodbye" or user_input == "close" or user_input == "exit":
             return [user_input]
         elif user_input == "find":
             command = user_input
@@ -163,14 +146,6 @@ def get_command_suggestions(prefix, mode):
             nameOfNote = input("Give me a name of note: ")
             user_input_list = [command, nameOfNote]
             return user_input_list
-        # elif user_input == "help":
-        #     command = user_input
-        #     user_input_list = [command]
-        #     return user_input_list
-        # elif user_input == "hello":
-        #     command = user_input
-        #     user_input_list = [command]
-        #     return user_input_list
         elif user_input == "email-add":
             command = user_input
             nameOfEmail = input("Write name of email: ")
