@@ -1,10 +1,18 @@
 """Консольний бот для управління додатком"""
+# import os
+# import bot_helper.address_book as book
+# import bot_helper.note_book as notebook
+# import bot_helper.pretty as pretty
+# from bot_helper.clean import sorting_files
+# from bot_helper.commands import *
+
 import os
-import bot_helper.address_book as book
-import bot_helper.note_book as notebook
-import bot_helper.pretty as pretty
-from bot_helper.clean import sorting_files
-from bot_helper.commands import *
+import address_book as book
+import note_book as notebook
+import pretty as pretty
+from clean import sorting_files
+from commands import *
+
 
 def input_error(func):
     """Функія-декоратор, що ловить помилки вводу"""
